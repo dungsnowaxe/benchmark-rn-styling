@@ -12,6 +12,7 @@
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
     "react-native": "0.81.5",
+    "react-native-safe-area-context": "~5.6.0",
     "react-native-unistyles": "^3.2.2",
     "tailwindcss": "~4.1.16",
     "uniwind": "~1.0.0"
@@ -28,5 +29,8 @@
     "web": "expo start --web",
     "eas:build:android:local": "eas build -p android --local --output ./builds/benchmark-styling.apk",
     "eas:build:ios:local": "eas build -p ios --local --output ./builds/benchmark-styling.ipa"
+  },
+  "patchedDependencies": {
+    "uniwind@1.0.5": "patches/uniwind@1.0.5.patch"
   }
 }

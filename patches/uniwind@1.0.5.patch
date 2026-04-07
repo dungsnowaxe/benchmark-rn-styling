@@ -1,0 +1,83 @@
+diff --git a/dist/common/components/native/SafeAreaView.js b/dist/common/components/native/SafeAreaView.js
+index 61ae7f457980332b41130a36bcf67223b69ef428..89cae0d5975d68cd123fbf74e1d79db884067f31 100644
+--- a/dist/common/components/native/SafeAreaView.js
++++ b/dist/common/components/native/SafeAreaView.js
+@@ -5,12 +5,12 @@ Object.defineProperty(exports, "__esModule", {
+ });
+ module.exports = exports.SafeAreaView = void 0;
+ var _jsxRuntime = require("react/jsx-runtime");
+-var _reactNative = require("react-native");
++var _reactNativeSafeAreaContext = require("react-native-safe-area-context");
+ var _utils = require("../utils");
+ var _useStyle = require("./useStyle");
+-const SafeAreaView = exports.SafeAreaView = (0, _utils.copyComponentProperties)(_reactNative.SafeAreaView, props => {
++const SafeAreaView = exports.SafeAreaView = (0, _utils.copyComponentProperties)(_reactNativeSafeAreaContext.SafeAreaView, props => {
+   const style = (0, _useStyle.useStyle)(props.className);
+-  return /* @__PURE__ */(0, _jsxRuntime.jsx)(_reactNative.SafeAreaView, {
++  return /* @__PURE__ */(0, _jsxRuntime.jsx)(_reactNativeSafeAreaContext.SafeAreaView, {
+     ...props,
+     style: [style, props.style]
+   });
+diff --git a/dist/common/components/web/SafeAreaView.js b/dist/common/components/web/SafeAreaView.js
+index 6bf04a70c22b27869e4f1cd156e930b90de473c0..62a64ef3dd4879a4885dafa6c52f1117f7ca2425 100644
+--- a/dist/common/components/web/SafeAreaView.js
++++ b/dist/common/components/web/SafeAreaView.js
+@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
+ });
+ module.exports = exports.SafeAreaView = void 0;
+ var _jsxRuntime = require("react/jsx-runtime");
+-var _reactNative = require("react-native");
++var _reactNativeSafeAreaContext = require("react-native-safe-area-context");
+ var _utils = require("../utils");
+ var _rnw = require("./rnw");
+-const SafeAreaView = exports.SafeAreaView = (0, _utils.copyComponentProperties)(_reactNative.SafeAreaView, props => {
+-  return /* @__PURE__ */(0, _jsxRuntime.jsx)(_reactNative.SafeAreaView, {
++const SafeAreaView = exports.SafeAreaView = (0, _utils.copyComponentProperties)(_reactNativeSafeAreaContext.SafeAreaView, props => {
++  return /* @__PURE__ */(0, _jsxRuntime.jsx)(_reactNativeSafeAreaContext.SafeAreaView, {
+     ...props,
+     style: [(0, _rnw.toRNWClassName)(props.className), props.style]
+   });
+diff --git a/dist/module/components/native/SafeAreaView.js b/dist/module/components/native/SafeAreaView.js
+index 0319b4cde3ff7e885d87c1ba2150b435d013f097..ec47dcf337b92645586a252ba939cb4331dc3843 100644
+--- a/dist/module/components/native/SafeAreaView.js
++++ b/dist/module/components/native/SafeAreaView.js
+@@ -1,5 +1,5 @@
+ import { jsx } from "react/jsx-runtime";
+-import { SafeAreaView as RNSafeAreaView } from "react-native";
++import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+ import { copyComponentProperties } from "../utils.js";
+ import { useStyle } from "./useStyle.js";
+ export const SafeAreaView = copyComponentProperties(RNSafeAreaView, (props) => {
+diff --git a/dist/module/components/web/SafeAreaView.js b/dist/module/components/web/SafeAreaView.js
+index 56ecb31c16952873ca736a910ff1e503db36b5c7..a30126fbff1426866f1d1a9ef15964c361d138ce 100644
+--- a/dist/module/components/web/SafeAreaView.js
++++ b/dist/module/components/web/SafeAreaView.js
+@@ -1,5 +1,5 @@
+ import { jsx } from "react/jsx-runtime";
+-import { SafeAreaView as RNSafeAreaView } from "react-native";
++import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+ import { copyComponentProperties } from "../utils.js";
+ import { toRNWClassName } from "./rnw.js";
+ export const SafeAreaView = copyComponentProperties(RNSafeAreaView, (props) => {
+diff --git a/src/components/native/SafeAreaView.tsx b/src/components/native/SafeAreaView.tsx
+index f0a9744541563ec1d703fa687198002e0ce2f4fe..7fbcbf2652b0f7877e3b335884cf76bd56181b6b 100644
+--- a/src/components/native/SafeAreaView.tsx
++++ b/src/components/native/SafeAreaView.tsx
+@@ -1,4 +1,5 @@
+-import { SafeAreaView as RNSafeAreaView, ViewProps } from 'react-native'
++import type { ViewProps } from 'react-native'
++import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context'
+ import { copyComponentProperties } from '../utils'
+ import { useStyle } from './useStyle'
+ 
+diff --git a/src/components/web/SafeAreaView.tsx b/src/components/web/SafeAreaView.tsx
+index 47ddd65fc9db2c23935675af7773aff84dd6e57b..8bffbf2894f88db3995ffccd6f9d8c910632809f 100644
+--- a/src/components/web/SafeAreaView.tsx
++++ b/src/components/web/SafeAreaView.tsx
+@@ -1,4 +1,5 @@
+-import { SafeAreaView as RNSafeAreaView, ViewProps } from 'react-native'
++import type { ViewProps } from 'react-native'
++import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context'
+ import { copyComponentProperties } from '../utils'
+ import { toRNWClassName } from './rnw'
+ 
