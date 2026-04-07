@@ -40,6 +40,10 @@ export default function RootLayout() {
           name="realtime-benchmark"
           options={{ title: "Realtime benchmark" }}
         />
+        <Stack.Screen
+          name="realtime-flash-benchmark"
+          options={{ title: "Realtime flash benchmark" }}
+        />
       </Stack>
     </StylingEngineProvider>
   );

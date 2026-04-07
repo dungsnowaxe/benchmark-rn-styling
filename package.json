@@ -2,6 +2,10 @@
   "name": "benchmark-styling",
   "version": "1.0.0",
   "main": "index.ts",
+  "packageManager": "bun@1.2.5",
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
   "dependencies": {
     "expo": "~54.0.22",
     "expo-router": "~6.0.23",
@@ -18,9 +22,11 @@
   },
   "private": true,
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "eas:build:android:local": "eas build -p android --local --output ./builds/benchmark-styling.apk",
+    "eas:build:ios:local": "eas build -p ios --local --output ./builds/benchmark-styling.ipa"
   }
 }

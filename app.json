@@ -13,6 +13,11 @@
     },
     "ios": {
       "bundleIdentifier": "com.dzungsnowaxe.benchmarkstyling"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c6197ed7-2400-47b9-b8c6-f851d442e6ec"
+      }
     }
   }
 }

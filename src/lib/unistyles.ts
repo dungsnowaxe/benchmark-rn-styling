@@ -30,6 +30,9 @@ const lightTheme = {
     negative: "#dc2626",
     border: "#e5e7eb",
     rowBand: "#eff6ff",
+    flashPositiveBg: "#bbf7d0",
+    flashNegativeBg: "#fecaca",
+    flashText: "#111827",
   },
   gap: (n: number) => n * 4,
 };
@@ -45,6 +48,9 @@ const darkTheme = {
     negative: "#f87171",
     border: "#374151",
     rowBand: "#1e3a5f",
+    flashPositiveBg: "#166534",
+    flashNegativeBg: "#991b1b",
+    flashText: "#f9fafb",
   },
   gap: (n: number) => n * 4,
 };

@@ -52,6 +52,18 @@ export default function HomeScreen() {
         </Pressable>
       </Link>
 
+      <Link href="/realtime-flash-benchmark" asChild>
+        <Pressable className="rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 dark:border-gray-600 dark:bg-gray-900">
+          <Text className="text-center text-base font-semibold text-gray-900 dark:text-white">
+            Realtime flash benchmark
+          </Text>
+          <Text className="mt-1 text-center text-xs text-gray-500 dark:text-gray-400">
+            Same feed as realtime; green/red flash behind price and % when they
+            move
+          </Text>
+        </Pressable>
+      </Link>
+
       <StatusBar style="auto" />
     </View>
   );
