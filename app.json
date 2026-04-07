@@ -7,6 +7,12 @@
       "output": "static"
     },
     "name": "benchmark-styling",
-    "slug": "benchmark-styling"
+    "slug": "benchmark-styling",
+    "android": {
+      "package": "com.dzungsnowaxe.benchmarkstyling"
+    },
+    "ios": {
+      "bundleIdentifier": "com.dzungsnowaxe.benchmarkstyling"
+    }
   }
 }
