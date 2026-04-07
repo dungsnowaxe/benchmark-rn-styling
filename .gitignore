@@ -7,8 +7,12 @@ node_modules/
 .expo/
 dist/
 web-build/
+build/
 builds/
 expo-env.d.ts
+
+# Local screenshots and raster exports
+*.png
 
 # Native
 *.orig.*
