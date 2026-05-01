@@ -38,7 +38,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 - Each row has combinations of:
   - `isPremium`, `isVerified`, `isMuted`, `hasNotification`, `isNew`
 - Each flag changes borders, colors, badges, icons
-- Stress mode: rapidly toggles random flags on 20% of rows every 200ms
+- Stress mode: Deterministically toggles flags on 20% of rows every 200ms (using seeded random for consistency)
 
 **Real-world parallel:** Social feeds, messaging apps, admin panels
 
@@ -58,7 +58,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 - 50 form fields with validation state combinations
 - States: `error`, `warning`, `success`, `disabled`, `focused`, `filled`
 - Each combination changes borders, background colors, helper text, icons
-- Stress mode: cycles through validation states on all fields every 150ms
+- Stress mode: Deterministically cycles through validation states on all fields every 150ms (predictable state sequence)
 
 **Real-world parallel:** Registration forms, settings screens, data entry workflows
 
@@ -78,7 +78,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 - 200-item list with row state combinations
 - States: `isSelected`, `isDisabled`, `hasUnread`, `isHighlighted`, `isLoading`, `isNew`
 - Each combination adds/removes badges, overlays, opacity changes
-- Stress mode: randomly changes states on 10% of rows every 100ms
+- Stress mode: Deterministically changes states on 10% of rows every 100ms (using seeded random for consistency)
 
 **Real-world parallel:** Email apps, task lists, file managers, notification feeds
 
@@ -96,9 +96,9 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 
 **Scenario:**
 - 100 rows that transition from skeleton to actual content
-- Skeleton: Fixed dimensions, gray shimmer, no text
-- Content: Dynamic heights, actual text/images, different padding
-- Stress mode: Repeatedly cycles skeleton → content → skeleton on 25% of rows every 300ms
+- Skeleton: Fixed dimensions (60px height), gray background with opacity pulse animation (no text content)
+- Content: Variable heights (40-100px range based on content length), actual text/images, different padding
+- Stress mode: Deterministically cycles skeleton → content → skeleton on 25% of rows every 300ms (consistent set of rows)
 
 **Real-world parallel:** Loading states in feeds, detail pages, dashboards
 
@@ -258,7 +258,11 @@ For each benchmark + engine combination, document:
 - Subjective scroll smoothness (1-5 scale)
 - Any anomalies or crashes
 
-Create a comparison table in README for easy side-by-side analysis.
+Create a comparison table in README for easy side-by-side analysis. Table format:
+| Benchmark | Metric | StyleSheet | Unistyles | Uniwind |
+|-----------|--------|------------|-----------|---------|
+| User States | Initial render (ms) | 45 | 38 | 42 |
+| ... | ... | ... | ... | ... |
 
 ---
 
