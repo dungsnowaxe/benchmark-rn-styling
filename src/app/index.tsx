@@ -1,7 +1,7 @@
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 export default function HomeScreen() {
   useEffect(() => {
@@ -26,15 +26,16 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View className="flex-1 justify-center gap-4 bg-white px-6 dark:bg-black">
-      <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-        Styling benchmark
-      </Text>
-      <Text className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
-        Compare React Native StyleSheet, Unistyles v3, and Uniwind on static and
-        updating lists. Use the radio group on each screen to switch engines;
-        render times are approximate (same device/session).
-      </Text>
+    <ScrollView className="flex-1 bg-white dark:bg-black">
+      <View className="gap-4 px-6 py-10">
+        <Text className="text-2xl font-bold text-gray-900 dark:text-white">
+          Styling benchmark
+        </Text>
+        <Text className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
+          Compare React Native StyleSheet, Unistyles v3, and Uniwind on static and
+          updating lists. Use the radio group on each screen to switch engines;
+          render times are approximate (same device/session).
+        </Text>
 
       <Link href="/static-benchmark" asChild>
         <Pressable className="rounded-xl bg-blue-600 px-4 py-3 active:opacity-90">
@@ -109,6 +110,7 @@ export default function HomeScreen() {
       </Link>
 
       <StatusBar style="auto" />
-    </View>
+      </View>
+    </ScrollView>
   );
 }
