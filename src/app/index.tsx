@@ -64,6 +64,50 @@ export default function HomeScreen() {
         </Pressable>
       </Link>
 
+      <Link href="/user-states-benchmark" asChild>
+        <Pressable className="rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 dark:border-gray-600 dark:bg-gray-900">
+          <Text className="text-center text-base font-semibold text-gray-900 dark:text-white">
+            User states benchmark
+          </Text>
+          <Text className="mt-1 text-center text-xs text-gray-500 dark:text-gray-400">
+            100 profiles with premium, verified, muted, notification, new flags
+          </Text>
+        </Pressable>
+      </Link>
+
+      <Link href="/form-validation-benchmark" asChild>
+        <Pressable className="rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 dark:border-gray-600 dark:bg-gray-900">
+          <Text className="text-center text-base font-semibold text-gray-900 dark:text-white">
+            Form validation benchmark
+          </Text>
+          <Text className="mt-1 text-center text-xs text-gray-500 dark:text-gray-400">
+            50 form fields with error, warning, success, disabled, focused, filled states
+          </Text>
+        </Pressable>
+      </Link>
+
+      <Link href="/list-item-states-benchmark" asChild>
+        <Pressable className="rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 dark:border-gray-600 dark:bg-gray-900">
+          <Text className="text-center text-base font-semibold text-gray-900 dark:text-white">
+            List item states benchmark
+          </Text>
+          <Text className="mt-1 text-center text-xs text-gray-500 dark:text-gray-400">
+            200 items with selected, disabled, unread, highlighted, loading, new flags
+          </Text>
+        </Pressable>
+      </Link>
+
+      <Link href="/skeleton-transition-benchmark" asChild>
+        <Pressable className="rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 dark:border-gray-600 dark:bg-gray-900">
+          <Text className="text-center text-base font-semibold text-gray-900 dark:text-white">
+            Skeleton transition benchmark
+          </Text>
+          <Text className="mt-1 text-center text-xs text-gray-500 dark:text-gray-400">
+            100 rows cycling between skeleton placeholders and variable-height content
+          </Text>
+        </Pressable>
+      </Link>
+
       <StatusBar style="auto" />
     </View>
   );
