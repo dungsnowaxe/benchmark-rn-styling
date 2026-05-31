@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { ListItemStateRow } from "../data/listItemStatesRows";
-import { makeListItemStatesRows, toggleListItemStates } from "../data/listItemStatesRows";
+import type { ListItemStateRow } from '../data/listItemStatesRows';
+import { makeListItemStatesRows, toggleListItemStates } from '../data/listItemStatesRows';
 
 interface UseListItemStatesToggleConfig {
   itemCount: number;
@@ -12,17 +12,9 @@ interface UseListItemStatesToggleConfig {
 }
 
 export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
-  const {
-    itemCount,
-    updateInterval,
-    updatePercentage,
-    enabled,
-    maxUpdates = 1000,
-  } = config;
+  const { itemCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [items, setItems] = useState<ListItemStateRow[]>(() =>
-    makeListItemStatesRows(itemCount),
-  );
+  const [items, setItems] = useState<ListItemStateRow[]>(() => makeListItemStatesRows(itemCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -48,9 +40,7 @@ export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setItems((prev) =>
-        toggleListItemStates(prev, updatePercentage, seedRef.current),
-      );
+      setItems((prev) => toggleListItemStates(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 

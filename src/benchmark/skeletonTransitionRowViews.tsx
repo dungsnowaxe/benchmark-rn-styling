@@ -1,8 +1,8 @@
-import { memo, useEffect, useRef } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
-import { StyleSheet as UnistylesSheet } from "react-native-unistyles";
+import { memo, useEffect, useRef } from 'react';
+import { Animated, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet as UnistylesSheet } from 'react-native-unistyles';
 
-import type { SkeletonRow } from "../data/skeletonRows";
+import type { SkeletonRow } from '../data/skeletonRows';
 
 const hairline = StyleSheet.hairlineWidth;
 
@@ -37,39 +37,39 @@ const rnStyles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderBottomWidth: hairline,
-    borderBottomColor: "#e5e7eb",
+    borderBottomColor: '#e5e7eb',
   },
   skeletonRow: {
     height: 60,
-    justifyContent: "center",
-    backgroundColor: "#f3f4f6",
+    justifyContent: 'center',
+    backgroundColor: '#f3f4f6',
   },
   skeletonBar: {
     height: 12,
-    backgroundColor: "#e5e7eb",
+    backgroundColor: '#e5e7eb',
     borderRadius: 6,
   },
   skeletonBarShort: {
-    width: "60%",
+    width: '60%',
     marginTop: 8,
   },
   contentRow: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   title: {
     fontSize: 15,
-    fontWeight: "500",
-    color: "#111827",
+    fontWeight: '500',
+    color: '#111827',
   },
   subtitle: {
     fontSize: 13,
-    color: "#6b7280",
+    color: '#6b7280',
     marginTop: 4,
   },
 });
 
 function SkeletonTransitionRowRNInner({ item }: { item: SkeletonRow }) {
-  if (item.state === "skeleton") {
+  if (item.state === 'skeleton') {
     return (
       <SkeletonPulse>
         <View style={[rnStyles.row, rnStyles.skeletonRow]}>
@@ -98,7 +98,7 @@ const uniStyles = UnistylesSheet.create((theme) => ({
   },
   skeletonRow: {
     height: 60,
-    justifyContent: "center",
+    justifyContent: 'center',
     backgroundColor: theme.colors.muted,
   },
   skeletonBar: {
@@ -107,15 +107,15 @@ const uniStyles = UnistylesSheet.create((theme) => ({
     borderRadius: 6,
   },
   skeletonBarShort: {
-    width: "60%",
+    width: '60%',
     marginTop: 8,
   },
   contentRow: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   title: {
     fontSize: 15,
-    fontWeight: "500",
+    fontWeight: '500',
     color: theme.colors.text,
   },
   subtitle: {
@@ -126,7 +126,7 @@ const uniStyles = UnistylesSheet.create((theme) => ({
 }));
 
 function SkeletonTransitionRowUnistylesInner({ item }: { item: SkeletonRow }) {
-  if (item.state === "skeleton") {
+  if (item.state === 'skeleton') {
     return (
       <SkeletonPulse>
         <View style={[uniStyles.row, uniStyles.skeletonRow]}>
@@ -147,7 +147,7 @@ function SkeletonTransitionRowUnistylesInner({ item }: { item: SkeletonRow }) {
 
 // Uniwind variant
 function SkeletonTransitionRowUniwindInner({ item }: { item: SkeletonRow }) {
-  if (item.state === "skeleton") {
+  if (item.state === 'skeleton') {
     return (
       <SkeletonPulse>
         <View className="h-[60px] justify-center bg-gray-100 dark:bg-gray-800 py-2.5 px-3 border-b border-gray-200 dark:border-gray-700">
@@ -163,12 +163,8 @@ function SkeletonTransitionRowUniwindInner({ item }: { item: SkeletonRow }) {
       className="justify-center py-2.5 px-3 border-b border-gray-200 dark:border-gray-700"
       style={{ height: item.height }}
     >
-      <Text className="text-[15px] font-medium text-gray-900 dark:text-gray-100">
-        {item.title}
-      </Text>
-      <Text className="text-[13px] text-gray-600 dark:text-gray-400 mt-1">
-        {item.subtitle}
-      </Text>
+      <Text className="text-[15px] font-medium text-gray-900 dark:text-gray-100">{item.title}</Text>
+      <Text className="text-[13px] text-gray-600 dark:text-gray-400 mt-1">{item.subtitle}</Text>
     </View>
   );
 }

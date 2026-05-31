@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { SkeletonRow } from "../data/skeletonRows";
-import { cycleSkeletonTransitions, makeSkeletonRows } from "../data/skeletonRows";
+import type { SkeletonRow } from '../data/skeletonRows';
+import { cycleSkeletonTransitions, makeSkeletonRows } from '../data/skeletonRows';
 
 interface UseSkeletonTransitionConfig {
   rowCount: number;
@@ -12,13 +12,7 @@ interface UseSkeletonTransitionConfig {
 }
 
 export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
-  const {
-    rowCount,
-    updateInterval,
-    updatePercentage,
-    enabled,
-    maxUpdates = 1000,
-  } = config;
+  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
   const [rows, setRows] = useState<SkeletonRow[]>(() => makeSkeletonRows(rowCount));
   const [updateCount, setUpdatesCount] = useState(0);
@@ -46,9 +40,7 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setRows((prev) =>
-        cycleSkeletonTransitions(prev, updatePercentage, seedRef.current),
-      );
+      setRows((prev) => cycleSkeletonTransitions(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 

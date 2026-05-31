@@ -1,25 +1,19 @@
-import { useCallback, useMemo, useRef } from "react";
-import { FlatList, Text, View } from "react-native";
+import { useCallback, useMemo, useRef } from 'react';
+import { FlatList, Text, View } from 'react-native';
 
-import {
-  LiveRowRN,
-  LiveRowUniwind,
-  LiveRowUnistyles,
-} from "../benchmark/realtimeRowViews";
-import { EngineRadioGroup } from "../components/EngineRadioGroup";
-import { RenderTimeLabel } from "../components/RenderTimeLabel";
-import { useStylingEngine } from "../context/StylingEngineContext";
-import type { LiveRow } from "../data/liveRows";
-import { useBinanceBtcTicker } from "../hooks/useBinanceBtcTicker";
-import { useMockLiveRows } from "../hooks/useMockLiveRows";
-import { useRenderMeasurement } from "../hooks/useRenderMeasurement";
+import { LiveRowRN, LiveRowUniwind, LiveRowUnistyles } from '../benchmark/realtimeRowViews';
+import { EngineRadioGroup } from '../components/EngineRadioGroup';
+import { RenderTimeLabel } from '../components/RenderTimeLabel';
+import { useStylingEngine } from '../context/StylingEngineContext';
+import type { LiveRow } from '../data/liveRows';
+import { useBinanceBtcTicker } from '../hooks/useBinanceBtcTicker';
+import { useMockLiveRows } from '../hooks/useMockLiveRows';
+import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
 
 export default function RealtimeBenchmarkScreen() {
   const { engine, setEngine } = useStylingEngine();
   const tickMeasureRef = useRef<(() => void) | undefined>(undefined);
-  const { tick, rows } = useMockLiveRows(40, 280, () =>
-    tickMeasureRef.current?.(),
-  );
+  const { tick, rows } = useMockLiveRows(40, 280, () => tickMeasureRef.current?.());
   const { lastMs, markStart } = useRenderMeasurement(engine, tick);
   tickMeasureRef.current = markStart;
 
@@ -35,11 +29,11 @@ export default function RealtimeBenchmarkScreen() {
   const renderItem = useCallback(
     ({ item }: { item: LiveRow }) => {
       switch (engine) {
-        case "stylesheet":
+        case 'stylesheet':
           return <LiveRowRN item={item} />;
-        case "unistyles":
+        case 'unistyles':
           return <LiveRowUnistyles item={item} />;
-        case "uniwind":
+        case 'uniwind':
           return <LiveRowUniwind item={item} />;
       }
     },
@@ -47,20 +41,18 @@ export default function RealtimeBenchmarkScreen() {
   );
 
   const feedHint =
-    status === "live"
-      ? "Binance BTC (row 1 price)"
-      : status === "connecting"
-        ? "Connecting to Binance…"
-        : status === "error"
-          ? "Binance unavailable — mock data"
-          : "Mock data";
+    status === 'live'
+      ? 'Binance BTC (row 1 price)'
+      : status === 'connecting'
+        ? 'Connecting to Binance…'
+        : status === 'error'
+          ? 'Binance unavailable — mock data'
+          : 'Mock data';
 
   return (
     <View className="flex-1 bg-white dark:bg-black">
       <View className="border-b border-gray-200 px-4 pb-2 pt-2 dark:border-gray-800">
-        <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
-          {feedHint}
-        </Text>
+        <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">{feedHint}</Text>
         <EngineRadioGroup
           value={engine}
           onChange={(next) => {

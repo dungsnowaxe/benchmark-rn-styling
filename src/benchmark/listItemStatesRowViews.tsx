@@ -1,26 +1,26 @@
-import { memo } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { StyleSheet as UnistylesSheet, useUnistyles } from "react-native-unistyles";
+import { memo } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet as UnistylesSheet, useUnistyles } from 'react-native-unistyles';
 
-import type { ListItemStateRow } from "../data/listItemStatesRows";
+import type { ListItemStateRow } from '../data/listItemStatesRows';
 
 const hairline = StyleSheet.hairlineWidth;
 
 // React Native StyleSheet variant
 const rnStyles = StyleSheet.create({
   row: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderBottomWidth: hairline,
-    borderBottomColor: "#e5e7eb",
+    borderBottomColor: '#e5e7eb',
   },
   rowSelected: {
-    backgroundColor: "#dbeafe",
+    backgroundColor: '#dbeafe',
   },
   rowHighlighted: {
-    backgroundColor: "#fef3c7",
+    backgroundColor: '#fef3c7',
   },
   rowDisabled: {
     opacity: 0.5,
@@ -30,56 +30,56 @@ const rnStyles = StyleSheet.create({
     height: 20,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: "#d1d5db",
+    borderColor: '#d1d5db',
     marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   checkboxSelected: {
-    backgroundColor: "#2563eb",
-    borderColor: "#2563eb",
+    backgroundColor: '#2563eb',
+    borderColor: '#2563eb',
   },
   checkboxCheck: {
-    color: "#ffffff",
+    color: '#ffffff',
     fontSize: 12,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   content: { flex: 1 },
   title: {
     fontSize: 15,
-    fontWeight: "500",
-    color: "#111827",
+    fontWeight: '500',
+    color: '#111827',
   },
   titleUnread: {
-    fontWeight: "700",
+    fontWeight: '700',
   },
   subtitle: {
     fontSize: 13,
-    color: "#6b7280",
+    color: '#6b7280',
     marginTop: 2,
   },
   badges: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 4,
     marginLeft: 8,
   },
   badgeNew: {
-    backgroundColor: "#fef3c7",
-    color: "#92400e",
+    backgroundColor: '#fef3c7',
+    color: '#92400e',
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
     fontSize: 10,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   badgeUnread: {
-    backgroundColor: "#fee2e2",
-    color: "#991b1b",
+    backgroundColor: '#fee2e2',
+    color: '#991b1b',
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
     fontSize: 10,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   loadingSpinner: {
     marginLeft: 8,
@@ -94,22 +94,14 @@ function ListItemStateRowRNInner({ item }: { item: ListItemStateRow }) {
     item.isDisabled && rnStyles.rowDisabled,
   ];
 
-  const checkboxStyle = [
-    rnStyles.checkbox,
-    item.isSelected && rnStyles.checkboxSelected,
-  ];
+  const checkboxStyle = [rnStyles.checkbox, item.isSelected && rnStyles.checkboxSelected];
 
-  const titleStyle = [
-    rnStyles.title,
-    item.hasUnread && rnStyles.titleUnread,
-  ];
+  const titleStyle = [rnStyles.title, item.hasUnread && rnStyles.titleUnread];
 
   return (
     <View style={rowStyle}>
       <View style={checkboxStyle}>
-        {item.isSelected && (
-          <Text style={rnStyles.checkboxCheck}>✓</Text>
-        )}
+        {item.isSelected && <Text style={rnStyles.checkboxCheck}>✓</Text>}
       </View>
       <View style={rnStyles.content}>
         <Text style={titleStyle}>{item.title}</Text>
@@ -119,11 +111,7 @@ function ListItemStateRowRNInner({ item }: { item: ListItemStateRow }) {
         {item.isNew && <Text style={rnStyles.badgeNew}>NEW</Text>}
         {item.hasUnread && <Text style={rnStyles.badgeUnread}>●</Text>}
         {item.isLoading && (
-          <ActivityIndicator
-            size="small"
-            color="#2563eb"
-            style={rnStyles.loadingSpinner}
-          />
+          <ActivityIndicator size="small" color="#2563eb" style={rnStyles.loadingSpinner} />
         )}
       </View>
     </View>
@@ -133,8 +121,8 @@ function ListItemStateRowRNInner({ item }: { item: ListItemStateRow }) {
 // Unistyles variant
 const uniStyles = UnistylesSheet.create((theme) => ({
   row: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderBottomWidth: hairline,
@@ -156,8 +144,8 @@ const uniStyles = UnistylesSheet.create((theme) => ({
     borderWidth: 2,
     borderColor: theme.colors.border,
     marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   checkboxSelected: {
     backgroundColor: theme.colors.accent,
@@ -166,16 +154,16 @@ const uniStyles = UnistylesSheet.create((theme) => ({
   checkboxCheck: {
     color: theme.colors.background,
     fontSize: 12,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   content: { flex: 1 },
   title: {
     fontSize: 15,
-    fontWeight: "500",
+    fontWeight: '500',
     color: theme.colors.text,
   },
   titleUnread: {
-    fontWeight: "700",
+    fontWeight: '700',
   },
   subtitle: {
     fontSize: 13,
@@ -183,7 +171,7 @@ const uniStyles = UnistylesSheet.create((theme) => ({
     marginTop: 2,
   },
   badges: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 4,
     marginLeft: 8,
   },
@@ -194,7 +182,7 @@ const uniStyles = UnistylesSheet.create((theme) => ({
     paddingVertical: 2,
     borderRadius: 4,
     fontSize: 10,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   badgeUnread: {
     backgroundColor: theme.colors.errorBg,
@@ -203,7 +191,7 @@ const uniStyles = UnistylesSheet.create((theme) => ({
     paddingVertical: 2,
     borderRadius: 4,
     fontSize: 10,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   loadingSpinner: {
     marginLeft: 8,
@@ -220,22 +208,14 @@ function ListItemStateRowUnistylesInner({ item }: { item: ListItemStateRow }) {
     item.isDisabled && uniStyles.rowDisabled,
   ];
 
-  const checkboxStyle = [
-    uniStyles.checkbox,
-    item.isSelected && uniStyles.checkboxSelected,
-  ];
+  const checkboxStyle = [uniStyles.checkbox, item.isSelected && uniStyles.checkboxSelected];
 
-  const titleStyle = [
-    uniStyles.title,
-    item.hasUnread && uniStyles.titleUnread,
-  ];
+  const titleStyle = [uniStyles.title, item.hasUnread && uniStyles.titleUnread];
 
   return (
     <View style={rowStyle}>
       <View style={checkboxStyle}>
-        {item.isSelected && (
-          <Text style={uniStyles.checkboxCheck}>✓</Text>
-        )}
+        {item.isSelected && <Text style={uniStyles.checkboxCheck}>✓</Text>}
       </View>
       <View style={uniStyles.content}>
         <Text style={titleStyle}>{item.title}</Text>
@@ -258,23 +238,23 @@ function ListItemStateRowUnistylesInner({ item }: { item: ListItemStateRow }) {
 
 // Uniwind variant
 function ListItemStateRowUniwindInner({ item }: { item: ListItemStateRow }) {
-  const rowBase = "flex-row items-center px-3 py-2.5 border-b border-gray-200 dark:border-gray-700";
+  const rowBase = 'flex-row items-center px-3 py-2.5 border-b border-gray-200 dark:border-gray-700';
   const rowMods = item.isDisabled
-    ? "opacity-50"
+    ? 'opacity-50'
     : item.isSelected
-      ? "bg-blue-50 dark:bg-blue-950/30"
+      ? 'bg-blue-50 dark:bg-blue-950/30'
       : item.isHighlighted
-        ? "bg-amber-50 dark:bg-amber-950/30"
-        : "bg-white dark:bg-gray-950";
+        ? 'bg-amber-50 dark:bg-amber-950/30'
+        : 'bg-white dark:bg-gray-950';
 
-  const checkboxBase = "w-5 h-5 rounded border-2 mr-2.5 items-center justify-center";
+  const checkboxBase = 'w-5 h-5 rounded border-2 mr-2.5 items-center justify-center';
   const checkboxMod = item.isSelected
-    ? "bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500"
-    : "border-gray-300 dark:border-gray-600";
+    ? 'bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500'
+    : 'border-gray-300 dark:border-gray-600';
 
   const titleMod = item.hasUnread
-    ? "font-bold text-gray-900 dark:text-gray-100"
-    : "font-medium text-gray-900 dark:text-gray-100";
+    ? 'font-bold text-gray-900 dark:text-gray-100'
+    : 'font-medium text-gray-900 dark:text-gray-100';
 
   return (
     <View className={`${rowBase} ${rowMods}`}>
@@ -285,9 +265,7 @@ function ListItemStateRowUniwindInner({ item }: { item: ListItemStateRow }) {
       </View>
       <View className="flex-1">
         <Text className={`text-[15px] ${titleMod}`}>{item.title}</Text>
-        <Text className="text-[13px] text-gray-600 dark:text-gray-400 mt-0.5">
-          {item.subtitle}
-        </Text>
+        <Text className="text-[13px] text-gray-600 dark:text-gray-400 mt-0.5">{item.subtitle}</Text>
       </View>
       <View className="flex-row gap-1 ml-2">
         {item.isNew && (
@@ -300,9 +278,7 @@ function ListItemStateRowUniwindInner({ item }: { item: ListItemStateRow }) {
             ●
           </Text>
         )}
-        {item.isLoading && (
-          <ActivityIndicator size="small" color="#2563eb" className="ml-2" />
-        )}
+        {item.isLoading && <ActivityIndicator size="small" color="#2563eb" className="ml-2" />}
       </View>
     </View>
   );

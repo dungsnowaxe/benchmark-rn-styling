@@ -1,0 +1,6 @@
+{
+  "signature": "src/hooks/useFieldDirectionFlashes.ts::🕸️ Impact cascade from edited file:\nChanged symbols: useFieldDirectionFlashes, Direction, FlashState\nDirect importers: realtimeFlashRowViews.tsx, AnimatedFlashPad.tsx\nDirect callers: realtimeFlashRowViews.tsx\nCheck next: realtimeFlashRowViews.tsx, AnimatedFlashPad.tsx\nRisk: exported symbol changed, high complexity, high fanout\n📐 Cascade errors in 1 neighbor file(s) — fix before finishing turn:\n<diagnostics file=\"src/components/AnimatedFlashPad.tsx\" reason=\"imports\">\n  line 83, col 28 rule=cascade:2551: Property 'absoluteFillObject' does not exist on type 'typeof StyleSheet'. Did you mean 'absoluteFill\n</diagnostics>",
+  "sessionId": "lens-mpsprwnc-4510b8a7",
+  "projectSeqStart": 9,
+  "projectSeqEnd": 10
+}

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { FormValidationRow } from "../data/formValidationRows";
-import { cycleFormValidationStates, makeFormValidationRows } from "../data/formValidationRows";
+import type { FormValidationRow } from '../data/formValidationRows';
+import { cycleFormValidationStates, makeFormValidationRows } from '../data/formValidationRows';
 
 interface UseFormValidationToggleConfig {
   fieldCount: number;

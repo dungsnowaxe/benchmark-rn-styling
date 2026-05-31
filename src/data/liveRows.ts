@@ -1,4 +1,4 @@
-import type { StaticRowVariant } from "./staticRows";
+import type { StaticRowVariant } from './staticRows';
 
 export type LiveRow = {
   id: string;
@@ -9,26 +9,26 @@ export type LiveRow = {
 };
 
 const SYMBOLS = [
-  "BTC",
-  "ETH",
-  "SOL",
-  "AVAX",
-  "DOT",
-  "MATIC",
-  "LINK",
-  "UNI",
-  "ATOM",
-  "XRP",
-  "ADA",
-  "DOGE",
-  "LTC",
-  "BCH",
-  "NEAR",
-  "APT",
-  "ARB",
-  "OP",
-  "SUI",
-  "INJ",
+  'BTC',
+  'ETH',
+  'SOL',
+  'AVAX',
+  'DOT',
+  'MATIC',
+  'LINK',
+  'UNI',
+  'ATOM',
+  'XRP',
+  'ADA',
+  'DOGE',
+  'LTC',
+  'BCH',
+  'NEAR',
+  'APT',
+  'ARB',
+  'OP',
+  'SUI',
+  'INJ',
 ];
 
 function seedPrice(i: number) {
@@ -36,7 +36,7 @@ function seedPrice(i: number) {
 }
 
 export function makeLiveRows(count: number): LiveRow[] {
-  const variants: StaticRowVariant[] = ["a", "b", "c"];
+  const variants: StaticRowVariant[] = ['a', 'b', 'c'];
   const rows: LiveRow[] = [];
   for (let i = 0; i < count; i++) {
     const sym = SYMBOLS[i % SYMBOLS.length];

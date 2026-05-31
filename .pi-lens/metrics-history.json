@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "files": {
+    "src/hooks/useFrameRateMonitor.ts": {
+      "latest": {
+        "commit": "f7d4b15",
+        "timestamp": "2026-05-30T20:13:40.898Z",
+        "mi": 41.7,
+        "cognitive": 28,
+        "nesting": 5,
+        "lines": 62,
+        "maxCyclomatic": 31,
+        "entropy": 5.13
+      },
+      "history": [
+        {
+          "commit": "f7d4b15",
+          "timestamp": "2026-05-30T20:13:40.898Z",
+          "mi": 41.7,
+          "cognitive": 28,
+          "nesting": 5,
+          "lines": 62,
+          "maxCyclomatic": 31,
+          "entropy": 5.13
+        }
+      ],
+      "trend": "stable"
+    },
+    "src/app/realtime-benchmark.tsx": {
+      "latest": {
+        "commit": "f7d4b15",
+        "timestamp": "2026-05-30T20:14:08.230Z",
+        "mi": 38.4,
+        "cognitive": 25,
+        "nesting": 3,
+        "lines": 68,
+        "maxCyclomatic": 16,
+        "entropy": 5.38
+      },
+      "history": [
+        {
+          "commit": "f7d4b15",
+          "timestamp": "2026-05-30T20:14:08.230Z",
+          "mi": 38.4,
+          "cognitive": 25,
+          "nesting": 3,
+          "lines": 68,
+          "maxCyclomatic": 16,
+          "entropy": 5.38
+        }
+      ],
+      "trend": "stable"
+    }
+  },
+  "capturedAt": "2026-05-30T20:14:13.230Z"
+}

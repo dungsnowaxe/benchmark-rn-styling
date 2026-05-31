@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { UserStateRow } from "../data/userStatesRows";
-import { makeUserStatesRows, toggleUserStates } from "../data/userStatesRows";
+import type { UserStateRow } from '../data/userStatesRows';
+import { makeUserStatesRows, toggleUserStates } from '../data/userStatesRows';
 
 interface UseUserStatesToggleConfig {
   rowCount: number;
@@ -12,17 +12,9 @@ interface UseUserStatesToggleConfig {
 }
 
 export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
-  const {
-    rowCount,
-    updateInterval,
-    updatePercentage,
-    enabled,
-    maxUpdates = 1000,
-  } = config;
+  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [rows, setRows] = useState<UserStateRow[]>(() =>
-    makeUserStatesRows(rowCount),
-  );
+  const [rows, setRows] = useState<UserStateRow[]>(() => makeUserStatesRows(rowCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -48,9 +40,7 @@ export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setRows((prev) =>
-        toggleUserStates(prev, updatePercentage, seedRef.current),
-      );
+      setRows((prev) => toggleUserStates(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 

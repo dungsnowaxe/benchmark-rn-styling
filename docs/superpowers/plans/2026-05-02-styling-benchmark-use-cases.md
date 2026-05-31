@@ -43,12 +43,13 @@ src/
 ## Task 1: Create shared frame rate monitoring hook
 
 **Files:**
+
 - Create: `src/hooks/useFrameRateMonitor.ts`
 
 - [ ] **Step 1: Write the hook implementation**
 
 ```typescript
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 interface FrameRateStats {
   fps: number;
@@ -137,6 +138,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 2: Create user states data and row components
 
 **Files:**
+
 - Create: `src/data/userStatesRows.ts`
 - Create: `src/benchmark/userStatesRowViews.tsx`
 
@@ -157,11 +159,26 @@ export type UserStateRow = {
 };
 
 const USERNAMES = [
-  "alice_wonder", "bob_builder", "charlie_dev", "diana_designer",
-  "evan_engineer", "fiona_frontend", "george_backend", "hannah_hacker",
-  "ivan_ui", "julia_js", "kevin_kernel", "luna_ux",
-  "mike_mobile", "nina_native", "oliver_ops", "petra_product",
-  "quinn_qa", "rachel_react", "steve_scala", "tina_typescript",
+  'alice_wonder',
+  'bob_builder',
+  'charlie_dev',
+  'diana_designer',
+  'evan_engineer',
+  'fiona_frontend',
+  'george_backend',
+  'hannah_hacker',
+  'ivan_ui',
+  'julia_js',
+  'kevin_kernel',
+  'luna_ux',
+  'mike_mobile',
+  'nina_native',
+  'oliver_ops',
+  'petra_product',
+  'quinn_qa',
+  'rachel_react',
+  'steve_scala',
+  'tina_typescript',
 ];
 
 function seededRandom(seed: number): number {
@@ -537,15 +554,16 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 3: Create user states stress mode hook
 
 **Files:**
+
 - Create: `src/hooks/useUserStatesToggle.ts`
 
 - [ ] **Step 1: Implement stress mode hook**
 
 ```typescript
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { UserStateRow } from "../data/userStatesRows";
-import { makeUserStatesRows, toggleUserStates } from "../data/userStatesRows";
+import type { UserStateRow } from '../data/userStatesRows';
+import { makeUserStatesRows, toggleUserStates } from '../data/userStatesRows';
 
 interface UseUserStatesToggleConfig {
   rowCount: number;
@@ -556,17 +574,9 @@ interface UseUserStatesToggleConfig {
 }
 
 export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
-  const {
-    rowCount,
-    updateInterval,
-    updatePercentage,
-    enabled,
-    maxUpdates = 1000,
-  } = config;
+  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [rows, setRows] = useState<UserStateRow[]>(() =>
-    makeUserStatesRows(rowCount),
-  );
+  const [rows, setRows] = useState<UserStateRow[]>(() => makeUserStatesRows(rowCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -594,9 +604,7 @@ export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setRows((prev) =>
-        toggleUserStates(prev, updatePercentage, seedRef.current),
-      );
+      setRows((prev) => toggleUserStates(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 
@@ -628,6 +636,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 4: Create user states benchmark screen
 
 **Files:**
+
 - Create: `src/app/user-states-benchmark.tsx`
 
 - [ ] **Step 1: Implement the benchmark screen**
@@ -761,8 +770,8 @@ export default function UserStatesBenchmarkScreen() {
 
 ```typescript
 // Add to imports at top of file
-import { useState } from "react";
-import type { UserStateRow } from "../data/userStatesRows";
+import { useState } from 'react';
+import type { UserStateRow } from '../data/userStatesRows';
 ```
 
 - [ ] **Step 3: Commit benchmark screen**
@@ -782,6 +791,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 5: Update home screen with user states link
 
 **Files:**
+
 - Modify: `src/app/index.tsx`
 
 - [ ] **Step 1: Add link to user states benchmark**
@@ -821,6 +831,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 6: Create form validation data and row components
 
 **Files:**
+
 - Create: `src/data/formValidationRows.ts`
 - Create: `src/benchmark/formValidationRowViews.tsx`
 
@@ -829,13 +840,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ```typescript
 // src/data/formValidationRows.ts
 
-export type ValidationState =
-  | "error"
-  | "warning"
-  | "success"
-  | "disabled"
-  | "focused"
-  | "filled";
+export type ValidationState = 'error' | 'warning' | 'success' | 'disabled' | 'focused' | 'filled';
 
 export type FormValidationRow = {
   id: string;
@@ -846,21 +851,69 @@ export type FormValidationRow = {
 };
 
 const FIELD_LABELS = [
-  "Username", "Email", "Password", "Confirm Password", "Full Name",
-  "Phone", "Address", "City", "State", "Zip Code",
-  "Country", "Company", "Job Title", "Website", "Bio",
-  "Twitter", "LinkedIn", "GitHub", "Portfolio", "Referral",
-  "Coupon Code", "Notes", "Preferred Contact", "Timezone",
-  "Age", "Gender", "Income", "Education", "Experience",
-  "Skills", "Languages", "Certifications", "Projects", "Publications",
-  "Awards", "Interests", "Goals", "Challenges", "Achievements",
-  "References", "Availability", "Rate", "Currency", "Payment Method",
-  "Bank Name", "Account Number", "Routing Number", "Tax ID", "Signature",
-  "Date of Birth", "Nationality", "Passport", "Visa", "Work Authorization",
+  'Username',
+  'Email',
+  'Password',
+  'Confirm Password',
+  'Full Name',
+  'Phone',
+  'Address',
+  'City',
+  'State',
+  'Zip Code',
+  'Country',
+  'Company',
+  'Job Title',
+  'Website',
+  'Bio',
+  'Twitter',
+  'LinkedIn',
+  'GitHub',
+  'Portfolio',
+  'Referral',
+  'Coupon Code',
+  'Notes',
+  'Preferred Contact',
+  'Timezone',
+  'Age',
+  'Gender',
+  'Income',
+  'Education',
+  'Experience',
+  'Skills',
+  'Languages',
+  'Certifications',
+  'Projects',
+  'Publications',
+  'Awards',
+  'Interests',
+  'Goals',
+  'Challenges',
+  'Achievements',
+  'References',
+  'Availability',
+  'Rate',
+  'Currency',
+  'Payment Method',
+  'Bank Name',
+  'Account Number',
+  'Routing Number',
+  'Tax ID',
+  'Signature',
+  'Date of Birth',
+  'Nationality',
+  'Passport',
+  'Visa',
+  'Work Authorization',
 ];
 
 const VALIDATION_STATES: ValidationState[] = [
-  "error", "warning", "success", "disabled", "focused", "filled",
+  'error',
+  'warning',
+  'success',
+  'disabled',
+  'focused',
+  'filled',
 ];
 
 function seededRandom(seed: number): number {
@@ -876,7 +929,7 @@ export function makeFormValidationRows(count: number): FormValidationRow[] {
     rows.push({
       id: `form-${i}`,
       label: FIELD_LABELS[i % FIELD_LABELS.length],
-      value: seededRandom(seed + 1) > 0.3 ? "Sample value" : "",
+      value: seededRandom(seed + 1) > 0.3 ? 'Sample value' : '',
       helperText: getHelperText(VALIDATION_STATES[stateIndex]),
       state: VALIDATION_STATES[stateIndex],
     });
@@ -886,20 +939,20 @@ export function makeFormValidationRows(count: number): FormValidationRow[] {
 
 function getHelperText(state: ValidationState): string {
   switch (state) {
-    case "error":
-      return "This field is required";
-    case "warning":
-      return "This may affect your application";
-    case "success":
-      return "Looks good!";
-    case "disabled":
-      return "This field is disabled";
-    case "focused":
-      return "Enter your information";
-    case "filled":
-      return "Completed";
+    case 'error':
+      return 'This field is required';
+    case 'warning':
+      return 'This may affect your application';
+    case 'success':
+      return 'Looks good!';
+    case 'disabled':
+      return 'This field is disabled';
+    case 'focused':
+      return 'Enter your information';
+    case 'filled':
+      return 'Completed';
     default:
-      return "";
+      return '';
   }
 }
 
@@ -1200,6 +1253,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 7: Create form validation stress mode hook and screen
 
 **Files:**
+
 - Create: `src/hooks/useFormValidationToggle.ts`
 - Create: `src/app/form-validation-benchmark.tsx`
 
@@ -1208,10 +1262,10 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ```typescript
 // src/hooks/useFormValidationToggle.ts
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { FormValidationRow } from "../data/formValidationRows";
-import { cycleFormValidationStates, makeFormValidationRows } from "../data/formValidationRows";
+import type { FormValidationRow } from '../data/formValidationRows';
+import { cycleFormValidationStates, makeFormValidationRows } from '../data/formValidationRows';
 
 interface UseFormValidationToggleConfig {
   fieldCount: number;
@@ -1397,8 +1451,8 @@ export default function FormValidationBenchmarkScreen() {
 - [ ] **Step 3: Add missing import**
 
 ```typescript
-import { useState } from "react";
-import type { FormValidationRow } from "../data/formValidationRows";
+import { useState } from 'react';
+import type { FormValidationRow } from '../data/formValidationRows';
 ```
 
 - [ ] **Step 4: Update home screen with form validation link**
@@ -1436,6 +1490,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 8: Create list item states data and row components
 
 **Files:**
+
 - Create: `src/data/listItemStatesRows.ts`
 - Create: `src/benchmark/listItemStatesRowViews.tsx`
 
@@ -1457,18 +1512,54 @@ export type ListItemStateRow = {
 };
 
 const TITLES = [
-  "Project Proposal", "Budget Review", "Team Meeting", "Client Feedback",
-  "Design Mockups", "API Documentation", "Testing Plan", "Deployment Guide",
-  "User Research", "Competitor Analysis", "Market Strategy", "Sales Report",
-  "Inventory Check", "Quality Assurance", "Performance Metrics", "Security Audit",
-  "Compliance Review", "Risk Assessment", "Resource Allocation", "Timeline Update",
-  "Milestone Review", "Stakeholder Update", "Issue Tracker", "Bug Report",
-  "Feature Request", "Change Request", "Incident Report", "Post-Mortem",
-  "Retrospective", "Action Items", "Decision Log", "Knowledge Base",
-  "Training Material", "Onboarding Guide", "Policy Document", "Process Update",
-  "Sprint Planning", "Daily Standup", "Backlog Refinement", "Release Notes",
-  "Version Control", "Code Review", "CI/CD Pipeline", "Database Schema",
-  "API Endpoint", "Webhook Config", "Auth Flow", "Permission Matrix",
+  'Project Proposal',
+  'Budget Review',
+  'Team Meeting',
+  'Client Feedback',
+  'Design Mockups',
+  'API Documentation',
+  'Testing Plan',
+  'Deployment Guide',
+  'User Research',
+  'Competitor Analysis',
+  'Market Strategy',
+  'Sales Report',
+  'Inventory Check',
+  'Quality Assurance',
+  'Performance Metrics',
+  'Security Audit',
+  'Compliance Review',
+  'Risk Assessment',
+  'Resource Allocation',
+  'Timeline Update',
+  'Milestone Review',
+  'Stakeholder Update',
+  'Issue Tracker',
+  'Bug Report',
+  'Feature Request',
+  'Change Request',
+  'Incident Report',
+  'Post-Mortem',
+  'Retrospective',
+  'Action Items',
+  'Decision Log',
+  'Knowledge Base',
+  'Training Material',
+  'Onboarding Guide',
+  'Policy Document',
+  'Process Update',
+  'Sprint Planning',
+  'Daily Standup',
+  'Backlog Refinement',
+  'Release Notes',
+  'Version Control',
+  'Code Review',
+  'CI/CD Pipeline',
+  'Database Schema',
+  'API Endpoint',
+  'Webhook Config',
+  'Auth Flow',
+  'Permission Matrix',
 ];
 
 function seededRandom(seed: number): number {
@@ -1863,6 +1954,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 9: Create list item states hook and screen
 
 **Files:**
+
 - Create: `src/hooks/useListItemStatesToggle.ts`
 - Create: `src/app/list-item-states-benchmark.tsx`
 
@@ -1871,10 +1963,10 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ```typescript
 // src/hooks/useListItemStatesToggle.ts
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { ListItemStateRow } from "../data/listItemStatesRows";
-import { makeListItemStatesRows, toggleListItemStates } from "../data/listItemStatesRows";
+import type { ListItemStateRow } from '../data/listItemStatesRows';
+import { makeListItemStatesRows, toggleListItemStates } from '../data/listItemStatesRows';
 
 interface UseListItemStatesToggleConfig {
   itemCount: number;
@@ -1885,17 +1977,9 @@ interface UseListItemStatesToggleConfig {
 }
 
 export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
-  const {
-    itemCount,
-    updateInterval,
-    updatePercentage,
-    enabled,
-    maxUpdates = 1000,
-  } = config;
+  const { itemCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [items, setItems] = useState<ListItemStateRow[]>(() =>
-    makeListItemStatesRows(itemCount),
-  );
+  const [items, setItems] = useState<ListItemStateRow[]>(() => makeListItemStatesRows(itemCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -1921,9 +2005,7 @@ export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setItems((prev) =>
-        toggleListItemStates(prev, updatePercentage, seedRef.current),
-      );
+      setItems((prev) => toggleListItemStates(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 
@@ -2071,7 +2153,7 @@ export default function ListItemStatesBenchmarkScreen() {
 - [ ] **Step 3: Add missing imports**
 
 ```typescript
-import { useState } from "react";
+import { useState } from 'react';
 ```
 
 - [ ] **Step 4: Update home screen**
@@ -2109,6 +2191,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 10: Create skeleton transition data and row components
 
 **Files:**
+
 - Create: `src/data/skeletonRows.ts`
 - Create: `src/benchmark/skeletonTransitionRowViews.tsx`
 
@@ -2118,26 +2201,52 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 // src/data/skeletonRows.ts
 
 export type SkeletonRow =
-  | { id: string; state: "skeleton" }
+  | { id: string; state: 'skeleton' }
   | {
       id: string;
-      state: "content";
+      state: 'content';
       title: string;
       subtitle: string;
       height: number;
     };
 
 const TITLES = [
-  "Loading content...", "Please wait...", "Fetching data...",
-  "Almost there...", "Processing request...", "Retrieving information...",
-  "Dashboard Overview", "User Profile", "Settings Panel",
-  "Analytics Report", "Activity Feed", "Notification Center",
-  "Message List", "Task Manager", "Calendar View", "File Explorer",
-  "Search Results", "Help Center", "Documentation", "Support Chat",
-  "Account Settings", "Privacy Controls", "Security Options", "Billing Info",
-  "Subscription Details", "Payment Methods", "Invoice History", "Usage Stats",
-  "API Keys", "Webhooks", "Integrations", "Connected Apps",
-  "Team Members", "Permissions", "Audit Log", "Login History",
+  'Loading content...',
+  'Please wait...',
+  'Fetching data...',
+  'Almost there...',
+  'Processing request...',
+  'Retrieving information...',
+  'Dashboard Overview',
+  'User Profile',
+  'Settings Panel',
+  'Analytics Report',
+  'Activity Feed',
+  'Notification Center',
+  'Message List',
+  'Task Manager',
+  'Calendar View',
+  'File Explorer',
+  'Search Results',
+  'Help Center',
+  'Documentation',
+  'Support Chat',
+  'Account Settings',
+  'Privacy Controls',
+  'Security Options',
+  'Billing Info',
+  'Subscription Details',
+  'Payment Methods',
+  'Invoice History',
+  'Usage Stats',
+  'API Keys',
+  'Webhooks',
+  'Integrations',
+  'Connected Apps',
+  'Team Members',
+  'Permissions',
+  'Audit Log',
+  'Login History',
 ];
 
 function seededRandom(seed: number): number {
@@ -2150,7 +2259,7 @@ export function makeSkeletonRows(count: number): SkeletonRow[] {
   for (let i = 0; i < count; i++) {
     rows.push({
       id: `skeleton-${i}`,
-      state: "skeleton",
+      state: 'skeleton',
     });
   }
   return rows;
@@ -2175,13 +2284,13 @@ export function cycleSkeletonTransitions(
     if (!indicesToToggle.includes(idx)) return row;
 
     // Toggle between skeleton and content
-    if (row.state === "skeleton") {
+    if (row.state === 'skeleton') {
       const heightSeed = seed + idx * 200;
       const height = 40 + Math.floor(seededRandom(heightSeed) * 60); // 40-100px
       const titleIndex = Math.floor(seededRandom(heightSeed + 1) * TITLES.length);
       return {
         id: row.id,
-        state: "content",
+        state: 'content',
         title: TITLES[titleIndex],
         subtitle: `Additional details for item ${idx + 1}`,
         height,
@@ -2189,7 +2298,7 @@ export function cycleSkeletonTransitions(
     } else {
       return {
         id: row.id,
-        state: "skeleton",
+        state: 'skeleton',
       };
     }
   });
@@ -2405,6 +2514,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 11: Create skeleton transition hook and screen
 
 **Files:**
+
 - Create: `src/hooks/useSkeletonTransition.ts`
 - Create: `src/app/skeleton-transition-benchmark.tsx`
 
@@ -2413,10 +2523,10 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ```typescript
 // src/hooks/useSkeletonTransition.ts
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { SkeletonRow } from "../data/skeletonRows";
-import { cycleSkeletonTransitions, makeSkeletonRows } from "../data/skeletonRows";
+import type { SkeletonRow } from '../data/skeletonRows';
+import { cycleSkeletonTransitions, makeSkeletonRows } from '../data/skeletonRows';
 
 interface UseSkeletonTransitionConfig {
   rowCount: number;
@@ -2427,13 +2537,7 @@ interface UseSkeletonTransitionConfig {
 }
 
 export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
-  const {
-    rowCount,
-    updateInterval,
-    updatePercentage,
-    enabled,
-    maxUpdates = 1000,
-  } = config;
+  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
   const [rows, setRows] = useState<SkeletonRow[]>(() => makeSkeletonRows(rowCount));
   const [updateCount, setUpdatesCount] = useState(0);
@@ -2461,9 +2565,7 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setRows((prev) =>
-        cycleSkeletonTransitions(prev, updatePercentage, seedRef.current),
-      );
+      setRows((prev) => cycleSkeletonTransitions(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 
@@ -2611,7 +2713,7 @@ export default function SkeletonTransitionBenchmarkScreen() {
 - [ ] **Step 3: Add missing imports**
 
 ```typescript
-import { useState } from "react";
+import { useState } from 'react';
 ```
 
 - [ ] **Step 4: Update home screen**
@@ -2649,6 +2751,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 12: Update README with new benchmarks
 
 **Files:**
+
 - Modify: `README.md`
 
 - [ ] **Step 1: Update benchmarks table**
@@ -2656,15 +2759,15 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ```markdown
 # Update the scenarios table in README.md
 
-| Scenario | What it stresses | Status in this app |
-|----------|------------------|-------------------|
-| **Long list** | Many rows, varied static styles, scroll + re-renders when switching engines | **Implemented** — *Static list benchmark* |
-| **List with realtime data** | Frequent updates (prices/fields), list churn, re-renders | **Implemented** — *Realtime list benchmark* |
-| **Realtime + directional flash** | Same data path as realtime, plus a **green/red background flash** when price or change % moves up/down; the tint **fades in and out** via React Native `Animated` **on the background layer only** (numeric text stays fully opaque for readability) | **Implemented** — *Realtime flash benchmark* |
-| **User states** | Multiple boolean flag combinations (premium, verified, muted, notification, new) affecting borders, colors, badges, icons | **Implemented** — *User states benchmark* |
-| **Form validation** | Form field state combinations (error, warning, success, disabled, focused, filled) changing borders, background colors, helper text, icons | **Implemented** — *Form validation benchmark* |
-| **List item states** | Row-level state permutations (selected, disabled, unread, highlighted, loading, new) with badges, overlays, opacity changes | **Implemented** — *List item states benchmark* |
-| **Skeleton → content** | Layout dimension changes during transitions from fixed-height skeleton to variable-height content (40-100px) | **Implemented** — *Skeleton transition benchmark* |
+| Scenario                         | What it stresses                                                                                                                                                                                                                                     | Status in this app                                |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| **Long list**                    | Many rows, varied static styles, scroll + re-renders when switching engines                                                                                                                                                                          | **Implemented** — _Static list benchmark_         |
+| **List with realtime data**      | Frequent updates (prices/fields), list churn, re-renders                                                                                                                                                                                             | **Implemented** — _Realtime list benchmark_       |
+| **Realtime + directional flash** | Same data path as realtime, plus a **green/red background flash** when price or change % moves up/down; the tint **fades in and out** via React Native `Animated` **on the background layer only** (numeric text stays fully opaque for readability) | **Implemented** — _Realtime flash benchmark_      |
+| **User states**                  | Multiple boolean flag combinations (premium, verified, muted, notification, new) affecting borders, colors, badges, icons                                                                                                                            | **Implemented** — _User states benchmark_         |
+| **Form validation**              | Form field state combinations (error, warning, success, disabled, focused, filled) changing borders, background colors, helper text, icons                                                                                                           | **Implemented** — _Form validation benchmark_     |
+| **List item states**             | Row-level state permutations (selected, disabled, unread, highlighted, loading, new) with badges, overlays, opacity changes                                                                                                                          | **Implemented** — _List item states benchmark_    |
+| **Skeleton → content**           | Layout dimension changes during transitions from fixed-height skeleton to variable-height content (40-100px)                                                                                                                                         | **Implemented** — _Skeleton transition benchmark_ |
 ```
 
 - [ ] **Step 2: Add stress mode documentation section**
@@ -2703,6 +2806,7 @@ Each benchmark screen displays:
 - **Update count**: Number of stress mode updates applied (x/1000)
 
 For accurate comparisons, always:
+
 1. Use the same device
 2. Use Release builds (Debug has too much noise)
 3. Kill and relaunch app between engine tests
@@ -2726,20 +2830,20 @@ When comparing engines, pay attention to:
 
 ### Quick comparison template
 
-| Benchmark | Metric | StyleSheet | Unistyles | Uniwind |
-|-----------|--------|------------|-----------|---------|
-| User States | Initial render (ms) |  |  |  |
-| User States | Avg stress render (ms) |  |  |  |
-| User States | Frame drops/min |  |  |  |
-| Form Validation | Initial render (ms) |  |  |  |
-| Form Validation | Avg stress render (ms) |  |  |  |
-| Form Validation | Frame drops/min |  |  |  |
-| List Item States | Initial render (ms) |  |  |  |
-| List Item States | Avg stress render (ms) |  |  |  |
-| List Item States | Frame drops/min |  |  |  |
-| Skeleton Transition | Initial render (ms) |  |  |  |
-| Skeleton Transition | Avg stress render (ms) |  |  |  |
-| Skeleton Transition | Frame drops/min |  |  |  |
+| Benchmark           | Metric                 | StyleSheet | Unistyles | Uniwind |
+| ------------------- | ---------------------- | ---------- | --------- | ------- |
+| User States         | Initial render (ms)    |            |           |         |
+| User States         | Avg stress render (ms) |            |           |         |
+| User States         | Frame drops/min        |            |           |         |
+| Form Validation     | Initial render (ms)    |            |           |         |
+| Form Validation     | Avg stress render (ms) |            |           |         |
+| Form Validation     | Frame drops/min        |            |           |         |
+| List Item States    | Initial render (ms)    |            |           |         |
+| List Item States    | Avg stress render (ms) |            |           |         |
+| List Item States    | Frame drops/min        |            |           |         |
+| Skeleton Transition | Initial render (ms)    |            |           |         |
+| Skeleton Transition | Avg stress render (ms) |            |           |         |
+| Skeleton Transition | Frame drops/min        |            |           |         |
 
 Fill in your measurements from physical device testing (Release builds only).
 ```
@@ -2763,6 +2867,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Task 13: Final verification and testing
 
 **Files:**
+
 - All created files
 
 - [ ] **Step 1: Verify TypeScript compilation**
@@ -2854,6 +2959,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 ## Self-Review Checklist
 
 **Spec coverage:**
+
 - ✅ User states benchmark with 5 boolean flags — Tasks 2-4
 - ✅ Form validation benchmark with 6 states — Tasks 6-7
 - ✅ List item states benchmark with 6 flags — Tasks 8-9
@@ -2866,12 +2972,14 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 - ✅ Testing and verification — Task 13
 
 **Placeholder scan:**
+
 - ✅ No TBD, TODO, or "implement later" found
 - ✅ All code is complete with actual implementations
 - ✅ All file paths are exact
 - ✅ All commands include expected output
 
 **Type consistency:**
+
 - ✅ `UserStateRow` type consistent across data, hook, components
 - ✅ `FormValidationRow` type consistent
 - ✅ `ListItemStateRow` type consistent
@@ -2881,6 +2989,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 - ✅ State names match across implementations (isPremium, isVerified, etc.)
 
 **Architecture alignment:**
+
 - ✅ Follows existing benchmark patterns from `realtimeFlashRowViews.tsx`
 - ✅ Reuses `EngineRadioGroup` and `RenderTimeLabel` components
 - ✅ Uses existing `useRenderMeasurement` hook

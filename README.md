@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React%20Native-0.81.5-blue?logo=react" alt="React Native" />
-  <img src="https://img.shields.io/badge/Expo%20SDK-54-black?logo=expo" alt="Expo" />
-  <img src="https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/React%20Native-0.85.3-blue?logo=react" alt="React Native" />
+  <img src="https://img.shields.io/badge/Expo%20SDK-56-black?logo=expo" alt="Expo" />
+  <img src="https://img.shields.io/badge/TypeScript-6.0-blue?logo=typescript" alt="TypeScript" />
   <img src="https://img.shields.io/badge/iOS%20%26%20Android-Supported-green" alt="Platforms" />
 </p>
 
@@ -23,11 +23,11 @@ Choosing a styling library for React Native is hard. Blog posts compare APIs, bu
 
 This app runs the **same UI** through three styling engines on the **same device** and lets you compare:
 
-| Engine | Approach |
-|--------|----------|
-| **React Native `StyleSheet`** | Built-in, zero dependencies. The baseline. |
-| **[react-native-unistyles](https://www.unistyl.es/) v3** | Build-time StyleSheets with theme & breakpoint awareness, C++ backed. |
-| **[Uniwind](https://uniwind.dev/)** | Tailwind-style `className` on native, Metro-processed CSS. A NativeWind alternative. |
+| Engine                                                   | Approach                                                                             |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **React Native `StyleSheet`**                            | Built-in, zero dependencies. The baseline.                                           |
+| **[react-native-unistyles](https://www.unistyl.es/) v3** | Build-time StyleSheets with theme & breakpoint awareness, C++ backed.                |
+| **[Uniwind](https://uniwind.dev/)**                      | Tailwind-style `className` on native, Metro-processed CSS. A NativeWind alternative. |
 
 Switch engines with a radio group on each screen. Render times, FPS, and frame drops update live.
 
@@ -35,15 +35,15 @@ Switch engines with a radio group on each screen. Render times, FPS, and frame d
 
 ## Benchmarks
 
-| # | Benchmark | What it tests | Stress mode |
-|---|-----------|---------------|-------------|
-| 1 | **Static list** | 96 rows, varied static styles, scroll + re-renders on engine switch | — |
-| 2 | **Realtime data** | Frequent row updates (prices), list churn, re-renders | ~280ms mock interval |
-| 3 | **Realtime + flash** | Same as realtime + animated green/red background flash per field on price change | ~280ms mock interval |
-| 4 | **User states** | 100 profiles × 5 boolean flags (premium, verified, muted, notification, new) → conditional borders, colors, badges | 20% of rows every 200ms |
-| 5 | **Form validation** | 50 fields × 6 states (error, warning, success, disabled, focused, filled) → conditional input styles, helper text | All fields every 150ms |
-| 6 | **List item states** | 200 items × 6 flags (selected, disabled, unread, highlighted, loading, new) → checkboxes, badges, opacity overlays | 10% of rows every 100ms |
-| 7 | **Skeleton → content** | 100 rows transitioning between fixed-height skeleton (60px) and variable-height content (40–100px) | 25% of rows every 300ms |
+| #   | Benchmark              | What it tests                                                                                                      | Stress mode             |
+| --- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------- |
+| 1   | **Static list**        | 96 rows, varied static styles, scroll + re-renders on engine switch                                                | —                       |
+| 2   | **Realtime data**      | Frequent row updates (prices), list churn, re-renders                                                              | ~280ms mock interval    |
+| 3   | **Realtime + flash**   | Same as realtime + animated green/red background flash per field on price change                                   | ~280ms mock interval    |
+| 4   | **User states**        | 100 profiles × 5 boolean flags (premium, verified, muted, notification, new) → conditional borders, colors, badges | 20% of rows every 200ms |
+| 5   | **Form validation**    | 50 fields × 6 states (error, warning, success, disabled, focused, filled) → conditional input styles, helper text  | All fields every 150ms  |
+| 6   | **List item states**   | 200 items × 6 flags (selected, disabled, unread, highlighted, loading, new) → checkboxes, badges, opacity overlays | 10% of rows every 100ms |
+| 7   | **Skeleton → content** | 100 rows transitioning between fixed-height skeleton (60px) and variable-height content (40–100px)                 | 25% of rows every 300ms |
 
 Each benchmark renders 3 engine variants (StyleSheet / Unistyles / Uniwind) so you can switch live and see the difference.
 
@@ -85,12 +85,12 @@ Every benchmark screen has a **stress mode** toggle that hammers state changes:
 
 Each screen shows live metrics:
 
-| Metric | How it's measured |
-|--------|-------------------|
-| **Render time** | JS-side timing from engine switch to commit (approximate, same session only) |
-| **FPS** | `requestAnimationFrame` frame counting per second |
-| **Frame drops/min** | Gaps > 2 frames at 60fps (~33ms) counted over 1-second windows |
-| **Update count** | Stress mode progress (x/1000) |
+| Metric              | How it's measured                                                            |
+| ------------------- | ---------------------------------------------------------------------------- |
+| **Render time**     | JS-side timing from engine switch to commit (approximate, same session only) |
+| **FPS**             | `requestAnimationFrame` frame counting per second                            |
+| **Frame drops/min** | Gaps > 2 frames at 60fps (~33ms) counted over 1-second windows               |
+| **Update count**    | Stress mode progress (x/1000)                                                |
 
 ### Tips for accurate results
 
@@ -103,20 +103,20 @@ Each screen shows live metrics:
 
 Copy this table and fill in your own measurements:
 
-| Benchmark | Metric | StyleSheet | Unistyles | Uniwind |
-|-----------|--------|------------|-----------|---------|
-| User States | Initial render (ms) | | | |
-| User States | Avg stress render (ms) | | | |
-| User States | Frame drops/min | | | |
-| Form Validation | Initial render (ms) | | | |
-| Form Validation | Avg stress render (ms) | | | |
-| Form Validation | Frame drops/min | | | |
-| List Item States | Initial render (ms) | | | |
-| List Item States | Avg stress render (ms) | | | |
-| List Item States | Frame drops/min | | | |
-| Skeleton Transition | Initial render (ms) | | | |
-| Skeleton Transition | Avg stress render (ms) | | | |
-| Skeleton Transition | Frame drops/min | | | |
+| Benchmark           | Metric                 | StyleSheet | Unistyles | Uniwind |
+| ------------------- | ---------------------- | ---------- | --------- | ------- |
+| User States         | Initial render (ms)    |            |           |         |
+| User States         | Avg stress render (ms) |            |           |         |
+| User States         | Frame drops/min        |            |           |         |
+| Form Validation     | Initial render (ms)    |            |           |         |
+| Form Validation     | Avg stress render (ms) |            |           |         |
+| Form Validation     | Frame drops/min        |            |           |         |
+| List Item States    | Initial render (ms)    |            |           |         |
+| List Item States    | Avg stress render (ms) |            |           |         |
+| List Item States    | Frame drops/min        |            |           |         |
+| Skeleton Transition | Initial render (ms)    |            |           |         |
+| Skeleton Transition | Avg stress render (ms) |            |           |         |
+| Skeleton Transition | Frame drops/min        |            |           |         |
 
 ---
 
@@ -132,15 +132,15 @@ The **realtime** and **realtime flash** screens can connect to a public Binance 
 
 ## Tech Stack
 
-| Package | Version |
-|--------|---------|
-| [Expo SDK](https://docs.expo.dev/) | ~54 |
-| [expo-router](https://docs.expo.dev/router/introduction/) | ~6.0 |
-| [React](https://react.dev/) | 19.1 |
-| [React Native](https://reactnative.dev/) | 0.81.5 |
-| [react-native-unistyles](https://www.unistyl.es/) | 3.2.2 |
-| [Uniwind](https://uniwind.dev/) | ~1.0 |
-| [TypeScript](https://www.typescriptlang.org/) | ~5.9 |
+| Package                                                   | Version |
+| --------------------------------------------------------- | ------- |
+| [Expo SDK](https://docs.expo.dev/)                        | ~56     |
+| [expo-router](https://docs.expo.dev/router/introduction/) | ~6.0    |
+| [React](https://react.dev/)                               | 19.2    |
+| [React Native](https://reactnative.dev/)                  | 0.85.3  |
+| [react-native-unistyles](https://www.unistyl.es/)         | 3.2.2   |
+| [Uniwind](https://uniwind.dev/)                           | ~1.0    |
+| [TypeScript](https://www.typescriptlang.org/)             | ~6.0    |
 
 Package manager: **Bun** (`bun.lock`). Works with `npm`/`yarn` too.
 

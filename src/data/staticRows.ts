@@ -1,4 +1,4 @@
-export type StaticRowVariant = "a" | "b" | "c";
+export type StaticRowVariant = 'a' | 'b' | 'c';
 
 export type StaticRow = {
   id: string;
@@ -8,19 +8,19 @@ export type StaticRow = {
 };
 
 const LABELS = [
-  "Balance",
-  "Allocation",
-  "Yield",
-  "Latency",
-  "Throughput",
-  "Cache hit",
-  "Heap",
-  "Frame time",
+  'Balance',
+  'Allocation',
+  'Yield',
+  'Latency',
+  'Throughput',
+  'Cache hit',
+  'Heap',
+  'Frame time',
 ];
 
 export function buildStaticRows(count = 96): StaticRow[] {
   const rows: StaticRow[] = [];
-  const variants: StaticRowVariant[] = ["a", "b", "c"];
+  const variants: StaticRowVariant[] = ['a', 'b', 'c'];
   for (let i = 0; i < count; i++) {
     const variant = variants[i % 3];
     rows.push({

@@ -10,11 +10,26 @@ export type UserStateRow = {
 };
 
 const USERNAMES = [
-  "alice_wonder", "bob_builder", "charlie_dev", "diana_designer",
-  "evan_engineer", "fiona_frontend", "george_backend", "hannah_hacker",
-  "ivan_ui", "julia_js", "kevin_kernel", "luna_ux",
-  "mike_mobile", "nina_native", "oliver_ops", "petra_product",
-  "quinn_qa", "rachel_react", "steve_scala", "tina_typescript",
+  'alice_wonder',
+  'bob_builder',
+  'charlie_dev',
+  'diana_designer',
+  'evan_engineer',
+  'fiona_frontend',
+  'george_backend',
+  'hannah_hacker',
+  'ivan_ui',
+  'julia_js',
+  'kevin_kernel',
+  'luna_ux',
+  'mike_mobile',
+  'nina_native',
+  'oliver_ops',
+  'petra_product',
+  'quinn_qa',
+  'rachel_react',
+  'steve_scala',
+  'tina_typescript',
 ];
 
 function seededRandom(seed: number): number {
@@ -29,7 +44,7 @@ export function makeUserStatesRows(count: number): UserStateRow[] {
     rows.push({
       id: `user-${i}`,
       username: USERNAMES[i % USERNAMES.length],
-      avatar: "👤",
+      avatar: '👤',
       isPremium: seededRandom(seed) > 0.7,
       isVerified: seededRandom(seed + 1) > 0.8,
       isMuted: seededRandom(seed + 2) > 0.9,

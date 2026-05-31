@@ -1,0 +1,75 @@
+{
+  "success": true,
+  "issues": [
+    {
+      "type": "file",
+      "name": "babel.config.js",
+      "file": "babel.config.js"
+    },
+    {
+      "type": "file",
+      "name": "src/lib/debug-bridge-order.ts",
+      "file": "src/lib/debug-bridge-order.ts"
+    },
+    {
+      "type": "file",
+      "name": "src/lib/ensureReactNativeRenderer.ts",
+      "file": "src/lib/ensureReactNativeRenderer.ts"
+    },
+    {
+      "type": "unlisted",
+      "name": "expo-updates",
+      "file": "app.json"
+    },
+    {
+      "type": "unlisted",
+      "name": "expo-system-ui",
+      "file": "app.json"
+    },
+    {
+      "type": "export",
+      "name": "ValidationState",
+      "file": "src/data/formValidationRows.ts",
+      "line": 1
+    }
+  ],
+  "unusedExports": [
+    {
+      "type": "export",
+      "name": "ValidationState",
+      "file": "src/data/formValidationRows.ts",
+      "line": 1
+    }
+  ],
+  "unusedFiles": [
+    {
+      "type": "file",
+      "name": "babel.config.js",
+      "file": "babel.config.js"
+    },
+    {
+      "type": "file",
+      "name": "src/lib/debug-bridge-order.ts",
+      "file": "src/lib/debug-bridge-order.ts"
+    },
+    {
+      "type": "file",
+      "name": "src/lib/ensureReactNativeRenderer.ts",
+      "file": "src/lib/ensureReactNativeRenderer.ts"
+    }
+  ],
+  "unusedDeps": [],
+  "unlistedDeps": [
+    {
+      "type": "unlisted",
+      "name": "expo-updates",
+      "file": "app.json"
+    },
+    {
+      "type": "unlisted",
+      "name": "expo-system-ui",
+      "file": "app.json"
+    }
+  ],
+  "summary": "Found 6 issues"
+}

@@ -1,18 +1,18 @@
-import { memo, useCallback, useMemo, useState } from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { memo, useCallback, useMemo, useState } from 'react';
+import { FlatList, Pressable, Text, View } from 'react-native';
 
 import {
   ListItemStateRowRN,
   ListItemStateRowUnistyles,
   ListItemStateRowUniwind,
-} from "../benchmark/listItemStatesRowViews";
-import { EngineRadioGroup } from "../components/EngineRadioGroup";
-import { RenderTimeLabel } from "../components/RenderTimeLabel";
-import { useStylingEngine } from "../context/StylingEngineContext";
-import type { ListItemStateRow } from "../data/listItemStatesRows";
-import { useFrameRateMonitor } from "../hooks/useFrameRateMonitor";
-import { useRenderMeasurement } from "../hooks/useRenderMeasurement";
-import { useListItemStatesToggle } from "../hooks/useListItemStatesToggle";
+} from '../benchmark/listItemStatesRowViews';
+import { EngineRadioGroup } from '../components/EngineRadioGroup';
+import { RenderTimeLabel } from '../components/RenderTimeLabel';
+import { useStylingEngine } from '../context/StylingEngineContext';
+import type { ListItemStateRow } from '../data/listItemStatesRows';
+import { useFrameRateMonitor } from '../hooks/useFrameRateMonitor';
+import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
+import { useListItemStatesToggle } from '../hooks/useListItemStatesToggle';
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,
@@ -44,20 +44,15 @@ const MetricsDisplay = memo(function MetricsDisplay({
         <Pressable
           onPress={onToggleStress}
           className={`rounded-lg px-3 py-1.5 ${
-            stressEnabled
-              ? "bg-red-100 dark:bg-red-900/30"
-              : "bg-gray-100 dark:bg-gray-800"
+            stressEnabled ? 'bg-red-100 dark:bg-red-900/30' : 'bg-gray-100 dark:bg-gray-800'
           }`}
         >
           <Text
             className={`text-xs font-medium ${
-              stressEnabled
-                ? "text-red-700 dark:text-red-400"
-                : "text-gray-700 dark:text-gray-300"
+              stressEnabled ? 'text-red-700 dark:text-red-400' : 'text-gray-700 dark:text-gray-300'
             }`}
           >
-            {stressEnabled ? "Stop Stress" : "Start Stress"} ({updateCount}/
-            {maxUpdates})
+            {stressEnabled ? 'Stop Stress' : 'Start Stress'} ({updateCount}/{maxUpdates})
           </Text>
         </Pressable>
       </View>
@@ -82,11 +77,11 @@ export default function ListItemStatesBenchmarkScreen() {
   const renderItem = useCallback(
     ({ item }: { item: ListItemStateRow }) => {
       switch (engine) {
-        case "stylesheet":
+        case 'stylesheet':
           return <ListItemStateRowRN item={item} />;
-        case "unistyles":
+        case 'unistyles':
           return <ListItemStateRowUnistyles item={item} />;
-        case "uniwind":
+        case 'uniwind':
           return <ListItemStateRowUniwind item={item} />;
       }
     },

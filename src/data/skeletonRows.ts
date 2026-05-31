@@ -1,24 +1,50 @@
 export type SkeletonRow =
-  | { id: string; state: "skeleton" }
+  | { id: string; state: 'skeleton' }
   | {
       id: string;
-      state: "content";
+      state: 'content';
       title: string;
       subtitle: string;
       height: number;
     };
 
 const TITLES = [
-  "Dashboard Overview", "User Profile", "Settings Panel",
-  "Analytics Report", "Activity Feed", "Notification Center",
-  "Message List", "Task Manager", "Calendar View", "File Explorer",
-  "Search Results", "Help Center", "Documentation", "Support Chat",
-  "Account Settings", "Privacy Controls", "Security Options", "Billing Info",
-  "Subscription Details", "Payment Methods", "Invoice History", "Usage Stats",
-  "API Keys", "Webhooks", "Integrations", "Connected Apps",
-  "Team Members", "Permissions", "Audit Log", "Login History",
-  "Loading content...", "Please wait...", "Fetching data...",
-  "Almost there...", "Processing request...", "Retrieving information...",
+  'Dashboard Overview',
+  'User Profile',
+  'Settings Panel',
+  'Analytics Report',
+  'Activity Feed',
+  'Notification Center',
+  'Message List',
+  'Task Manager',
+  'Calendar View',
+  'File Explorer',
+  'Search Results',
+  'Help Center',
+  'Documentation',
+  'Support Chat',
+  'Account Settings',
+  'Privacy Controls',
+  'Security Options',
+  'Billing Info',
+  'Subscription Details',
+  'Payment Methods',
+  'Invoice History',
+  'Usage Stats',
+  'API Keys',
+  'Webhooks',
+  'Integrations',
+  'Connected Apps',
+  'Team Members',
+  'Permissions',
+  'Audit Log',
+  'Login History',
+  'Loading content...',
+  'Please wait...',
+  'Fetching data...',
+  'Almost there...',
+  'Processing request...',
+  'Retrieving information...',
 ];
 
 function seededRandom(seed: number): number {
@@ -31,7 +57,7 @@ export function makeSkeletonRows(count: number): SkeletonRow[] {
   for (let i = 0; i < count; i++) {
     rows.push({
       id: `skeleton-${i}`,
-      state: "skeleton",
+      state: 'skeleton',
     });
   }
   return rows;
@@ -55,13 +81,13 @@ export function cycleSkeletonTransitions(
   return prev.map((row, idx) => {
     if (!indicesToToggle.includes(idx)) return row;
 
-    if (row.state === "skeleton") {
+    if (row.state === 'skeleton') {
       const heightSeed = seed + idx * 200;
       const height = 40 + Math.floor(seededRandom(heightSeed) * 60);
       const titleIndex = Math.floor(seededRandom(heightSeed + 1) * TITLES.length);
       return {
         id: row.id,
-        state: "content",
+        state: 'content',
         title: TITLES[titleIndex],
         subtitle: `Additional details for item ${idx + 1}`,
         height,
@@ -69,7 +95,7 @@ export function cycleSkeletonTransitions(
     } else {
       return {
         id: row.id,
-        state: "skeleton",
+        state: 'skeleton',
       };
     }
   });

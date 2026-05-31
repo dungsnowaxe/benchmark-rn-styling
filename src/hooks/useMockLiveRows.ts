@@ -1,13 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-import type { LiveRow } from "../data/liveRows";
-import { jitterRows, makeLiveRows } from "../data/liveRows";
+import type { LiveRow } from '../data/liveRows';
+import { jitterRows, makeLiveRows } from '../data/liveRows';
 
-export function useMockLiveRows(
-  rowCount: number,
-  intervalMs: number,
-  onBeforeUpdate?: () => void,
-) {
+export function useMockLiveRows(rowCount: number, intervalMs: number, onBeforeUpdate?: () => void) {
   const [tick, setTick] = useState(0);
   const [rows, setRows] = useState<LiveRow[]>(() => makeLiveRows(rowCount));
   const beforeRef = useRef(onBeforeUpdate);

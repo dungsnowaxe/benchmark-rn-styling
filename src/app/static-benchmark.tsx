@@ -1,16 +1,12 @@
-import { useCallback, useMemo } from "react";
-import { FlatList, View } from "react-native";
+import { useCallback, useMemo } from 'react';
+import { FlatList, View } from 'react-native';
 
-import {
-  StaticRowRN,
-  StaticRowUniwind,
-  StaticRowUnistyles,
-} from "../benchmark/staticRowViews";
-import { EngineRadioGroup } from "../components/EngineRadioGroup";
-import { RenderTimeLabel } from "../components/RenderTimeLabel";
-import { useStylingEngine } from "../context/StylingEngineContext";
-import { buildStaticRows, type StaticRow } from "../data/staticRows";
-import { useRenderMeasurement } from "../hooks/useRenderMeasurement";
+import { StaticRowRN, StaticRowUniwind, StaticRowUnistyles } from '../benchmark/staticRowViews';
+import { EngineRadioGroup } from '../components/EngineRadioGroup';
+import { RenderTimeLabel } from '../components/RenderTimeLabel';
+import { useStylingEngine } from '../context/StylingEngineContext';
+import { buildStaticRows, type StaticRow } from '../data/staticRows';
+import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
 
 export default function StaticBenchmarkScreen() {
   const { engine, setEngine } = useStylingEngine();
@@ -20,11 +16,11 @@ export default function StaticBenchmarkScreen() {
   const renderItem = useCallback(
     ({ item }: { item: StaticRow }) => {
       switch (engine) {
-        case "stylesheet":
+        case 'stylesheet':
           return <StaticRowRN item={item} />;
-        case "unistyles":
+        case 'unistyles':
           return <StaticRowUnistyles item={item} />;
-        case "uniwind":
+        case 'uniwind':
           return <StaticRowUniwind item={item} />;
       }
     },

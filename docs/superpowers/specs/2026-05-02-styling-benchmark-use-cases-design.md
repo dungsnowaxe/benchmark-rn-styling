@@ -34,6 +34,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **What it tests:** Style engine performance with multiple boolean flag combinations
 
 **Scenario:**
+
 - 100-item list of user profiles
 - Each row has combinations of:
   - `isPremium`, `isVerified`, `isMuted`, `hasNotification`, `isNew`
@@ -43,6 +44,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **Real-world parallel:** Social feeds, messaging apps, admin panels
 
 **File structure:**
+
 - `src/benchmark/userStatesRowViews.tsx`
 - `src/data/userStatesRows.ts`
 - `src/hooks/useUserStatesToggle.ts`
@@ -55,6 +57,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **What it tests:** Conditional style performance on form inputs
 
 **Scenario:**
+
 - 50 form fields with validation state combinations
 - States: `error`, `warning`, `success`, `disabled`, `focused`, `filled`
 - Each combination changes borders, background colors, helper text, icons
@@ -63,6 +66,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **Real-world parallel:** Registration forms, settings screens, data entry workflows
 
 **File structure:**
+
 - `src/benchmark/formValidationRowViews.tsx`
 - `src/data/formValidationRows.ts`
 - `src/hooks/useFormValidationToggle.ts`
@@ -75,6 +79,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **What it tests:** Row-level state permutations (closest to skeleton loading use case)
 
 **Scenario:**
+
 - 200-item list with row state combinations
 - States: `isSelected`, `isDisabled`, `hasUnread`, `isHighlighted`, `isLoading`, `isNew`
 - Each combination adds/removes badges, overlays, opacity changes
@@ -83,6 +88,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **Real-world parallel:** Email apps, task lists, file managers, notification feeds
 
 **File structure:**
+
 - `src/benchmark/listItemStatesRowViews.tsx`
 - `src/data/listItemStatesRows.ts`
 - `src/hooks/useListItemStatesToggle.ts`
@@ -95,6 +101,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **What it tests:** Layout thrashing during dimension changes
 
 **Scenario:**
+
 - 100 rows that transition from skeleton to actual content
 - Skeleton: Fixed dimensions (60px height), gray background with opacity pulse animation (no text content)
 - Content: Variable heights (40-100px range based on content length), actual text/images, different padding
@@ -103,6 +110,7 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 **Real-world parallel:** Loading states in feeds, detail pages, dashboards
 
 **File structure:**
+
 - `src/benchmark/skeletonTransitionRowViews.tsx`
 - `src/data/skeletonRows.ts`
 - `src/hooks/useSkeletonTransition.ts`
@@ -150,6 +158,7 @@ src/
 ### Component Pattern
 
 Each benchmark screen includes:
+
 - Engine switcher radio group (reuse existing `EngineRadioGroup`)
 - "Enable Stress Mode" toggle button
 - Metrics display (initial render, re-render, frame drops, update count)
@@ -167,6 +176,7 @@ All benchmarks will capture and display:
 4. **Update count** — Tracked within each stress mode hook
 
 **Display format:**
+
 ```
 Last render: ~8ms  |  Frame drops: 2/min  |  Updates: 145
 Stress Mode: [ENABLED]
@@ -175,6 +185,7 @@ Stress Mode: [ENABLED]
 ### Memory Profiling
 
 Memory metrics will be documented in README:
+
 - iOS: Use Xcode Instruments
 - Android: Use Android Profiler
 - No inline memory display (platform-specific complexity)
@@ -190,9 +201,9 @@ Each stress mode hook will:
 ```typescript
 interface StressModeConfig {
   enabled: boolean;
-  updateInterval: number;  // ms
+  updateInterval: number; // ms
   updatePercentage: number; // 0-1, % of rows to update
-  maxUpdates?: number;      // Safety cap
+  maxUpdates?: number; // Safety cap
 }
 ```
 

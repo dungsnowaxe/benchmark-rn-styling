@@ -3,10 +3,5 @@
   "compilerOptions": {
     "strict": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "src/uniwind-env.d.ts",
-    "src/uniwind-types.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "src/uniwind-env.d.ts", "src/uniwind-types.d.ts"]
 }
