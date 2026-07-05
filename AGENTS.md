@@ -87,3 +87,18 @@ src/
 - Benchmark row views: `src/benchmark/*RowViews.tsx` (3 exports per file)
 - Row data: `src/data/*Rows.ts`
 - Stress hooks: `src/hooks/use*Toggle.ts`
+
+## Cursor Cloud specific instructions
+
+- **Toolchain PATH gotcha**: The VM prepends `/exec-daemon` (Node v22) to `PATH`, which shadows the required Node 24. Node 24 (via nvm) and Bun 1.2.5 are pre-installed in the snapshot. Before running any `bun`/`expo`/`node` command, put them first on `PATH`:
+  ```bash
+  export PATH="$HOME/.nvm/versions/node/v24.14.1/bin:$HOME/.bun/bin:$PATH"
+  ```
+  (This is already appended to `~/.bashrc`, but non-login/non-interactive shells may still resolve the v22 binary, so re-export when in doubt. `node -v` must report `v24.14.1`.)
+- **Update script** only runs `bun install`; it does not install the toolchain (that lives in the snapshot).
+- **No device/emulator, no web**: This is a native-only app (Unistyles v3 uses a Nitro native module; Uniwind is native-only). `expo start --web`/`expo export --platform web` fail — `react-native-web` is intentionally not a dependency. There is no iOS/Android runtime here, so the real UI cannot be rendered in this VM.
+- **Headless verification that works** (no device needed):
+  - Lint: `bun run lint` (oxlint) — passes with 1 pre-existing warning.
+  - Format: `bun run format:check` (oxfmt) — currently fails only on the auto-generated `src/uniwind-types.d.ts`; this is a pre-existing/committed state, not something to "fix".
+  - Full JS build smoke test: `bunx expo export --platform android --output-dir /tmp/expo-export-android` bundles all screens + all 3 engines into a single Hermes `.hbc`.
+  - Dev server: `bun run start` (Metro, `--dev-client`). Add `CI=1` to disable watch mode in automation. Verify with `curl http://localhost:8081/status` (200) and fetch the live app bundle at `http://localhost:8081/index.bundle?platform=android&dev=true`. Note: expo-router lazily bundles route screens, so the initial `index.bundle` contains the entry + router but not per-screen text — the full `expo export` above is the bundle that contains everything.
