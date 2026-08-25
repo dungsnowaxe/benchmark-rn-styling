@@ -135,6 +135,7 @@ const results = [
   bench('Uniwind className ×100 rows', runSuite(uniwindClassName), UPDATES),
 ];
 
+// oxlint-disable-next-line no-console -- CLI microbench output
 console.log(
   JSON.stringify(
     {

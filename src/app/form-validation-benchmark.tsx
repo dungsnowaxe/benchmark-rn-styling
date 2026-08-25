@@ -62,15 +62,8 @@ const MetricsDisplay = memo(function MetricsDisplay({
 });
 
 export default function FormValidationBenchmarkScreen() {
-  const {
-    auto,
-    maxUpdates,
-    stressEnabled,
-    setStressEnabled,
-    engine,
-    setEngine,
-    onStressComplete,
-  } = useAutoBench({ defaultMaxUpdates: 100 });
+  const { auto, maxUpdates, stressEnabled, setStressEnabled, engine, setEngine, onStressComplete } =
+    useAutoBench({ defaultMaxUpdates: 100 });
 
   const { fields, updateCount } = useFormValidationToggle({
     fieldCount: 50,

@@ -62,15 +62,8 @@ const MetricsDisplay = memo(function MetricsDisplay({
 });
 
 export default function SkeletonTransitionBenchmarkScreen() {
-  const {
-    auto,
-    maxUpdates,
-    stressEnabled,
-    setStressEnabled,
-    engine,
-    setEngine,
-    onStressComplete,
-  } = useAutoBench({ defaultMaxUpdates: 100 });
+  const { auto, maxUpdates, stressEnabled, setStressEnabled, engine, setEngine, onStressComplete } =
+    useAutoBench({ defaultMaxUpdates: 100 });
 
   const { rows, updateCount } = useSkeletonTransition({
     rowCount: 100,
