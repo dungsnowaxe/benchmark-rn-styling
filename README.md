@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="#benchmarks">7 Benchmarks</a> · <a href="#stress-mode">Stress Testing</a> · <a href="#metrics-display">FPS & Frame Drops</a> · <a href="#quick-start">Quick Start</a>
+  <a href="#latest-report-sdk-56">Latest Report</a> · <a href="#benchmarks">7 Benchmarks</a> · <a href="#stress-mode">Stress Testing</a> · <a href="#quick-start">Quick Start</a>
 </p>
 
 <p align="center">
@@ -30,6 +30,69 @@ This app runs the **same UI** through three styling engines on the **same device
 | **[Uniwind](https://uniwind.dev/)**                      | Tailwind-style `className` on native, Metro-processed CSS. A NativeWind alternative. |
 
 Switch engines with a radio group on each screen. Render times, FPS, and frame drops update live.
+
+---
+
+## Latest Report (SDK 56)
+
+_Collected 2026-08-25 during the Expo SDK 56 upgrade. On-device FPS still needs a physical device or a working emulator; nested-virt Android emulators in CI did not finish booting._
+
+### Build matrix
+
+| Check                            | Android                              | iOS                                |
+| -------------------------------- | ------------------------------------ | ---------------------------------- |
+| Hermes JS export (`expo export`) | Pass (4.2 MB `.hbc`)                 | Pass (4.0 MB `.hbc`)               |
+| Native project (`expo prebuild`) | Pass                                 | Pass                               |
+| Release native build             | Pass (`assembleRelease` APK ~100 MB) | Not run here (Linux VM / no Xcode) |
+| Lint (`bun run lint`)            | Pass (1 pre-existing warning)        | —                                  |
+
+### Stack under test
+
+| Package                            | Version       |
+| ---------------------------------- | ------------- |
+| Expo SDK                           | 56.0.20       |
+| React Native                       | 0.85.3        |
+| React                              | 19.2.3        |
+| expo-router                        | 56.2.19       |
+| react-native-unistyles             | 3.2.5         |
+| Uniwind                            | 1.10.0        |
+| react-native-reanimated / worklets | 4.3.1 / 0.8.3 |
+| TypeScript                         | 6.0.3         |
+
+Notes:
+
+- Expo Go is **not** on the App Store / Play Store for SDK 56 — use a development or release build.
+- `expo-doctor` warns about a known **Hermes V1 memory regression** when `react-native-reanimated` / `react-native-worklets` are present. Upstream fix is Expo SDK 57 (`expo@≥57.0.9`). This app stays on SDK 56 as requested.
+- Android Gradle 9 + JDK-less hosts need the bundled patch bumping `foojay-resolver-convention` to `1.0.0` (see `patches/`).
+
+### JS style microbench (headless)
+
+Approximates JS work for the **user-states** shape (100 rows recomputed × 1000 stress updates). Does **not** include native layout, Yoga, or paint.
+
+| Engine path                        | Total (avg of 5) | Per update |
+| ---------------------------------- | ---------------- | ---------- |
+| StyleSheet resolve (array compose) | 9.03 ms          | 9.03 µs    |
+| Unistyles-like object merge        | 10.25 ms         | 10.25 µs   |
+| Uniwind `className` string join    | 19.75 ms         | 19.75 µs   |
+
+```bash
+bun scripts/microbench-styles.ts
+```
+
+### On-device FPS (release)
+
+Use a release APK/IPA and the auto-bench deep links (cycles StyleSheet → Unistyles → Uniwind):
+
+```bash
+# After installing a release build on a device/emulator:
+MAX_UPDATES=100 ./scripts/collect-android-benchmarks.sh \
+  android/app/build/outputs/apk/release/app-release.apk \
+  ./benchmark-reports.jsonl
+```
+
+Deep link shape: `acme://user-states-benchmark?auto=1&maxUpdates=100` (also works for `form-validation`, `list-item-states`, `skeleton-transition`). Metrics are emitted as `BENCHMARK_REPORT …` lines on the JS console / logcat.
+
+Fill the comparison table below from that JSONL (or from the on-screen HUD).
 
 ---
 
@@ -66,7 +129,8 @@ bunx expo start
 **iOS:** `npx expo run:ios`  
 **Android:** `npx expo run:android`
 
-> Entry point loads `@expo/metro-runtime` → Unistyles `StyleSheet.configure` → Expo Router. That order avoids native bridge timing issues with `RCTEventEmitter` on iOS.
+> SDK 56 requires a **development build** (Expo Go is not on the stores). Entry order: gesture-handler → Unistyles configure → Expo Router.
+> Android release: `cd android && ./gradlew assembleRelease` after `npx expo prebuild -p android` (needs JDK 17).
 
 ---
 
@@ -134,21 +198,22 @@ The **realtime** and **realtime flash** screens can connect to a public Binance 
 
 | Package                                                   | Version |
 | --------------------------------------------------------- | ------- |
-| [Expo SDK](https://docs.expo.dev/)                        | ~56     |
-| [expo-router](https://docs.expo.dev/router/introduction/) | ~6.0    |
-| [React](https://react.dev/)                               | 19.2    |
+| [Expo SDK](https://docs.expo.dev/)                        | 56.0.20 |
+| [expo-router](https://docs.expo.dev/router/introduction/) | 56.2.19 |
+| [React](https://react.dev/)                               | 19.2.3  |
 | [React Native](https://reactnative.dev/)                  | 0.85.3  |
-| [react-native-unistyles](https://www.unistyl.es/)         | 3.2.2   |
-| [Uniwind](https://uniwind.dev/)                           | ~1.0    |
-| [TypeScript](https://www.typescriptlang.org/)             | ~6.0    |
+| [react-native-unistyles](https://www.unistyl.es/)         | 3.2.5   |
+| [Uniwind](https://uniwind.dev/)                           | 1.10.0  |
+| [TypeScript](https://www.typescriptlang.org/)             | ~6.0.3  |
 
 Package manager: **Bun** (`bun.lock`). Works with `npm`/`yarn` too.
 
 ### Config notes
 
-- **`babel.config.js`** — `react-native-unistyles/plugin` with `root: 'src'`
+- **`babel.config.js`** — `react-native-unistyles/plugin` with `root: 'src'` (Reanimated/Worklets plugins come from `babel-preset-expo` when those packages are installed)
 - **`metro.config.js`** — Uniwind (`withUniwindConfig`, `src/global.css`)
-- **`index.ts`** — Loads `@expo/metro-runtime` before Unistyles config to avoid `RCTEventEmitter` timing issues on iOS
+- **`index.ts`** — `react-native-gesture-handler` → Unistyles configure → `expo-router/entry` (Unistyles before router avoids `RCTEventEmitter` timing issues on iOS)
+- **`patches/`** — `@react-native/gradle-plugin` foojay resolver `1.0.0` for Gradle 9 Android builds
 
 ---
 
