@@ -34,14 +34,20 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
       return;
     }
 
-    if (updateCount >= maxUpdates) {
-      return;
-    }
+    setUpdatesCount(0);
+    seedRef.current = 0;
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
       setRows((prev) => cycleSkeletonTransitions(prev, updatePercentage, seedRef.current));
-      setUpdatesCount((c) => c + 1);
+      setUpdatesCount((c) => {
+        const next = c + 1;
+        if (next >= maxUpdates && intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        return next;
+      });
     }, updateInterval);
 
     return () => {
@@ -49,7 +55,7 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [enabled, updateInterval, updatePercentage, updateCount, maxUpdates]);
+  }, [enabled, updateInterval, updatePercentage, maxUpdates]);
 
   return { rows, updateCount, maxUpdates };
 }

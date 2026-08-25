@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 
 import {
@@ -8,8 +8,9 @@ import {
 } from '../benchmark/skeletonTransitionRowViews';
 import { EngineRadioGroup } from '../components/EngineRadioGroup';
 import { RenderTimeLabel } from '../components/RenderTimeLabel';
-import { useStylingEngine } from '../context/StylingEngineContext';
 import type { SkeletonRow } from '../data/skeletonRows';
+import { useAutoBench } from '../hooks/useAutoBench';
+import { useBenchmarkReporter } from '../hooks/useBenchmarkReporter';
 import { useFrameRateMonitor } from '../hooks/useFrameRateMonitor';
 import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
 import { useSkeletonTransition } from '../hooks/useSkeletonTransition';
@@ -61,18 +62,43 @@ const MetricsDisplay = memo(function MetricsDisplay({
 });
 
 export default function SkeletonTransitionBenchmarkScreen() {
-  const { engine, setEngine } = useStylingEngine();
-  const [stressEnabled, setStressEnabled] = useState(false);
+  const {
+    auto,
+    maxUpdates,
+    stressEnabled,
+    setStressEnabled,
+    engine,
+    setEngine,
+    onStressComplete,
+  } = useAutoBench({ defaultMaxUpdates: 100 });
 
-  const { rows, updateCount, maxUpdates } = useSkeletonTransition({
+  const { rows, updateCount } = useSkeletonTransition({
     rowCount: 100,
     updateInterval: 300,
     updatePercentage: 0.25,
     enabled: stressEnabled,
+    maxUpdates,
   });
 
   const { lastMs, markStart } = useRenderMeasurement(engine, updateCount);
   const { fps, dropsPerMinute } = useFrameRateMonitor(stressEnabled);
+
+  useBenchmarkReporter({
+    benchmark: 'skeleton-transition',
+    engine,
+    lastMs,
+    fps,
+    dropsPerMinute,
+    updateCount,
+    maxUpdates,
+    stressEnabled,
+  });
+
+  useEffect(() => {
+    if (auto && updateCount >= maxUpdates && maxUpdates > 0) {
+      onStressComplete();
+    }
+  }, [auto, updateCount, maxUpdates, onStressComplete]);
 
   const renderItem = useCallback(
     ({ item }: { item: SkeletonRow }) => {
@@ -83,6 +109,10 @@ export default function SkeletonTransitionBenchmarkScreen() {
           return <SkeletonTransitionRowUnistyles item={item} />;
         case 'uniwind':
           return <SkeletonTransitionRowUniwind item={item} />;
+        default: {
+          const exhaustiveCheck: never = engine;
+          return exhaustiveCheck;
+        }
       }
     },
     [engine],

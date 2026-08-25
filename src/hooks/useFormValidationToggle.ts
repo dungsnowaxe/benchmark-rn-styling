@@ -35,14 +35,20 @@ export function useFormValidationToggle(config: UseFormValidationToggleConfig) {
       return;
     }
 
-    if (updateCount >= maxUpdates) {
-      return;
-    }
+    setUpdatesCount(0);
+    seedRef.current = 0;
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
       setFields((prev) => cycleFormValidationStates(prev, seedRef.current));
-      setUpdatesCount((c) => c + 1);
+      setUpdatesCount((c) => {
+        const next = c + 1;
+        if (next >= maxUpdates && intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        return next;
+      });
     }, updateInterval);
 
     return () => {
@@ -50,7 +56,7 @@ export function useFormValidationToggle(config: UseFormValidationToggleConfig) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [enabled, updateInterval, updateCount, maxUpdates]);
+  }, [enabled, updateInterval, maxUpdates]);
 
   return { fields, updateCount, maxUpdates };
 }

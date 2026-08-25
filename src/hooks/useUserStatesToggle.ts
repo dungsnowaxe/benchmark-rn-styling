@@ -34,14 +34,21 @@ export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
       return;
     }
 
-    if (updateCount >= maxUpdates) {
-      return;
-    }
+    // Fresh stress run whenever stress is (re)enabled.
+    setUpdatesCount(0);
+    seedRef.current = 0;
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
       setRows((prev) => toggleUserStates(prev, updatePercentage, seedRef.current));
-      setUpdatesCount((c) => c + 1);
+      setUpdatesCount((c) => {
+        const next = c + 1;
+        if (next >= maxUpdates && intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        return next;
+      });
     }, updateInterval);
 
     return () => {
@@ -49,7 +56,7 @@ export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [enabled, updateInterval, updatePercentage, updateCount, maxUpdates]);
+  }, [enabled, updateInterval, updatePercentage, maxUpdates]);
 
   return { rows, updateCount, maxUpdates };
 }

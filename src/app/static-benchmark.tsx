@@ -6,12 +6,24 @@ import { EngineRadioGroup } from '../components/EngineRadioGroup';
 import { RenderTimeLabel } from '../components/RenderTimeLabel';
 import { useStylingEngine } from '../context/StylingEngineContext';
 import { buildStaticRows, type StaticRow } from '../data/staticRows';
+import { useBenchmarkReporter } from '../hooks/useBenchmarkReporter';
 import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
 
 export default function StaticBenchmarkScreen() {
   const { engine, setEngine } = useStylingEngine();
   const { lastMs, markStart } = useRenderMeasurement(engine);
   const data = useMemo(() => buildStaticRows(96), []);
+
+  useBenchmarkReporter({
+    benchmark: 'static',
+    engine,
+    lastMs,
+    fps: 60,
+    dropsPerMinute: 0,
+    updateCount: 0,
+    maxUpdates: 0,
+    stressEnabled: false,
+  });
 
   const renderItem = useCallback(
     ({ item }: { item: StaticRow }) => {
@@ -22,6 +34,10 @@ export default function StaticBenchmarkScreen() {
           return <StaticRowUnistyles item={item} />;
         case 'uniwind':
           return <StaticRowUniwind item={item} />;
+        default: {
+          const exhaustiveCheck: never = engine;
+          return exhaustiveCheck;
+        }
       }
     },
     [engine],
