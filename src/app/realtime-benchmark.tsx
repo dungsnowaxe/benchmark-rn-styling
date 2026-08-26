@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useRef } from 'react';
 import { FlatList, Text, View } from 'react-native';
 
-import { LiveRowRN, LiveRowUniwind, LiveRowUnistyles } from '../benchmark/realtimeRowViews';
-import { EngineRadioGroup } from '../components/EngineRadioGroup';
-import { RenderTimeLabel } from '../components/RenderTimeLabel';
-import { useStylingEngine } from '../context/StylingEngineContext';
-import type { LiveRow } from '../data/liveRows';
-import { useBinanceBtcTicker } from '../hooks/useBinanceBtcTicker';
-import { useMockLiveRows } from '../hooks/useMockLiveRows';
-import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
+import { LiveRowRN, LiveRowUniwind, LiveRowUnistyles } from '../benchmark/realtime-row-views';
+import { EngineRadioGroup } from '../components/engine-radio-group';
+import { RenderTimeLabel } from '../components/render-time-label';
+import { useStylingEngine } from '../context/styling-engine-context';
+import type { LiveRow } from '../data/live-rows';
+import { useBinanceBtcTicker } from '../hooks/use-binance-btc-ticker';
+import { useMockLiveRows } from '../hooks/use-mock-live-rows';
+import { useRenderMeasurement } from '../hooks/use-render-measurement';
 
 export default function RealtimeBenchmarkScreen() {
   const { engine, setEngine } = useStylingEngine();

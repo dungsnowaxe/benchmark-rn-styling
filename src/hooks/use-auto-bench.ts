@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 
-import type { StylingEngine } from '../context/StylingEngineContext';
-import { useStylingEngine } from '../context/StylingEngineContext';
+import type { StylingEngine } from '../context/styling-engine-context';
+import { useStylingEngine } from '../context/styling-engine-context';
 
 const ENGINES: StylingEngine[] = ['stylesheet', 'unistyles', 'uniwind'];
 

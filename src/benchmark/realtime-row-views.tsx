@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { StyleSheet as UnistylesSheet } from 'react-native-unistyles';
 
-import type { LiveRow } from '../data/liveRows';
+import type { LiveRow } from '../data/live-rows';
 
 const hairline = StyleSheet.hairlineWidth;
 

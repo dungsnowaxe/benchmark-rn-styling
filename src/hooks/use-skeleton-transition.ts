@@ -1,30 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { FormValidationRow } from '../data/formValidationRows';
-import { cycleFormValidationStates, makeFormValidationRows } from '../data/formValidationRows';
+import type { SkeletonRow } from '../data/skeleton-rows';
+import { cycleSkeletonTransitions, makeSkeletonRows } from '../data/skeleton-rows';
 
-interface UseFormValidationToggleConfig {
-  fieldCount: number;
+interface UseSkeletonTransitionConfig {
+  rowCount: number;
   updateInterval: number;
+  updatePercentage: number;
   enabled: boolean;
   maxUpdates?: number;
 }
 
-export function useFormValidationToggle(config: UseFormValidationToggleConfig) {
-  const { fieldCount, updateInterval, enabled, maxUpdates = 1000 } = config;
+export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
+  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [fields, setFields] = useState<FormValidationRow[]>(() =>
-    makeFormValidationRows(fieldCount),
-  );
+  const [rows, setRows] = useState<SkeletonRow[]>(() => makeSkeletonRows(rowCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setFields(makeFormValidationRows(fieldCount));
+    setRows(makeSkeletonRows(rowCount));
     setUpdatesCount(0);
     seedRef.current = 0;
-  }, [fieldCount]);
+  }, [rowCount]);
 
   useEffect(() => {
     if (!enabled) {
@@ -40,7 +39,7 @@ export function useFormValidationToggle(config: UseFormValidationToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setFields((prev) => cycleFormValidationStates(prev, seedRef.current));
+      setRows((prev) => cycleSkeletonTransitions(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => {
         const next = c + 1;
         if (next >= maxUpdates && intervalRef.current) {
@@ -56,7 +55,7 @@ export function useFormValidationToggle(config: UseFormValidationToggleConfig) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [enabled, updateInterval, maxUpdates]);
+  }, [enabled, updateInterval, updatePercentage, maxUpdates]);
 
-  return { fields, updateCount, maxUpdates };
+  return { rows, updateCount, maxUpdates };
 }

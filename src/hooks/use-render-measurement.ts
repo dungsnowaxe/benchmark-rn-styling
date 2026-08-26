@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 
-import type { StylingEngine } from '../context/StylingEngineContext';
+import type { StylingEngine } from '../context/styling-engine-context';
 
 /**
  * Approximate time from `markStart()` (call before setState) to after commit.

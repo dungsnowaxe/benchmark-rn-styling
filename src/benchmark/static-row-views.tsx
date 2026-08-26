@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { StyleSheet as UnistylesSheet } from 'react-native-unistyles';
 
-import type { StaticRow } from '../data/staticRows';
+import type { StaticRow } from '../data/static-rows';
 
 const hairline = StyleSheet.hairlineWidth;
 

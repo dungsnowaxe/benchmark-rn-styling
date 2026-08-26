@@ -1,29 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { SkeletonRow } from '../data/skeletonRows';
-import { cycleSkeletonTransitions, makeSkeletonRows } from '../data/skeletonRows';
+import type { ListItemStateRow } from '../data/list-item-states-rows';
+import { makeListItemStatesRows, toggleListItemStates } from '../data/list-item-states-rows';
 
-interface UseSkeletonTransitionConfig {
-  rowCount: number;
+interface UseListItemStatesToggleConfig {
+  itemCount: number;
   updateInterval: number;
   updatePercentage: number;
   enabled: boolean;
   maxUpdates?: number;
 }
 
-export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
-  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
+export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
+  const { itemCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [rows, setRows] = useState<SkeletonRow[]>(() => makeSkeletonRows(rowCount));
+  const [items, setItems] = useState<ListItemStateRow[]>(() => makeListItemStatesRows(itemCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setRows(makeSkeletonRows(rowCount));
+    setItems(makeListItemStatesRows(itemCount));
     setUpdatesCount(0);
     seedRef.current = 0;
-  }, [rowCount]);
+  }, [itemCount]);
 
   useEffect(() => {
     if (!enabled) {
@@ -39,7 +39,7 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setRows((prev) => cycleSkeletonTransitions(prev, updatePercentage, seedRef.current));
+      setItems((prev) => toggleListItemStates(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => {
         const next = c + 1;
         if (next >= maxUpdates && intervalRef.current) {
@@ -57,5 +57,5 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
     };
   }, [enabled, updateInterval, updatePercentage, maxUpdates]);
 
-  return { rows, updateCount, maxUpdates };
+  return { items, updateCount, maxUpdates };
 }

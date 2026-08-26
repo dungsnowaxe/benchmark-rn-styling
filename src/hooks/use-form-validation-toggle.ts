@@ -1,29 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { ListItemStateRow } from '../data/listItemStatesRows';
-import { makeListItemStatesRows, toggleListItemStates } from '../data/listItemStatesRows';
+import type { FormValidationRow } from '../data/form-validation-rows';
+import { cycleFormValidationStates, makeFormValidationRows } from '../data/form-validation-rows';
 
-interface UseListItemStatesToggleConfig {
-  itemCount: number;
+interface UseFormValidationToggleConfig {
+  fieldCount: number;
   updateInterval: number;
-  updatePercentage: number;
   enabled: boolean;
   maxUpdates?: number;
 }
 
-export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
-  const { itemCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
+export function useFormValidationToggle(config: UseFormValidationToggleConfig) {
+  const { fieldCount, updateInterval, enabled, maxUpdates = 1000 } = config;
 
-  const [items, setItems] = useState<ListItemStateRow[]>(() => makeListItemStatesRows(itemCount));
+  const [fields, setFields] = useState<FormValidationRow[]>(() =>
+    makeFormValidationRows(fieldCount),
+  );
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setItems(makeListItemStatesRows(itemCount));
+    setFields(makeFormValidationRows(fieldCount));
     setUpdatesCount(0);
     seedRef.current = 0;
-  }, [itemCount]);
+  }, [fieldCount]);
 
   useEffect(() => {
     if (!enabled) {
@@ -39,7 +40,7 @@ export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setItems((prev) => toggleListItemStates(prev, updatePercentage, seedRef.current));
+      setFields((prev) => cycleFormValidationStates(prev, seedRef.current));
       setUpdatesCount((c) => {
         const next = c + 1;
         if (next >= maxUpdates && intervalRef.current) {
@@ -55,7 +56,7 @@ export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [enabled, updateInterval, updatePercentage, maxUpdates]);
+  }, [enabled, updateInterval, maxUpdates]);
 
-  return { items, updateCount, maxUpdates };
+  return { fields, updateCount, maxUpdates };
 }

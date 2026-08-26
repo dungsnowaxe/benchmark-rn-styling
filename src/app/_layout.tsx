@@ -2,7 +2,7 @@ import '../global.css';
 
 import { Stack } from 'expo-router';
 
-import { StylingEngineProvider } from '../context/StylingEngineContext';
+import { StylingEngineProvider } from '../context/styling-engine-context';
 
 // #region agent log
 fetch('http://127.0.0.1:7515/ingest/4838cb07-8a72-4146-a32f-c2a545694663', {

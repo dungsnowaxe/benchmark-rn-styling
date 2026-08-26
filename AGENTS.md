@@ -55,11 +55,11 @@ src/
   lib/
     unistyles.ts             → Unistyles theme + breakpoint config + StyleSheet.configure
   context/
-    StylingEngineContext.tsx → radio-group state ("stylesheet" | "unistyles" | "uniwind")
+    styling-engine-context.tsx → radio-group state ("stylesheet" | "unistyles" | "uniwind")
   benchmark/                 → per-engine row render components for each benchmark
   data/                      → static row data generators
   hooks/                     → stress-mode hooks, FPS monitoring, Binance WS, etc.
-  components/                → shared UI (EngineRadioGroup, AnimatedFlashPad, etc.)
+  components/                → shared UI (engine-radio-group, animated-flash-pad, etc.)
   global.css                 → @import "tailwindcss"; @import "uniwind";
   uniwind-env.d.ts           → Uniwind type declarations
   uniwind-types.d.ts         → generated Uniwind CSS type declarations (auto-updated by Metro)
@@ -67,8 +67,9 @@ src/
 
 ## Key conventions
 
+- **Filenames are kebab-case** (Expo SDK 55+ default). Exports stay PascalCase / camelCase (`EngineRadioGroup` in `engine-radio-group.tsx`). Enforced by `unicorn/filename-case` in `.oxlintrc.json`. Exceptions: Expo Router `_layout.tsx` / `+*` / `index.*`, and `*.d.ts`.
 - **Three styling variants per benchmark**: each benchmark screen renders rows using all three engines, switched by `StylingEngineContext`.
-- **Benchmark row files** (`src/benchmark/*RowViews.tsx`) export three components — one per engine — for a single benchmark type.
+- **Benchmark row files** (`src/benchmark/*-row-views.tsx`) export three components — one per engine — for a single benchmark type.
 - **Uniwind** uses `className` props (Tailwind classes), configured via `metro.config.js` (`withUniwindConfig`) with `cssEntryFile: "./src/global.css"`.
 - **Unistyles** uses Babel plugin (`react-native-unistyles/plugin`, `root: 'src'`) for build-time StyleSheet processing.
 - **`_layout.tsx`** imports `../global.css` as its first line — required for Uniwind to initialize.
@@ -84,9 +85,10 @@ src/
 ## File patterns
 
 - Benchmark screens: `src/app/*-benchmark.tsx`
-- Benchmark row views: `src/benchmark/*RowViews.tsx` (3 exports per file)
-- Row data: `src/data/*Rows.ts`
-- Stress hooks: `src/hooks/use*Toggle.ts`
+- Benchmark row views: `src/benchmark/*-row-views.tsx` (3 exports per file)
+- Row data: `src/data/*-rows.ts`
+- Stress hooks: `src/hooks/use-*-toggle.ts`
+- Shared components: `src/components/*.tsx` (kebab-case files, PascalCase exports)
 
 ## Cursor Cloud specific instructions
 

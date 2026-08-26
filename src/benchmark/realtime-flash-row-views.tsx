@@ -2,10 +2,10 @@ import { memo } from 'react';
 import { type ColorSchemeName, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import { StyleSheet as UnistylesSheet, useUnistyles } from 'react-native-unistyles';
 
-import { AnimatedFlashPad } from '../components/AnimatedFlashPad';
-import type { LiveRow } from '../data/liveRows';
-import type { Direction } from '../hooks/useFieldDirectionFlashes';
-import { useFieldDirectionFlashes } from '../hooks/useFieldDirectionFlashes';
+import { AnimatedFlashPad } from '../components/animated-flash-pad';
+import type { LiveRow } from '../data/live-rows';
+import type { Direction } from '../hooks/use-field-direction-flashes';
+import { useFieldDirectionFlashes } from '../hooks/use-field-direction-flashes';
 
 const hairline = StyleSheet.hairlineWidth;
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import type { StylingEngine } from '../context/StylingEngineContext';
+import type { StylingEngine } from '../context/styling-engine-context';
 
 type BenchmarkReport = {
   benchmark: string;

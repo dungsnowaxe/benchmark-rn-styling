@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { UserStateRow } from '../data/userStatesRows';
-import { makeUserStatesRows, toggleUserStates } from '../data/userStatesRows';
+import type { UserStateRow } from '../data/user-states-rows';
+import { makeUserStatesRows, toggleUserStates } from '../data/user-states-rows';
 
 interface UseUserStatesToggleConfig {
   rowCount: number;

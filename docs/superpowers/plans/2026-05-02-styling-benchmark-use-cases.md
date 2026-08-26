@@ -15,21 +15,21 @@
 ```
 src/
 ├── benchmark/
-│   ├── userStatesRowViews.tsx           # 3 engine variants for user state rows
-│   ├── formValidationRowViews.tsx       # 3 engine variants for form field rows
-│   ├── listItemStatesRowViews.tsx       # 3 engine variants for list item rows
-│   └── skeletonTransitionRowViews.tsx   # 3 engine variants for skeleton rows
+│   ├── user-states-row-views.tsx           # 3 engine variants for user state rows
+│   ├── form-validation-row-views.tsx       # 3 engine variants for form field rows
+│   ├── list-item-states-row-views.tsx       # 3 engine variants for list item rows
+│   └── skeleton-transition-row-views.tsx   # 3 engine variants for skeleton rows
 ├── data/
-│   ├── userStatesRows.ts                # Mock user profile data with flags
-│   ├── formValidationRows.ts            # Mock form field data with states
-│   ├── listItemStatesRows.ts            # Mock list item data with states
-│   └── skeletonRows.ts                  # Mock skeleton/content data
+│   ├── user-states-rows.ts                # Mock user profile data with flags
+│   ├── form-validation-rows.ts            # Mock form field data with states
+│   ├── list-item-states-rows.ts            # Mock list item data with states
+│   └── skeleton-rows.ts                  # Mock skeleton/content data
 ├── hooks/
-│   ├── useFrameRateMonitor.ts           # Frame drop detection (shared)
-│   ├── useUserStatesToggle.ts           # Stress mode for user states
-│   ├── useFormValidationToggle.ts       # Stress mode for form validation
-│   ├── useListItemStatesToggle.ts       # Stress mode for list item states
-│   └── useSkeletonTransition.ts         # Stress mode for skeleton transitions
+│   ├── use-frame-rate-monitor.ts           # Frame drop detection (shared)
+│   ├── use-user-states-toggle.ts           # Stress mode for user states
+│   ├── use-form-validation-toggle.ts       # Stress mode for form validation
+│   ├── use-list-item-states-toggle.ts       # Stress mode for list item states
+│   └── use-skeleton-transition.ts         # Stress mode for skeleton transitions
 └── app/
     ├── user-states-benchmark.tsx        # User states benchmark screen
     ├── form-validation-benchmark.tsx    # Form validation benchmark screen
@@ -44,7 +44,7 @@ src/
 
 **Files:**
 
-- Create: `src/hooks/useFrameRateMonitor.ts`
+- Create: `src/hooks/use-frame-rate-monitor.ts`
 
 - [ ] **Step 1: Write the hook implementation**
 
@@ -124,7 +124,7 @@ export function useFrameRateMonitor(enabled: boolean) {
 - [ ] **Step 2: Commit the frame rate monitor hook**
 
 ```bash
-git add src/hooks/useFrameRateMonitor.ts
+git add src/hooks/use-frame-rate-monitor.ts
 git commit -m "feat: add frame rate monitoring hook
 
 Track FPS, frame drops per minute, and dropping state for benchmark metrics.
@@ -139,13 +139,13 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/data/userStatesRows.ts`
-- Create: `src/benchmark/userStatesRowViews.tsx`
+- Create: `src/data/user-states-rows.ts`
+- Create: `src/benchmark/user-states-row-views.tsx`
 
 - [ ] **Step 1: Create user states data types and generators**
 
 ```typescript
-// src/data/userStatesRows.ts
+// src/data/user-states-rows.ts
 
 export type UserStateRow = {
   id: string;
@@ -239,13 +239,13 @@ export function toggleUserStates(
 - [ ] **Step 2: Create user states row components (3 engine variants)**
 
 ```typescript
-// src/benchmark/userStatesRowViews.tsx
+// src/benchmark/user-states-row-views.tsx
 
 import { memo } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { StyleSheet as UnistylesSheet, useUnistyles } from "react-native-unistyles";
 
-import type { UserStateRow } from "../data/userStatesRows";
+import type { UserStateRow } from "../data/user-states-rows";
 
 const hairline = StyleSheet.hairlineWidth;
 
@@ -538,7 +538,7 @@ export { UserStateRowUniwindMemo as UserStateRowUniwind };
 - [ ] **Step 3: Commit user states data and row components**
 
 ```bash
-git add src/data/userStatesRows.ts src/benchmark/userStatesRowViews.tsx
+git add src/data/user-states-rows.ts src/benchmark/user-states-row-views.tsx
 git commit -m "feat: add user states benchmark data and row components
 
 - Add UserStateRow type with 5 boolean flags (premium, verified, muted, notification, new)
@@ -555,15 +555,15 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/hooks/useUserStatesToggle.ts`
+- Create: `src/hooks/use-user-states-toggle.ts`
 
 - [ ] **Step 1: Implement stress mode hook**
 
 ```typescript
 import { useEffect, useRef, useState } from 'react';
 
-import type { UserStateRow } from '../data/userStatesRows';
-import { makeUserStatesRows, toggleUserStates } from '../data/userStatesRows';
+import type { UserStateRow } from '../data/user-states-rows';
+import { makeUserStatesRows, toggleUserStates } from '../data/user-states-rows';
 
 interface UseUserStatesToggleConfig {
   rowCount: number;
@@ -622,7 +622,7 @@ export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
 - [ ] **Step 2: Commit stress mode hook**
 
 ```bash
-git add src/hooks/useUserStatesToggle.ts
+git add src/hooks/use-user-states-toggle.ts
 git commit -m "feat: add user states stress mode hook
 
 Implements deterministic state toggling for benchmark stress testing.
@@ -649,13 +649,13 @@ import {
   UserStateRowRN,
   UserStateRowUnistyles,
   UserStateRowUniwind,
-} from "../benchmark/userStatesRowViews";
-import { EngineRadioGroup } from "../components/EngineRadioGroup";
-import { RenderTimeLabel } from "../components/RenderTimeLabel";
-import { useStylingEngine } from "../context/StylingEngineContext";
-import { useRenderMeasurement } from "../hooks/useRenderMeasurement";
-import { useFrameRateMonitor } from "../hooks/useFrameRateMonitor";
-import { useUserStatesToggle } from "../hooks/useUserStatesToggle";
+} from "../benchmark/user-states-row-views";
+import { EngineRadioGroup } from "../components/engine-radio-group";
+import { RenderTimeLabel } from "../components/render-time-label";
+import { useStylingEngine } from "../context/styling-engine-context";
+import { useRenderMeasurement } from "../hooks/use-render-measurement";
+import { useFrameRateMonitor } from "../hooks/use-frame-rate-monitor";
+import { useUserStatesToggle } from "../hooks/use-user-states-toggle";
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,
@@ -771,7 +771,7 @@ export default function UserStatesBenchmarkScreen() {
 ```typescript
 // Add to imports at top of file
 import { useState } from 'react';
-import type { UserStateRow } from '../data/userStatesRows';
+import type { UserStateRow } from '../data/user-states-rows';
 ```
 
 - [ ] **Step 3: Commit benchmark screen**
@@ -832,13 +832,13 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/data/formValidationRows.ts`
-- Create: `src/benchmark/formValidationRowViews.tsx`
+- Create: `src/data/form-validation-rows.ts`
+- Create: `src/benchmark/form-validation-row-views.tsx`
 
 - [ ] **Step 1: Create form validation data types and generators**
 
 ```typescript
-// src/data/formValidationRows.ts
+// src/data/form-validation-rows.ts
 
 export type ValidationState = 'error' | 'warning' | 'success' | 'disabled' | 'focused' | 'filled';
 
@@ -976,13 +976,13 @@ export function cycleFormValidationStates(
 - [ ] **Step 2: Create form validation row components (3 engine variants)**
 
 ```typescript
-// src/benchmark/formValidationRowViews.tsx
+// src/benchmark/form-validation-row-views.tsx
 
 import { memo } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { StyleSheet as UnistylesSheet, useUnistyles } from "react-native-unistyles";
 
-import type { FormValidationRow } from "../data/formValidationRows";
+import type { FormValidationRow } from "../data/form-validation-rows";
 
 const hairline = StyleSheet.hairlineWidth;
 
@@ -1238,7 +1238,7 @@ export { FormValidationRowUniwindMemo as FormValidationRowUniwind };
 - [ ] **Step 3: Commit form validation data and row components**
 
 ```bash
-git add src/data/formValidationRows.ts src/benchmark/formValidationRowViews.tsx
+git add src/data/form-validation-rows.ts src/benchmark/form-validation-row-views.tsx
 git commit -m "feat: add form validation benchmark data and row components
 
 - Add FormValidationRow type with 6 validation states
@@ -1254,18 +1254,18 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/hooks/useFormValidationToggle.ts`
+- Create: `src/hooks/use-form-validation-toggle.ts`
 - Create: `src/app/form-validation-benchmark.tsx`
 
 - [ ] **Step 1: Implement stress mode hook**
 
 ```typescript
-// src/hooks/useFormValidationToggle.ts
+// src/hooks/use-form-validation-toggle.ts
 
 import { useEffect, useRef, useState } from 'react';
 
-import type { FormValidationRow } from '../data/formValidationRows';
-import { cycleFormValidationStates, makeFormValidationRows } from '../data/formValidationRows';
+import type { FormValidationRow } from '../data/form-validation-rows';
+import { cycleFormValidationStates, makeFormValidationRows } from '../data/form-validation-rows';
 
 interface UseFormValidationToggleConfig {
   fieldCount: number;
@@ -1332,13 +1332,13 @@ import {
   FormValidationRowRN,
   FormValidationRowUnistyles,
   FormValidationRowUniwind,
-} from "../benchmark/formValidationRowViews";
-import { EngineRadioGroup } from "../components/EngineRadioGroup";
-import { RenderTimeLabel } from "../components/RenderTimeLabel";
-import { useStylingEngine } from "../context/StylingEngineContext";
-import { useRenderMeasurement } from "../hooks/useRenderMeasurement";
-import { useFrameRateMonitor } from "../hooks/useFrameRateMonitor";
-import { useFormValidationToggle } from "../hooks/useFormValidationToggle";
+} from "../benchmark/form-validation-row-views";
+import { EngineRadioGroup } from "../components/engine-radio-group";
+import { RenderTimeLabel } from "../components/render-time-label";
+import { useStylingEngine } from "../context/styling-engine-context";
+import { useRenderMeasurement } from "../hooks/use-render-measurement";
+import { useFrameRateMonitor } from "../hooks/use-frame-rate-monitor";
+import { useFormValidationToggle } from "../hooks/use-form-validation-toggle";
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,
@@ -1452,7 +1452,7 @@ export default function FormValidationBenchmarkScreen() {
 
 ```typescript
 import { useState } from 'react';
-import type { FormValidationRow } from '../data/formValidationRows';
+import type { FormValidationRow } from '../data/form-validation-rows';
 ```
 
 - [ ] **Step 4: Update home screen with form validation link**
@@ -1475,7 +1475,7 @@ import type { FormValidationRow } from '../data/formValidationRows';
 - [ ] **Step 5: Commit form validation implementation**
 
 ```bash
-git add src/hooks/useFormValidationToggle.ts src/app/form-validation-benchmark.tsx src/app/index.tsx
+git add src/hooks/use-form-validation-toggle.ts src/app/form-validation-benchmark.tsx src/app/index.tsx
 git commit -m "feat: add form validation benchmark with stress mode
 
 - Implement state cycling hook for 50 form fields
@@ -1491,13 +1491,13 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/data/listItemStatesRows.ts`
-- Create: `src/benchmark/listItemStatesRowViews.tsx`
+- Create: `src/data/list-item-states-rows.ts`
+- Create: `src/benchmark/list-item-states-row-views.tsx`
 
 - [ ] **Step 1: Create list item states data types and generators**
 
 ```typescript
-// src/data/listItemStatesRows.ts
+// src/data/list-item-states-rows.ts
 
 export type ListItemStateRow = {
   id: string;
@@ -1621,13 +1621,13 @@ export function toggleListItemStates(
 - [ ] **Step 2: Create list item states row components**
 
 ```typescript
-// src/benchmark/listItemStatesRowViews.tsx
+// src/benchmark/list-item-states-row-views.tsx
 
 import { memo } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { StyleSheet as UnistylesSheet, useUnistyles } from "react-native-unistyles";
 
-import type { ListItemStateRow } from "../data/listItemStatesRows";
+import type { ListItemStateRow } from "../data/list-item-states-rows";
 
 const hairline = StyleSheet.hairlineWidth;
 
@@ -1939,7 +1939,7 @@ export { ListItemStateRowUniwindMemo as ListItemStateRowUniwind };
 - [ ] **Step 3: Commit list item states implementation**
 
 ```bash
-git add src/data/listItemStatesRows.ts src/benchmark/listItemStatesRowViews.tsx
+git add src/data/list-item-states-rows.ts src/benchmark/list-item-states-row-views.tsx
 git commit -m "feat: add list item states benchmark data and row components
 
 - Add ListItemStateRow type with 6 state flags
@@ -1955,18 +1955,18 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/hooks/useListItemStatesToggle.ts`
+- Create: `src/hooks/use-list-item-states-toggle.ts`
 - Create: `src/app/list-item-states-benchmark.tsx`
 
 - [ ] **Step 1: Implement stress mode hook**
 
 ```typescript
-// src/hooks/useListItemStatesToggle.ts
+// src/hooks/use-list-item-states-toggle.ts
 
 import { useEffect, useRef, useState } from 'react';
 
-import type { ListItemStateRow } from '../data/listItemStatesRows';
-import { makeListItemStatesRows, toggleListItemStates } from '../data/listItemStatesRows';
+import type { ListItemStateRow } from '../data/list-item-states-rows';
+import { makeListItemStatesRows, toggleListItemStates } from '../data/list-item-states-rows';
 
 interface UseListItemStatesToggleConfig {
   itemCount: number;
@@ -2032,14 +2032,14 @@ import {
   ListItemStateRowRN,
   ListItemStateRowUnistyles,
   ListItemStateRowUniwind,
-} from "../benchmark/listItemStatesRowViews";
-import { EngineRadioGroup } from "../components/EngineRadioGroup";
-import { RenderTimeLabel } from "../components/RenderTimeLabel";
-import { useStylingEngine } from "../context/StylingEngineContext";
-import type { ListItemStateRow } from "../data/listItemStatesRows";
-import { useRenderMeasurement } from "../hooks/useRenderMeasurement";
-import { useFrameRateMonitor } from "../hooks/useFrameRateMonitor";
-import { useListItemStatesToggle } from "../hooks/useListItemStatesToggle";
+} from "../benchmark/list-item-states-row-views";
+import { EngineRadioGroup } from "../components/engine-radio-group";
+import { RenderTimeLabel } from "../components/render-time-label";
+import { useStylingEngine } from "../context/styling-engine-context";
+import type { ListItemStateRow } from "../data/list-item-states-rows";
+import { useRenderMeasurement } from "../hooks/use-render-measurement";
+import { useFrameRateMonitor } from "../hooks/use-frame-rate-monitor";
+import { useListItemStatesToggle } from "../hooks/use-list-item-states-toggle";
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,
@@ -2176,7 +2176,7 @@ import { useState } from 'react';
 - [ ] **Step 5: Commit list item states implementation**
 
 ```bash
-git add src/hooks/useListItemStatesToggle.ts src/app/list-item-states-benchmark.tsx src/app/index.tsx
+git add src/hooks/use-list-item-states-toggle.ts src/app/list-item-states-benchmark.tsx src/app/index.tsx
 git commit -m "feat: add list item states benchmark with stress mode
 
 - Implement state toggle hook for 200 list items
@@ -2192,13 +2192,13 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/data/skeletonRows.ts`
-- Create: `src/benchmark/skeletonTransitionRowViews.tsx`
+- Create: `src/data/skeleton-rows.ts`
+- Create: `src/benchmark/skeleton-transition-row-views.tsx`
 
 - [ ] **Step 1: Create skeleton transition data types and generators**
 
 ```typescript
-// src/data/skeletonRows.ts
+// src/data/skeleton-rows.ts
 
 export type SkeletonRow =
   | { id: string; state: 'skeleton' }
@@ -2308,13 +2308,13 @@ export function cycleSkeletonTransitions(
 - [ ] **Step 2: Create skeleton transition row components**
 
 ```typescript
-// src/benchmark/skeletonTransitionRowViews.tsx
+// src/benchmark/skeleton-transition-row-views.tsx
 
 import { memo, useEffect } from "react";
 import { Animated, StyleSheet, Text, View } from "react-native";
 import { StyleSheet as UnistylesSheet, useUnistyles } from "react-native-unistyles";
 
-import type { SkeletonRow } from "../data/skeletonRows";
+import type { SkeletonRow } from "../data/skeleton-rows";
 
 const hairline = StyleSheet.hairlineWidth;
 
@@ -2498,7 +2498,7 @@ export { SkeletonTransitionRowUniwindMemo as SkeletonTransitionRowUniwind };
 - [ ] **Step 3: Commit skeleton transition implementation**
 
 ```bash
-git add src/data/skeletonRows.ts src/benchmark/skeletonTransitionRowViews.tsx
+git add src/data/skeleton-rows.ts src/benchmark/skeleton-transition-row-views.tsx
 git commit -m "feat: add skeleton transition benchmark data and row components
 
 - Add SkeletonRow type with skeleton/content states
@@ -2515,18 +2515,18 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Files:**
 
-- Create: `src/hooks/useSkeletonTransition.ts`
+- Create: `src/hooks/use-skeleton-transition.ts`
 - Create: `src/app/skeleton-transition-benchmark.tsx`
 
 - [ ] **Step 1: Implement stress mode hook**
 
 ```typescript
-// src/hooks/useSkeletonTransition.ts
+// src/hooks/use-skeleton-transition.ts
 
 import { useEffect, useRef, useState } from 'react';
 
-import type { SkeletonRow } from '../data/skeletonRows';
-import { cycleSkeletonTransitions, makeSkeletonRows } from '../data/skeletonRows';
+import type { SkeletonRow } from '../data/skeleton-rows';
+import { cycleSkeletonTransitions, makeSkeletonRows } from '../data/skeleton-rows';
 
 interface UseSkeletonTransitionConfig {
   rowCount: number;
@@ -2592,14 +2592,14 @@ import {
   SkeletonTransitionRowRN,
   SkeletonTransitionRowUnistyles,
   SkeletonTransitionRowUniwind,
-} from "../benchmark/skeletonTransitionRowViews";
-import { EngineRadioGroup } from "../components/EngineRadioGroup";
-import { RenderTimeLabel } from "../components/RenderTimeLabel";
-import { useStylingEngine } from "../context/StylingEngineContext";
-import type { SkeletonRow } from "../data/skeletonRows";
-import { useRenderMeasurement } from "../hooks/useRenderMeasurement";
-import { useFrameRateMonitor } from "../hooks/useFrameRateMonitor";
-import { useSkeletonTransition } from "../hooks/useSkeletonTransition";
+} from "../benchmark/skeleton-transition-row-views";
+import { EngineRadioGroup } from "../components/engine-radio-group";
+import { RenderTimeLabel } from "../components/render-time-label";
+import { useStylingEngine } from "../context/styling-engine-context";
+import type { SkeletonRow } from "../data/skeleton-rows";
+import { useRenderMeasurement } from "../hooks/use-render-measurement";
+import { useFrameRateMonitor } from "../hooks/use-frame-rate-monitor";
+import { useSkeletonTransition } from "../hooks/use-skeleton-transition";
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,
@@ -2736,7 +2736,7 @@ import { useState } from 'react';
 - [ ] **Step 5: Commit skeleton transition implementation**
 
 ```bash
-git add src/hooks/useSkeletonTransition.ts src/app/skeleton-transition-benchmark.tsx src/app/index.tsx
+git add src/hooks/use-skeleton-transition.ts src/app/skeleton-transition-benchmark.tsx src/app/index.tsx
 git commit -m "feat: add skeleton transition benchmark with stress mode
 
 - Implement skeleton/content cycling hook for 100 rows
@@ -2990,7 +2990,7 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 **Architecture alignment:**
 
-- ✅ Follows existing benchmark patterns from `realtimeFlashRowViews.tsx`
+- ✅ Follows existing benchmark patterns from `realtime-flash-row-views.tsx`
 - ✅ Reuses `EngineRadioGroup` and `RenderTimeLabel` components
 - ✅ Uses existing `useRenderMeasurement` hook
 - ✅ Follows same screen structure (header with metrics, FlatList below)
