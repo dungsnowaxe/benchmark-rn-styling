@@ -5,14 +5,14 @@ import {
   SkeletonTransitionRowRN,
   SkeletonTransitionRowUnistyles,
   SkeletonTransitionRowUniwind,
-} from '../benchmark/skeletonTransitionRowViews';
-import { EngineRadioGroup } from '../components/EngineRadioGroup';
-import { RenderTimeLabel } from '../components/RenderTimeLabel';
-import { useStylingEngine } from '../context/StylingEngineContext';
-import type { SkeletonRow } from '../data/skeletonRows';
-import { useFrameRateMonitor } from '../hooks/useFrameRateMonitor';
-import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
-import { useSkeletonTransition } from '../hooks/useSkeletonTransition';
+} from '../benchmark/skeleton-transition-row-views';
+import { EngineRadioGroup } from '../components/engine-radio-group';
+import { RenderTimeLabel } from '../components/render-time-label';
+import { useStylingEngine } from '../context/styling-engine-context';
+import type { SkeletonRow } from '../data/skeleton-rows';
+import { useFrameRateMonitor } from '../hooks/use-frame-rate-monitor';
+import { useRenderMeasurement } from '../hooks/use-render-measurement';
+import { useSkeletonTransition } from '../hooks/use-skeleton-transition';
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,

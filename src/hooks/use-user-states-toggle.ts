@@ -1,29 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { ListItemStateRow } from '../data/listItemStatesRows';
-import { makeListItemStatesRows, toggleListItemStates } from '../data/listItemStatesRows';
+import type { UserStateRow } from '../data/user-states-rows';
+import { makeUserStatesRows, toggleUserStates } from '../data/user-states-rows';
 
-interface UseListItemStatesToggleConfig {
-  itemCount: number;
+interface UseUserStatesToggleConfig {
+  rowCount: number;
   updateInterval: number;
   updatePercentage: number;
   enabled: boolean;
   maxUpdates?: number;
 }
 
-export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
-  const { itemCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
+export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
+  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [items, setItems] = useState<ListItemStateRow[]>(() => makeListItemStatesRows(itemCount));
+  const [rows, setRows] = useState<UserStateRow[]>(() => makeUserStatesRows(rowCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setItems(makeListItemStatesRows(itemCount));
+    setRows(makeUserStatesRows(rowCount));
     setUpdatesCount(0);
     seedRef.current = 0;
-  }, [itemCount]);
+  }, [rowCount]);
 
   useEffect(() => {
     if (!enabled) {
@@ -40,7 +40,7 @@ export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setItems((prev) => toggleListItemStates(prev, updatePercentage, seedRef.current));
+      setRows((prev) => toggleUserStates(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 
@@ -51,5 +51,5 @@ export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
     };
   }, [enabled, updateInterval, updatePercentage, updateCount, maxUpdates]);
 
-  return { items, updateCount, maxUpdates };
+  return { rows, updateCount, maxUpdates };
 }

@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
 
-import { StaticRowRN, StaticRowUniwind, StaticRowUnistyles } from '../benchmark/staticRowViews';
-import { EngineRadioGroup } from '../components/EngineRadioGroup';
-import { RenderTimeLabel } from '../components/RenderTimeLabel';
-import { useStylingEngine } from '../context/StylingEngineContext';
-import { buildStaticRows, type StaticRow } from '../data/staticRows';
-import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
+import { StaticRowRN, StaticRowUniwind, StaticRowUnistyles } from '../benchmark/static-row-views';
+import { EngineRadioGroup } from '../components/engine-radio-group';
+import { RenderTimeLabel } from '../components/render-time-label';
+import { useStylingEngine } from '../context/styling-engine-context';
+import { buildStaticRows, type StaticRow } from '../data/static-rows';
+import { useRenderMeasurement } from '../hooks/use-render-measurement';
 
 export default function StaticBenchmarkScreen() {
   const { engine, setEngine } = useStylingEngine();

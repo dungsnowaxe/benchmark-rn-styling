@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { StyleSheet as UnistylesSheet } from 'react-native-unistyles';
 
-import type { UserStateRow } from '../data/userStatesRows';
+import type { UserStateRow } from '../data/user-states-rows';
 
 const hairline = StyleSheet.hairlineWidth;
 

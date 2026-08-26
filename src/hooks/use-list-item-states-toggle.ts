@@ -1,29 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { UserStateRow } from '../data/userStatesRows';
-import { makeUserStatesRows, toggleUserStates } from '../data/userStatesRows';
+import type { ListItemStateRow } from '../data/list-item-states-rows';
+import { makeListItemStatesRows, toggleListItemStates } from '../data/list-item-states-rows';
 
-interface UseUserStatesToggleConfig {
-  rowCount: number;
+interface UseListItemStatesToggleConfig {
+  itemCount: number;
   updateInterval: number;
   updatePercentage: number;
   enabled: boolean;
   maxUpdates?: number;
 }
 
-export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
-  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
+export function useListItemStatesToggle(config: UseListItemStatesToggleConfig) {
+  const { itemCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
 
-  const [rows, setRows] = useState<UserStateRow[]>(() => makeUserStatesRows(rowCount));
+  const [items, setItems] = useState<ListItemStateRow[]>(() => makeListItemStatesRows(itemCount));
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setRows(makeUserStatesRows(rowCount));
+    setItems(makeListItemStatesRows(itemCount));
     setUpdatesCount(0);
     seedRef.current = 0;
-  }, [rowCount]);
+  }, [itemCount]);
 
   useEffect(() => {
     if (!enabled) {
@@ -40,7 +40,7 @@ export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setRows((prev) => toggleUserStates(prev, updatePercentage, seedRef.current));
+      setItems((prev) => toggleListItemStates(prev, updatePercentage, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 
@@ -51,5 +51,5 @@ export function useUserStatesToggle(config: UseUserStatesToggleConfig) {
     };
   }, [enabled, updateInterval, updatePercentage, updateCount, maxUpdates]);
 
-  return { rows, updateCount, maxUpdates };
+  return { items, updateCount, maxUpdates };
 }

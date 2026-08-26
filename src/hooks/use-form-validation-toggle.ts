@@ -1,29 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
 
-import type { SkeletonRow } from '../data/skeletonRows';
-import { cycleSkeletonTransitions, makeSkeletonRows } from '../data/skeletonRows';
+import type { FormValidationRow } from '../data/form-validation-rows';
+import { cycleFormValidationStates, makeFormValidationRows } from '../data/form-validation-rows';
 
-interface UseSkeletonTransitionConfig {
-  rowCount: number;
+interface UseFormValidationToggleConfig {
+  fieldCount: number;
   updateInterval: number;
-  updatePercentage: number;
   enabled: boolean;
   maxUpdates?: number;
 }
 
-export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
-  const { rowCount, updateInterval, updatePercentage, enabled, maxUpdates = 1000 } = config;
+export function useFormValidationToggle(config: UseFormValidationToggleConfig) {
+  const { fieldCount, updateInterval, enabled, maxUpdates = 1000 } = config;
 
-  const [rows, setRows] = useState<SkeletonRow[]>(() => makeSkeletonRows(rowCount));
+  const [fields, setFields] = useState<FormValidationRow[]>(() =>
+    makeFormValidationRows(fieldCount),
+  );
   const [updateCount, setUpdatesCount] = useState(0);
   const seedRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setRows(makeSkeletonRows(rowCount));
+    setFields(makeFormValidationRows(fieldCount));
     setUpdatesCount(0);
     seedRef.current = 0;
-  }, [rowCount]);
+  }, [fieldCount]);
 
   useEffect(() => {
     if (!enabled) {
@@ -40,7 +41,7 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
 
     intervalRef.current = setInterval(() => {
       seedRef.current++;
-      setRows((prev) => cycleSkeletonTransitions(prev, updatePercentage, seedRef.current));
+      setFields((prev) => cycleFormValidationStates(prev, seedRef.current));
       setUpdatesCount((c) => c + 1);
     }, updateInterval);
 
@@ -49,7 +50,7 @@ export function useSkeletonTransition(config: UseSkeletonTransitionConfig) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [enabled, updateInterval, updatePercentage, updateCount, maxUpdates]);
+  }, [enabled, updateInterval, updateCount, maxUpdates]);
 
-  return { rows, updateCount, maxUpdates };
+  return { fields, updateCount, maxUpdates };
 }

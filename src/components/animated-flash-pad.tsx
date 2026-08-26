@@ -1,8 +1,8 @@
 import { type ReactNode, useEffect, useRef } from 'react';
 import { Animated, type StyleProp, View, type ViewStyle } from 'react-native';
 
-import { FLASH_FADE_IN_MS, FLASH_FADE_OUT_MS } from '../constants/flashAnimation';
-import type { Direction } from '../hooks/useFieldDirectionFlashes';
+import { FLASH_FADE_IN_MS, FLASH_FADE_OUT_MS } from '../constants/flash-animation';
+import type { Direction } from '../hooks/use-field-direction-flashes';
 
 type Props = {
   direction: Direction | null;

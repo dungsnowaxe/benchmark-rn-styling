@@ -5,14 +5,14 @@ import {
   UserStateRowRN,
   UserStateRowUnistyles,
   UserStateRowUniwind,
-} from '../benchmark/userStatesRowViews';
-import { EngineRadioGroup } from '../components/EngineRadioGroup';
-import { RenderTimeLabel } from '../components/RenderTimeLabel';
-import { useStylingEngine } from '../context/StylingEngineContext';
-import type { UserStateRow } from '../data/userStatesRows';
-import { useFrameRateMonitor } from '../hooks/useFrameRateMonitor';
-import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
-import { useUserStatesToggle } from '../hooks/useUserStatesToggle';
+} from '../benchmark/user-states-row-views';
+import { EngineRadioGroup } from '../components/engine-radio-group';
+import { RenderTimeLabel } from '../components/render-time-label';
+import { useStylingEngine } from '../context/styling-engine-context';
+import type { UserStateRow } from '../data/user-states-rows';
+import { useFrameRateMonitor } from '../hooks/use-frame-rate-monitor';
+import { useRenderMeasurement } from '../hooks/use-render-measurement';
+import { useUserStatesToggle } from '../hooks/use-user-states-toggle';
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,

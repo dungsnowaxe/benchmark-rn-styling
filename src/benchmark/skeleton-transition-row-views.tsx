@@ -2,7 +2,7 @@ import { memo, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import { StyleSheet as UnistylesSheet } from 'react-native-unistyles';
 
-import type { SkeletonRow } from '../data/skeletonRows';
+import type { SkeletonRow } from '../data/skeleton-rows';
 
 const hairline = StyleSheet.hairlineWidth;
 
