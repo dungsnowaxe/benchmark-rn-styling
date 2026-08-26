@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { StyleSheet as UnistylesSheet } from 'react-native-unistyles';
 
-import type { FormValidationRow } from '../data/formValidationRows';
+import type { FormValidationRow } from '../data/form-validation-rows';
 
 const hairline = StyleSheet.hairlineWidth;
 

@@ -1,6 +1,6 @@
 ## Context
 
-The app already implements `realtime-benchmark` with `useMockLiveRows`, optional Binance price on row 1, `EngineRadioGroup`, `useRenderMeasurement`, and three row implementations in `realtimeRowViews.tsx` (StyleSheet, Unistyles, Uniwind). This change adds a **sibling screen** that keeps that architecture but layers **directional flashes** on the **price** and **change %** text regions only.
+The app already implements `realtime-benchmark` with `useMockLiveRows`, optional Binance price on row 1, `EngineRadioGroup`, `useRenderMeasurement`, and three row implementations in `realtime-row-views.tsx` (StyleSheet, Unistyles, Uniwind). This change adds a **sibling screen** that keeps that architecture but layers **directional flashes** on the **price** and **change %** text regions only.
 
 ## Goals / Non-Goals
 
@@ -40,7 +40,7 @@ The app already implements `realtime-benchmark` with `useMockLiveRows`, optional
    **Rationale:** Meets spec legibility without matching production trading-terminal saturation.
 
 5. **Code organization**  
-   **Choice:** New route file (e.g. `realtime-flash-benchmark.tsx`) plus **new** row components file (e.g. `realtimeFlashRowViews.tsx`) or namespaced exports to avoid `if (flash)` in shared hot paths.  
+   **Choice:** New route file (e.g. `realtime-flash-benchmark.tsx`) plus **new** row components file (e.g. `realtime-flash-row-views.tsx`) or namespaced exports to avoid `if (flash)` in shared hot paths.  
    **Rationale:** Clear diff and fair engine comparison on the flash screen only.
 
 ## Risks / Trade-offs

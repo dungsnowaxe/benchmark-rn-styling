@@ -1,0 +1,17 @@
+---
+description: Enforce kebab-case source filenames (Expo SDK 55+ default)
+alwaysApply: true
+---
+
+# Filenames: kebab-case
+
+All new and renamed source files under `src/` (and project scripts) must use **kebab-case**.
+
+- ✅ `engine-radio-group.tsx`, `use-frame-rate-monitor.ts`, `user-states-rows.ts`
+- ❌ `EngineRadioGroup.tsx`, `useFrameRateMonitor.ts`, `userStatesRows.ts`
+
+Exports stay idiomatic JS/TS (PascalCase components, camelCase hooks/functions). Only the **filename** is kebab-case.
+
+Exceptions (do not rename): Expo Router `_layout.tsx` / `+*` / `index.*`, and generated `*.d.ts`.
+
+Enforced by `unicorn/filename-case` in `.oxlintrc.json` (`bun run lint`).

@@ -1,18 +1,19 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 
 import {
   FormValidationRowRN,
   FormValidationRowUnistyles,
   FormValidationRowUniwind,
-} from '../benchmark/formValidationRowViews';
-import { EngineRadioGroup } from '../components/EngineRadioGroup';
-import { RenderTimeLabel } from '../components/RenderTimeLabel';
-import { useStylingEngine } from '../context/StylingEngineContext';
-import type { FormValidationRow } from '../data/formValidationRows';
-import { useFrameRateMonitor } from '../hooks/useFrameRateMonitor';
-import { useRenderMeasurement } from '../hooks/useRenderMeasurement';
-import { useFormValidationToggle } from '../hooks/useFormValidationToggle';
+} from '../benchmark/form-validation-row-views';
+import { EngineRadioGroup } from '../components/engine-radio-group';
+import { RenderTimeLabel } from '../components/render-time-label';
+import type { FormValidationRow } from '../data/form-validation-rows';
+import { useAutoBench } from '../hooks/use-auto-bench';
+import { useBenchmarkReporter } from '../hooks/use-benchmark-reporter';
+import { useFrameRateMonitor } from '../hooks/use-frame-rate-monitor';
+import { useRenderMeasurement } from '../hooks/use-render-measurement';
+import { useFormValidationToggle } from '../hooks/use-form-validation-toggle';
 
 const MetricsDisplay = memo(function MetricsDisplay({
   lastMs,
@@ -61,17 +62,35 @@ const MetricsDisplay = memo(function MetricsDisplay({
 });
 
 export default function FormValidationBenchmarkScreen() {
-  const { engine, setEngine } = useStylingEngine();
-  const [stressEnabled, setStressEnabled] = useState(false);
+  const { auto, maxUpdates, stressEnabled, setStressEnabled, engine, setEngine, onStressComplete } =
+    useAutoBench({ defaultMaxUpdates: 100 });
 
-  const { fields, updateCount, maxUpdates } = useFormValidationToggle({
+  const { fields, updateCount } = useFormValidationToggle({
     fieldCount: 50,
     updateInterval: 150,
     enabled: stressEnabled,
+    maxUpdates,
   });
 
   const { lastMs, markStart } = useRenderMeasurement(engine, updateCount);
   const { fps, dropsPerMinute } = useFrameRateMonitor(stressEnabled);
+
+  useBenchmarkReporter({
+    benchmark: 'form-validation',
+    engine,
+    lastMs,
+    fps,
+    dropsPerMinute,
+    updateCount,
+    maxUpdates,
+    stressEnabled,
+  });
+
+  useEffect(() => {
+    if (auto && updateCount >= maxUpdates && maxUpdates > 0) {
+      onStressComplete();
+    }
+  }, [auto, updateCount, maxUpdates, onStressComplete]);
 
   const renderItem = useCallback(
     ({ item }: { item: FormValidationRow }) => {
@@ -82,6 +101,10 @@ export default function FormValidationBenchmarkScreen() {
           return <FormValidationRowUnistyles item={item} />;
         case 'uniwind':
           return <FormValidationRowUniwind item={item} />;
+        default: {
+          const exhaustiveCheck: never = engine;
+          return exhaustiveCheck;
+        }
       }
     },
     [engine],

@@ -45,9 +45,9 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 
 **File structure:**
 
-- `src/benchmark/userStatesRowViews.tsx`
-- `src/data/userStatesRows.ts`
-- `src/hooks/useUserStatesToggle.ts`
+- `src/benchmark/user-states-row-views.tsx`
+- `src/data/user-states-rows.ts`
+- `src/hooks/use-user-states-toggle.ts`
 - `src/app/user-states-benchmark.tsx`
 
 ---
@@ -67,9 +67,9 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 
 **File structure:**
 
-- `src/benchmark/formValidationRowViews.tsx`
-- `src/data/formValidationRows.ts`
-- `src/hooks/useFormValidationToggle.ts`
+- `src/benchmark/form-validation-row-views.tsx`
+- `src/data/form-validation-rows.ts`
+- `src/hooks/use-form-validation-toggle.ts`
 - `src/app/form-validation-benchmark.tsx`
 
 ---
@@ -89,9 +89,9 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 
 **File structure:**
 
-- `src/benchmark/listItemStatesRowViews.tsx`
-- `src/data/listItemStatesRows.ts`
-- `src/hooks/useListItemStatesToggle.ts`
+- `src/benchmark/list-item-states-row-views.tsx`
+- `src/data/list-item-states-rows.ts`
+- `src/hooks/use-list-item-states-toggle.ts`
 - `src/app/list-item-states-benchmark.tsx`
 
 ---
@@ -111,9 +111,9 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 
 **File structure:**
 
-- `src/benchmark/skeletonTransitionRowViews.tsx`
-- `src/data/skeletonRows.ts`
-- `src/hooks/useSkeletonTransition.ts`
+- `src/benchmark/skeleton-transition-row-views.tsx`
+- `src/data/skeleton-rows.ts`
+- `src/hooks/use-skeleton-transition.ts`
 - `src/app/skeleton-transition-benchmark.tsx`
 
 ---
@@ -125,21 +125,21 @@ This document describes the design for 4 new benchmark scenarios to expand the s
 ```
 src/
 ├── benchmark/
-│   ├── userStatesRowViews.tsx      # New
-│   ├── formValidationRowViews.tsx  # New
-│   ├── listItemStatesRowViews.tsx  # New
-│   └── skeletonTransitionRowViews.tsx # New
+│   ├── user-states-row-views.tsx      # New
+│   ├── form-validation-row-views.tsx  # New
+│   ├── list-item-states-row-views.tsx  # New
+│   └── skeleton-transition-row-views.tsx # New
 ├── data/
-│   ├── userStatesRows.ts           # New
-│   ├── formValidationRows.ts       # New
-│   ├── listItemStatesRows.ts       # New
-│   └── skeletonRows.ts             # New
+│   ├── user-states-rows.ts           # New
+│   ├── form-validation-rows.ts       # New
+│   ├── list-item-states-rows.ts       # New
+│   └── skeleton-rows.ts             # New
 ├── hooks/
-│   ├── useUserStatesToggle.ts      # New
-│   ├── useFormValidationToggle.ts  # New
-│   ├── useListItemStatesToggle.ts  # New
-│   ├── useSkeletonTransition.ts    # New
-│   └── useFrameRateMonitor.ts      # New (shared)
+│   ├── use-user-states-toggle.ts      # New
+│   ├── use-form-validation-toggle.ts  # New
+│   ├── use-list-item-states-toggle.ts  # New
+│   ├── use-skeleton-transition.ts    # New
+│   └── use-frame-rate-monitor.ts      # New (shared)
 └── app/
     ├── user-states-benchmark.tsx   # New
     ├── form-validation-benchmark.tsx # New

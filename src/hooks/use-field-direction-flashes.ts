@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { FLASH_ANIMATION_MS } from '../constants/flashAnimation';
-import type { LiveRow } from '../data/liveRows';
+import { FLASH_ANIMATION_MS } from '../constants/flash-animation';
+import type { LiveRow } from '../data/live-rows';
 
 export type Direction = 'up' | 'down';
 

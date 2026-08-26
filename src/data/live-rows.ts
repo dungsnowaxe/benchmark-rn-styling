@@ -1,4 +1,4 @@
-import type { StaticRowVariant } from './staticRows';
+import type { StaticRowVariant } from './static-rows';
 
 export type LiveRow = {
   id: string;

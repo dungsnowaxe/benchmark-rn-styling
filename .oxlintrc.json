@@ -14,7 +14,14 @@
     "react/style-prop-object": "off",
     "unicorn/prefer-add-event-listener": "off",
     "unicorn/require-module-specifiers": "off",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "case": "kebabCase",
+        "ignore": ["^_", "^\\+", "^index\\.", "\\.d\\.ts$"]
+      }
+    ]
   },
   "ignorePatterns": ["node_modules/", "ios/", "android/", "builds/", "dist/", ".expo/", "patches/"]
 }

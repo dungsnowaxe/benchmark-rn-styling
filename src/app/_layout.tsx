@@ -2,7 +2,7 @@ import '../global.css';
 
 import { Stack } from 'expo-router';
 
-import { StylingEngineProvider } from '../context/StylingEngineContext';
+import { StylingEngineProvider } from '../context/styling-engine-context';
 
 // #region agent log
 fetch('http://127.0.0.1:7515/ingest/4838cb07-8a72-4146-a32f-c2a545694663', {
@@ -37,6 +37,19 @@ export default function RootLayout() {
         <Stack.Screen
           name="realtime-flash-benchmark"
           options={{ title: 'Realtime flash benchmark' }}
+        />
+        <Stack.Screen name="user-states-benchmark" options={{ title: 'User states benchmark' }} />
+        <Stack.Screen
+          name="form-validation-benchmark"
+          options={{ title: 'Form validation benchmark' }}
+        />
+        <Stack.Screen
+          name="list-item-states-benchmark"
+          options={{ title: 'List item states benchmark' }}
+        />
+        <Stack.Screen
+          name="skeleton-transition-benchmark"
+          options={{ title: 'Skeleton transition benchmark' }}
         />
       </Stack>
     </StylingEngineProvider>

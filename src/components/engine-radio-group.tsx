@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from 'react-native';
 
-import type { StylingEngine } from '../context/StylingEngineContext';
+import type { StylingEngine } from '../context/styling-engine-context';
 
 const OPTIONS: { id: StylingEngine; label: string }[] = [
   { id: 'stylesheet', label: 'RN StyleSheet' },
