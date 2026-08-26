@@ -16,16 +16,21 @@
     "format:check": "oxfmt --check"
   },
   "dependencies": {
-    "expo": "^56.0.0",
-    "expo-constants": "~56.0.16",
-    "expo-linking": "~56.0.13",
-    "expo-router": "~56.2.8",
+    "expo": "~56.0.20",
+    "expo-constants": "~56.0.24",
+    "expo-linking": "~56.0.17",
+    "expo-router": "~56.2.19",
     "expo-status-bar": "~56.0.4",
+    "expo-system-ui": "~56.0.5",
     "react": "19.2.3",
     "react-native": "0.85.3",
+    "react-native-gesture-handler": "~2.31.1",
+    "react-native-nitro-modules": "^0.37.0",
+    "react-native-reanimated": "4.3.1",
     "react-native-safe-area-context": "~5.7.0",
-    "react-native-screens": "4.25.2",
+    "react-native-screens": "~4.26.0",
     "react-native-unistyles": "^3.2.5",
+    "react-native-worklets": "0.8.3",
     "tailwindcss": "~4.3.2",
     "uniwind": "~1.10.0"
   },
@@ -39,5 +44,8 @@
   "engines": {
     "node": ">=24.0.0 <25"
   },
-  "packageManager": "bun@1.2.5"
+  "packageManager": "bun@1.2.5",
+  "patchedDependencies": {
+    "@react-native/gradle-plugin@0.85.3": "patches/@react-native%2Fgradle-plugin@0.85.3.patch"
+  }
 }

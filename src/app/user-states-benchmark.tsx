@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 
 import {
@@ -8,8 +8,9 @@ import {
 } from '../benchmark/user-states-row-views';
 import { EngineRadioGroup } from '../components/engine-radio-group';
 import { RenderTimeLabel } from '../components/render-time-label';
-import { useStylingEngine } from '../context/styling-engine-context';
 import type { UserStateRow } from '../data/user-states-rows';
+import { useAutoBench } from '../hooks/use-auto-bench';
+import { useBenchmarkReporter } from '../hooks/use-benchmark-reporter';
 import { useFrameRateMonitor } from '../hooks/use-frame-rate-monitor';
 import { useRenderMeasurement } from '../hooks/use-render-measurement';
 import { useUserStatesToggle } from '../hooks/use-user-states-toggle';
@@ -61,18 +62,36 @@ const MetricsDisplay = memo(function MetricsDisplay({
 });
 
 export default function UserStatesBenchmarkScreen() {
-  const { engine, setEngine } = useStylingEngine();
-  const [stressEnabled, setStressEnabled] = useState(false);
+  const { auto, maxUpdates, stressEnabled, setStressEnabled, engine, setEngine, onStressComplete } =
+    useAutoBench({ defaultMaxUpdates: 100 });
 
-  const { rows, updateCount, maxUpdates } = useUserStatesToggle({
+  const { rows, updateCount } = useUserStatesToggle({
     rowCount: 100,
     updateInterval: 200,
     updatePercentage: 0.2,
     enabled: stressEnabled,
+    maxUpdates,
   });
 
   const { lastMs, markStart } = useRenderMeasurement(engine, updateCount);
   const { fps, dropsPerMinute } = useFrameRateMonitor(stressEnabled);
+
+  useBenchmarkReporter({
+    benchmark: 'user-states',
+    engine,
+    lastMs,
+    fps,
+    dropsPerMinute,
+    updateCount,
+    maxUpdates,
+    stressEnabled,
+  });
+
+  useEffect(() => {
+    if (auto && updateCount >= maxUpdates && maxUpdates > 0) {
+      onStressComplete();
+    }
+  }, [auto, updateCount, maxUpdates, onStressComplete]);
 
   const renderItem = useCallback(
     ({ item }: { item: UserStateRow }) => {
@@ -83,6 +102,10 @@ export default function UserStatesBenchmarkScreen() {
           return <UserStateRowUnistyles item={item} />;
         case 'uniwind':
           return <UserStateRowUniwind item={item} />;
+        default: {
+          const exhaustiveCheck: never = engine;
+          return exhaustiveCheck;
+        }
       }
     },
     [engine],

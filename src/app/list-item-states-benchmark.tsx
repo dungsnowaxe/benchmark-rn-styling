@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 
 import {
@@ -8,8 +8,9 @@ import {
 } from '../benchmark/list-item-states-row-views';
 import { EngineRadioGroup } from '../components/engine-radio-group';
 import { RenderTimeLabel } from '../components/render-time-label';
-import { useStylingEngine } from '../context/styling-engine-context';
 import type { ListItemStateRow } from '../data/list-item-states-rows';
+import { useAutoBench } from '../hooks/use-auto-bench';
+import { useBenchmarkReporter } from '../hooks/use-benchmark-reporter';
 import { useFrameRateMonitor } from '../hooks/use-frame-rate-monitor';
 import { useRenderMeasurement } from '../hooks/use-render-measurement';
 import { useListItemStatesToggle } from '../hooks/use-list-item-states-toggle';
@@ -61,18 +62,36 @@ const MetricsDisplay = memo(function MetricsDisplay({
 });
 
 export default function ListItemStatesBenchmarkScreen() {
-  const { engine, setEngine } = useStylingEngine();
-  const [stressEnabled, setStressEnabled] = useState(false);
+  const { auto, maxUpdates, stressEnabled, setStressEnabled, engine, setEngine, onStressComplete } =
+    useAutoBench({ defaultMaxUpdates: 100 });
 
-  const { items, updateCount, maxUpdates } = useListItemStatesToggle({
+  const { items, updateCount } = useListItemStatesToggle({
     itemCount: 200,
     updateInterval: 100,
     updatePercentage: 0.1,
     enabled: stressEnabled,
+    maxUpdates,
   });
 
   const { lastMs, markStart } = useRenderMeasurement(engine, updateCount);
   const { fps, dropsPerMinute } = useFrameRateMonitor(stressEnabled);
+
+  useBenchmarkReporter({
+    benchmark: 'list-item-states',
+    engine,
+    lastMs,
+    fps,
+    dropsPerMinute,
+    updateCount,
+    maxUpdates,
+    stressEnabled,
+  });
+
+  useEffect(() => {
+    if (auto && updateCount >= maxUpdates && maxUpdates > 0) {
+      onStressComplete();
+    }
+  }, [auto, updateCount, maxUpdates, onStressComplete]);
 
   const renderItem = useCallback(
     ({ item }: { item: ListItemStateRow }) => {
@@ -83,6 +102,10 @@ export default function ListItemStatesBenchmarkScreen() {
           return <ListItemStateRowUnistyles item={item} />;
         case 'uniwind':
           return <ListItemStateRowUniwind item={item} />;
+        default: {
+          const exhaustiveCheck: never = engine;
+          return exhaustiveCheck;
+        }
       }
     },
     [engine],
