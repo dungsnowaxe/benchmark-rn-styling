@@ -1,30 +1,8 @@
 import { Link } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 export default function HomeScreen() {
-  useEffect(() => {
-    // #region agent log
-    fetch('http://127.0.0.1:7515/ingest/4838cb07-8a72-4146-a32f-c2a545694663', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Debug-Session-Id': '121416',
-      },
-      body: JSON.stringify({
-        sessionId: '121416',
-        runId: 'renderer-preload',
-        location: 'index.tsx:HomeScreen-mounted',
-        message: 'home_screen_mounted',
-        data: {},
-        timestamp: Date.now(),
-        hypothesisId: 'H3',
-      }),
-    }).catch(() => {});
-    // #endregion
-  }, []);
-
   return (
     <ScrollView className="flex-1 bg-white dark:bg-black">
       <View className="gap-4 px-6 py-10">
