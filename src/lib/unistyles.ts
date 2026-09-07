@@ -1,24 +1,5 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-// #region agent log
-fetch('http://127.0.0.1:7515/ingest/4838cb07-8a72-4146-a32f-c2a545694663', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Debug-Session-Id': '121416',
-  },
-  body: JSON.stringify({
-    sessionId: '121416',
-    runId: 'pre-fix',
-    location: 'unistyles.ts:before-configure',
-    message: 'unistyles_before_StyleSheet_configure',
-    data: {},
-    timestamp: Date.now(),
-    hypothesisId: 'H1',
-  }),
-}).catch(() => {});
-// #endregion
-
 const lightTheme = {
   colors: {
     background: '#ffffff',
@@ -102,22 +83,3 @@ StyleSheet.configure({
     initialTheme: 'light',
   },
 });
-
-// #region agent log
-fetch('http://127.0.0.1:7515/ingest/4838cb07-8a72-4146-a32f-c2a545694663', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Debug-Session-Id': '121416',
-  },
-  body: JSON.stringify({
-    sessionId: '121416',
-    runId: 'pre-fix',
-    location: 'unistyles.ts:after-configure',
-    message: 'unistyles_after_StyleSheet_configure',
-    data: {},
-    timestamp: Date.now(),
-    hypothesisId: 'H1',
-  }),
-}).catch(() => {});
-// #endregion
