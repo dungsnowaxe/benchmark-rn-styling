@@ -1,13 +1,15 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 
-import type { StylingEngine } from '../context/styling-engine-context';
-
 /**
  * Approximate time from `markStart()` (call before setState) to after commit.
  * Initial mount is measured once automatically. Values are approximate — use the
  * same device/session when comparing engines.
+ *
+ * `engine` is only used as an effect dependency so switching engines
+ * re-measures; it accepts any axis label (a `StylingEngine`, an
+ * `AnimationEngine`, …) rather than being tied to the styling enum.
  */
-export function useRenderMeasurement(engine: StylingEngine, tick?: number) {
+export function useRenderMeasurement(engine: string, tick?: number) {
   const [lastMs, setLastMs] = useState<number | null>(null);
   const startRef = useRef<number | null>(null);
   const mountStartRef = useRef<number | null>(null);
