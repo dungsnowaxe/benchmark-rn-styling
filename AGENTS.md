@@ -19,6 +19,19 @@ npx expo run:ios     # iOS
 npx expo run:android # Android
 ```
 
+### Measuring performance requires a Release build
+
+Debug numbers are meaningless for these benchmarks (unoptimised JS, uncompiled Reanimated worklets — the animation screen measured 2–18 FPS in debug vs ~50 idle in release).
+
+```bash
+npx expo run:ios --configuration Release --device "<UDID>"
+xcrun simctl launch <UDID> com.dzungsnowaxe.benchmarkstyling   # see gotcha below
+```
+
+- **`expo run:ios` opens the app through an `expo-development-client://` deep link**, which shows a "Development server is required" screen even though Release embeds `main.jsbundle`. Launch the bundle id plainly (second command) and the optimised bundle runs; Metro is not involved.
+- **Release-mode proof**: the amber "Debug build…" banner on `animation-engine-benchmark` is gated on `__DEV__`. Absent ⇒ optimised bundle.
+- **iOS log scrape** (no logcat needed): `xcrun simctl spawn <UDID> log stream --level debug --style compact --predicate 'eventMessage CONTAINS "BENCHMARK_REPORT"'`. Never truncate the output file under the live `log stream` fd — it keeps its write offset and captures nothing. Restart the stream into a fresh file.
+
 No test suite or typecheck command configured.
 
 ### Linting & formatting
@@ -49,13 +62,14 @@ Breaking this order causes `RCTEventEmitter` native bridge timing issues on iOS.
 index.ts                     → entry point (import order matters)
 src/
   app/                       → Expo Router file-based routes
-    _layout.tsx              → imports global.css, wraps in StylingEngineProvider
+    _layout.tsx              → imports global.css, wraps in StylingEngineProvider + AnimationEngineProvider
     index.tsx                → home screen with links to each benchmark
     *-benchmark.tsx          → one file per benchmark screen
   lib/
     unistyles.ts             → Unistyles theme + breakpoint config + StyleSheet.configure
   context/
     styling-engine-context.tsx → radio-group state ("stylesheet" | "unistyles" | "uniwind")
+    animation-engine-context.tsx → radio-group state ("ease" | "reanimated")
   benchmark/                 → per-engine row render components for each benchmark
   data/                      → static row data generators
   hooks/                     → stress-mode hooks, FPS monitoring, Binance WS, etc.
@@ -69,6 +83,7 @@ src/
 
 - **Filenames are kebab-case** (Expo SDK 55+ default). Exports stay PascalCase / camelCase (`EngineRadioGroup` in `engine-radio-group.tsx`). Enforced by `unicorn/filename-case` in `.oxlintrc.json`. Exceptions: Expo Router `_layout.tsx` / `+*` / `index.*`, and `*.d.ts`.
 - **Three styling variants per benchmark**: each benchmark screen renders rows using all three engines, switched by `StylingEngineContext`.
+- **Exception — `animation-engine-benchmark`**: varies the _animation_ backend (`AnimationEngineContext`: `ease` | `reanimated`), not the styling engine. Both arms render identical static chrome through RN `StyleSheet` and are driven by the same `useFlashPhase` pulse, so only the animation code differs. Its row file exports two components, not three. Keep it that way — introducing a styling difference between the arms would invalidate the comparison.
 - **Benchmark row files** (`src/benchmark/*-row-views.tsx`) export three components — one per engine — for a single benchmark type.
 - **Uniwind** uses `className` props (Tailwind classes), configured via `metro.config.js` (`withUniwindConfig`) with `cssEntryFile: "./src/global.css"`.
 - **Unistyles** uses Babel plugin (`react-native-unistyles/plugin`, `root: 'src'`) for build-time StyleSheet processing.
@@ -76,6 +91,9 @@ src/
 
 ## Gotchas
 
+- **`react-native-ease` is a native Fabric component** (codegen spec `EaseViewSpec`). Adding or upgrading it requires a **native rebuild** — `npx expo prebuild` + `npx expo run:ios|run:android`. A Metro/Fast-Refresh reload is not enough; the app will throw on an unregistered `EaseView`. Requires RN 0.76+ new architecture, iOS 15.1+, Android minSdk 24. It autolinks for both platforms (verify with `npx @react-native-community/cli config`).
+- **`react-native-ease` animates views, not text.** v0.8.0 exports only `EaseView`; `AnimateProps` has no `color` key and there is no `EaseText`. Text colour therefore cannot be animated by Ease — `EaseFlashPad` is a **hybrid** that uses `EaseView` for the background and Reanimated's `interpolateColor` for the text colour. Do not "simplify" it into a pure-Ease version; it cannot be one. Ease also animates `backgroundColor` with `ValueAnimator.ofArgb()` on Android, which is **timing-only** — a spring silently downgrades to timing 300ms. Use `timing` on both platforms when comparing against Reanimated.
+- **`useBenchmarkReporter` dedupes `stress-complete` without `lastMs`.** The terminal phase's dedupe key deliberately omits `lastMs`. On screens whose data feed keeps running after the stress counter stops (`animation-engine-benchmark`), `lastMs` changes every tick and would otherwise re-emit the completion line forever, polluting the JSONL that `scripts/collect-android-benchmarks.sh` scrapes. Keep that asymmetry.
 - **Patched dependency**: No active patches. The `@react-native/gradle-plugin` foojay-resolver patch (0.5.0 → 1.0.0) was dropped in SDK 57 — RN 0.86.3 ships 1.0.0 upstream. An earlier uniwind SafeAreaView patch was removed in 1.6.4+.
 - **No web support in practice**: `expo start --web` is listed but the benchmarks are native-only.
 - **`android/` and `ios/`** are gitignored — they're generated by `npx expo run:ios`/`run:android`.

@@ -127,6 +127,12 @@
       "skillPath": "packages/skills/skills/argent-tv-interact/SKILL.md",
       "computedHash": "d6e529a7e9829b39e14fe1a21d3c7b9cd9d67df042ae3e21801860c8d070007e"
     },
+    "react-native-ease-refactor": {
+      "source": "appandflow/react-native-ease",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-ease-refactor/SKILL.md",
+      "computedHash": "04f02e80f2f9ccae412826af2f2be20adc4b9e9cb2b5bebf6e141103f35dc1d0"
+    },
     "react-native-unistyles-v3": {
       "source": "jpudysz/react-native-unistyles",
       "sourceType": "github",

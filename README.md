@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="#latest-report-sdk-56">Latest Report</a> · <a href="#benchmarks">7 Benchmarks</a> · <a href="#stress-mode">Stress Testing</a> · <a href="#quick-start">Quick Start</a>
+  <a href="#latest-report-sdk-56">Latest Report</a> · <a href="#benchmarks">8 Benchmarks</a> · <a href="#stress-mode">Stress Testing</a> · <a href="#quick-start">Quick Start</a>
 </p>
 
 <p align="center">
@@ -98,17 +98,108 @@ Fill the comparison table below from that JSONL (or from the on-screen HUD).
 
 ## Benchmarks
 
-| #   | Benchmark              | What it tests                                                                                                      | Stress mode             |
-| --- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------- |
-| 1   | **Static list**        | 96 rows, varied static styles, scroll + re-renders on engine switch                                                | —                       |
-| 2   | **Realtime data**      | Frequent row updates (prices), list churn, re-renders                                                              | ~280ms mock interval    |
-| 3   | **Realtime + flash**   | Same as realtime + animated green/red background flash per field on price change                                   | ~280ms mock interval    |
-| 4   | **User states**        | 100 profiles × 5 boolean flags (premium, verified, muted, notification, new) → conditional borders, colors, badges | 20% of rows every 200ms |
-| 5   | **Form validation**    | 50 fields × 6 states (error, warning, success, disabled, focused, filled) → conditional input styles, helper text  | All fields every 150ms  |
-| 6   | **List item states**   | 200 items × 6 flags (selected, disabled, unread, highlighted, loading, new) → checkboxes, badges, opacity overlays | 10% of rows every 100ms |
-| 7   | **Skeleton → content** | 100 rows transitioning between fixed-height skeleton (60px) and variable-height content (40–100px)                 | 25% of rows every 300ms |
+| #   | Benchmark              | What it tests                                                                                                      | Stress mode                 |
+| --- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| 1   | **Static list**        | 96 rows, varied static styles, scroll + re-renders on engine switch                                                | —                           |
+| 2   | **Realtime data**      | Frequent row updates (prices), list churn, re-renders                                                              | ~280ms mock interval        |
+| 3   | **Realtime + flash**   | Same as realtime + animated green/red background flash per field on price change                                   | ~280ms mock interval        |
+| 4   | **User states**        | 100 profiles × 5 boolean flags (premium, verified, muted, notification, new) → conditional borders, colors, badges | 20% of rows every 200ms     |
+| 5   | **Form validation**    | 50 fields × 6 states (error, warning, success, disabled, focused, filled) → conditional input styles, helper text  | All fields every 150ms      |
+| 6   | **List item states**   | 200 items × 6 flags (selected, disabled, unread, highlighted, loading, new) → checkboxes, badges, opacity overlays | 10% of rows every 100ms     |
+| 7   | **Skeleton → content** | 100 rows transitioning between fixed-height skeleton (60px) and variable-height content (40–100px)                 | 25% of rows every 300ms     |
+| 8   | **Animation engine**   | react-native-ease vs react-native-reanimated driving the same price / change% flash (see below)                    | All rows mounted, 300 ticks |
 
-Each benchmark renders 3 engine variants (StyleSheet / Unistyles / Uniwind) so you can switch live and see the difference.
+Benchmarks 1–7 each render 3 engine variants (StyleSheet / Unistyles / Uniwind) so you can switch live and see the difference.
+
+Benchmark 8 varies a **different axis** — the animation backend — and holds styling constant on RN `StyleSheet` for both arms. See [Animation engine benchmark](#animation-engine-benchmark).
+
+---
+
+## Animation engine benchmark
+
+Compares **[react-native-ease](https://github.com/AppAndFlow/react-native-ease)** against **[react-native-reanimated](https://github.com/software-mansion/react-native-reanimated)** on the same realtime flash UI: every row's price and change% flash green/red when the value moves.
+
+The two approaches are architecturally opposite:
+
+|                          | react-native-ease                                                   | react-native-reanimated                  |
+| ------------------------ | ------------------------------------------------------------------- | ---------------------------------------- |
+| Model                    | Declarative target values on a native `EaseView`                    | Shared values + worklets                 |
+| Runs on                  | Core Animation (iOS) / `ObjectAnimator` + `ValueAnimator` (Android) | UI thread via worklets                   |
+| JS cost during animation | None — no animation loop                                            | Worklet dispatch per property change     |
+| Text colour              | ❌ not supported                                                    | ✅ `interpolateColor` on `Animated.Text` |
+
+### What the flash actually needs from each library
+
+**Background flash — both can do it.** `backgroundColor` is a first-class key of Ease's `AnimateProps`, so the Ease arm just sets the target colour and the native view animates to it. Reanimated interpolates it off a shared value.
+
+**Text colour — only Reanimated can do it.** react-native-ease v0.8.0 exports exactly one component, `EaseView`. There is no `EaseText` and no `color` key in `AnimateProps`, so it cannot animate text colour at all.
+
+The Ease arm is therefore a deliberate **hybrid**: `EaseView` owns the background natively, while the text colour runs on Reanimated's `interpolateColor`. The alternative — a pure-Ease opacity crossfade of two stacked `Text` layers — was rejected because it costs an extra native view _and_ an extra text layout per flashing field, on top of still not being a real colour transition.
+
+This is a genuine finding, not an implementation shortcut: **Ease cannot own this effect end to end.** Any price-ticker flash that recolours text needs a second library beside it, so the Ease arm pays for a shared value _and_ a native view transition per field.
+
+**Android caveat:** Ease animates `backgroundColor` with `ValueAnimator.ofArgb()`, which is timing-only. A `spring` transition on a colour silently falls back to timing 300ms. Both arms therefore use `timing`, with the same cubic-bezier `[0, 0, 0.58, 1]` (Ease's built-in `easeOut` preset) so the pulse shape is identical on iOS and Android.
+
+### Keeping the comparison honest
+
+- Both arms render through **one shared row body** (`LiveRowAnimInner`) — same palette, same `StyleSheet`, same `useFieldDirectionFlashes` direction tracking.
+- Both are driven by the **same `useFlashPhase` pulse** (`idle → in → out → idle`, 75ms in / 280ms out), so React work, state transitions and timings are identical.
+- Only the component that turns `phase` into pixels differs.
+- **Stress mode** drops `FlatList` virtualization so all rows are mounted and animating at once — the axis react-native-ease's own benchmark varies (10 / 100 / 500 views).
+
+### Requirements
+
+`react-native-ease` is a **native Fabric component** (codegen spec `EaseViewSpec`), so it needs a real dev or release build — a JS reload is not enough. Requires RN 0.76+ new architecture, iOS 15.1+, Android minSdk 24.
+
+```bash
+npx expo prebuild
+npx expo run:ios      # or run:android
+```
+
+### Running a JS-optimised (Release) build locally
+
+Debug builds make these numbers meaningless — JS is unoptimised and Reanimated worklets run uncompiled. To measure for real:
+
+```bash
+npx expo run:ios --configuration Release --device "<simulator UDID>"
+```
+
+**Gotcha:** `expo run:ios` then opens the app via an `expo-development-client://…` deep link, which lands on a _"Development server is required to load JavaScript"_ screen even though the Release build has `main.jsbundle` embedded. Launch the app normally instead and it runs the optimised bundle:
+
+```bash
+xcrun simctl launch <UDID> com.dzungsnowaxe.benchmarkstyling
+```
+
+Confirm you are really in Release: the amber _"Debug build…"_ banner under the FPS readout is gated on `__DEV__`, so its absence proves the optimised bundle is live. Metro is not used at all — stop it.
+
+Scrape the metrics on iOS (no Android/logcat needed):
+
+```bash
+xcrun simctl spawn <UDID> log stream --level debug --style compact \
+  --predicate 'eventMessage CONTAINS "BENCHMARK_REPORT"' > reports.txt
+```
+
+> Do not truncate `reports.txt` while `log stream` holds the fd — it keeps its write offset and you silently capture nothing. Restart the stream into a fresh file instead.
+
+Android equivalent: `npx expo run:android --variant release`, then `adb logcat -s ReactNativeJS`.
+
+### First Release numbers (iPhone 17 simulator)
+
+150 rows, stress mode (virtualization off → all rows mounted, 300 animated fields), 280 ms feed, steady-state `stress-progress` samples:
+
+| Arm                                                | Avg FPS  | Min FPS | Avg render (ms) |
+| -------------------------------------------------- | -------- | ------- | --------------- |
+| **ease** (hybrid: EaseView bg + Reanimated text)   | **14.6** | 13      | **88.8**        |
+| **reanimated** (shared value + `interpolateColor`) | 2.8      | 2       | 167.2           |
+
+Idle (60 rows, virtualized) both hold ~50 FPS, so the gap only opens under load: at 300 simultaneously-animating fields Ease holds **5.2×** the frame rate and renders **1.9×** cheaper.
+
+Read this with care:
+
+- **Simulator, not a device.** Core Animation and the RenderThread both behave differently on hardware. Treat these as _relative_, and re-run on a phone before drawing conclusions.
+- **The Ease arm is a hybrid** — it still runs a Reanimated worklet for text colour, so it is not a pure-Ease measurement. A pure-Ease arm is impossible for this effect (no text-colour support).
+- **React reconciliation dominates at this load.** Both arms re-render 150 rows every 280 ms; that JS cost is identical and shared, and it is most of what caps FPS. The animation backend is the _difference_ between the arms, not the whole frame budget.
+- **`Drops/min` is not comparable across arms.** It is an absolute count of frames slower than ~66 ms, so a 15 FPS arm logs more drops than a 3 FPS arm simply by running more frames. Compare FPS and render ms.
 
 ---
 
@@ -196,15 +287,17 @@ The **realtime** and **realtime flash** screens can connect to a public Binance 
 
 ## Tech Stack
 
-| Package                                                   | Version |
-| --------------------------------------------------------- | ------- |
-| [Expo SDK](https://docs.expo.dev/)                        | 56.0.20 |
-| [expo-router](https://docs.expo.dev/router/introduction/) | 56.2.19 |
-| [React](https://react.dev/)                               | 19.2.3  |
-| [React Native](https://reactnative.dev/)                  | 0.85.3  |
-| [react-native-unistyles](https://www.unistyl.es/)         | 3.2.5   |
-| [Uniwind](https://uniwind.dev/)                           | 1.10.0  |
-| [TypeScript](https://www.typescriptlang.org/)             | ~6.0.3  |
+| Package                                                                        | Version |
+| ------------------------------------------------------------------------------ | ------- |
+| [Expo SDK](https://docs.expo.dev/)                                             | 56.0.20 |
+| [expo-router](https://docs.expo.dev/router/introduction/)                      | 56.2.19 |
+| [React](https://react.dev/)                                                    | 19.2.3  |
+| [React Native](https://reactnative.dev/)                                       | 0.85.3  |
+| [react-native-unistyles](https://www.unistyl.es/)                              | 3.2.5   |
+| [Uniwind](https://uniwind.dev/)                                                | 1.10.0  |
+| [react-native-ease](https://github.com/AppAndFlow/react-native-ease)           | ^0.8.0  |
+| [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/) | 4.5.1   |
+| [TypeScript](https://www.typescriptlang.org/)                                  | ~6.0.3  |
 
 Package manager: **Bun** (`bun.lock`). Works with `npm`/`yarn` too.
 
