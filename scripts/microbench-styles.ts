@@ -4,6 +4,7 @@
  *
  * Run: bun scripts/microbench-styles.ts
  */
+/// <reference types="node" />
 import { performance } from 'node:perf_hooks';
 
 const StyleSheet = {

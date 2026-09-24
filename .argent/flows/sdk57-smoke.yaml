@@ -1,0 +1,142 @@
+steps:
+  - echo: Restart app; expect Home (Styling benchmark)
+  - launch: com.dzungsnowaxe.benchmarkstyling
+  - await: { visible: { text: Styling benchmark }, timeout: 60000 }
+  - await: { idle: true, timeout: 20000 }
+
+  - echo: Open Static list benchmark; expect Static benchmark screen
+  - tap: { text: Static list benchmark }
+  - await: { visible: { text: Static benchmark } }
+  - await: { idle: true }
+  - echo: Static rows render under Unistyles v3
+  - tap: { text: Unistyles v3 }
+  - echo: Static rows render under Uniwind
+  - tap: { text: Uniwind }
+  - await: { visible: { text: 'Balance #0' } }
+  - echo: Back to Home
+  - when: { platform: ios }
+    steps:
+      - tap: { id: BackButton }
+  - when: { platform: android }
+    steps:
+      - tap: { text: Navigate up }
+  - await: { visible: { text: Styling benchmark } }
+  - await: { idle: true }
+
+  - echo: Open Realtime list benchmark
+  - tap: { text: Realtime list benchmark }
+  - await: { visible: { text: Realtime benchmark } }
+  - await: { idle: true }
+  - echo: Live rows under Unistyles v3
+  - tap: { text: Unistyles v3 }
+  - await: { visible: { text: BTC/USD } }
+  - echo: Live rows under RN StyleSheet
+  - tap: { text: RN StyleSheet }
+  - await: { visible: { text: BTC/USD } }
+  - echo: Back to Home
+  - when: { platform: ios }
+    steps:
+      - tap: { id: BackButton }
+  - when: { platform: android }
+    steps:
+      - tap: { text: Navigate up }
+  - await: { visible: { text: Styling benchmark } }
+  - await: { idle: true }
+
+  - echo: Open Realtime flash benchmark
+  - tap: { text: Realtime flash benchmark }
+  - await: { visible: { text: directional flash on value text } }
+  - await: { idle: true }
+  - echo: Flash rows under Unistyles v3
+  - tap: { text: Unistyles v3 }
+  - await: { visible: { text: BTC/USD } }
+  - echo: Flash rows under RN StyleSheet
+  - tap: { text: RN StyleSheet }
+  - await: { visible: { text: BTC/USD } }
+  - echo: Back to Home
+  - when: { platform: ios }
+    steps:
+      - tap: { id: BackButton }
+  - when: { platform: android }
+    steps:
+      - tap: { text: Navigate up }
+  - await: { visible: { text: Styling benchmark } }
+  - await: { idle: true }
+
+  - echo: Open User states benchmark
+  - tap: { text: User states benchmark }
+  - await: { visible: { text: 100 user profiles with 5 state flags each } }
+  - await: { idle: true }
+  - echo: Start the 100-update stress run
+  - tap: { text: Start Stress }
+  - await: { visible: { text: Stop Stress } }
+  - echo: Wait for all 100 updates to land (button stays Stop Stress when run manually)
+  - await: { visible: { text: 'Stop Stress (100/100)' }, timeout: 90000 }
+  - echo: Stop the stress run
+  - tap: { text: Stop Stress }
+  - await: { visible: { text: Start Stress } }
+  - echo: User state rows under Unistyles v3
+  - tap: { text: Unistyles v3 }
+  - await: { visible: { text: 100 user profiles with 5 state flags each } }
+  - echo: User state rows under RN StyleSheet
+  - tap: { text: RN StyleSheet }
+  - await: { visible: { text: 100 user profiles with 5 state flags each } }
+  - echo: User state rows under Uniwind
+  - tap: { text: Uniwind }
+  - await: { visible: { text: 100 user profiles with 5 state flags each } }
+  - echo: Back to Home
+  - when: { platform: ios }
+    steps:
+      - tap: { id: BackButton }
+  - when: { platform: android }
+    steps:
+      - tap: { text: Navigate up }
+  - await: { visible: { text: Styling benchmark } }
+  - await: { idle: true }
+
+  - echo: Open Form validation benchmark
+  - tap: { text: Form validation benchmark }
+  - await: { visible: { text: 50 form fields with 6 validation states } }
+  - await: { idle: true }
+  - echo: Form states under Unistyles v3
+  - tap: { text: Unistyles v3 }
+  - await: { visible: { text: Username } }
+  - echo: Form states under Uniwind
+  - tap: { text: Uniwind }
+  - await: { visible: { text: Username } }
+  - echo: Back to Home
+  - when: { platform: ios }
+    steps:
+      - tap: { id: BackButton }
+  - when: { platform: android }
+    steps:
+      - tap: { text: Navigate up }
+  - await: { visible: { text: Styling benchmark } }
+  - await: { idle: true }
+
+  - echo: Scroll Home list to the last entries
+  - scroll-to: { target: { text: Skeleton transition benchmark } }
+  - echo: Open List item states benchmark
+  - tap: { text: List item states benchmark }
+  - await: { visible: { text: 200 list items with 6 state flags } }
+  - await: { idle: true }
+  - echo: List states under Unistyles v3
+  - tap: { text: Unistyles v3 }
+  - await: { visible: { text: Project Proposal } }
+  - echo: List states under RN StyleSheet
+  - tap: { text: RN StyleSheet }
+  - await: { visible: { text: Project Proposal } }
+  - echo: Back to Home (list stays scrolled, so gate on the bottom entry)
+  - when: { platform: ios }
+    steps:
+      - tap: { id: BackButton }
+  - when: { platform: android }
+    steps:
+      - tap: { text: Navigate up }
+  - await: { visible: { text: Skeleton transition benchmark } }
+  - await: { idle: true }
+
+  - echo: Open Skeleton transition benchmark
+  - tap: { text: Skeleton transition benchmark }
+  - await: { visible: { text: 100 rows cycling between skeleton } }
+  - await: { idle: true }
