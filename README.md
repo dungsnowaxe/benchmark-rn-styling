@@ -33,13 +33,13 @@ Collected on 2026-09-24. This environment ran the headless JavaScript microbench
 
 Five separate Bun 1.2.5 processes produced the means below. The host was Linux 6.12.94+ on 4 vCPU (Intel Xeon). `totalMs` is the time for 1000 updates. Microseconds per update equal that total, because the script divides milliseconds by 1000 and then multiplies by 1000.
 
-| Engine path | Mean total | Range across 5 runs | Per update (mean) |
+| Script path | Mean total | Range across 5 runs | Per update (mean) |
 | --- | --- | --- | --- |
 | StyleSheet array compose | 11.66 ms | 10.42 ms to 12.73 ms | 11.66 µs |
 | Unistyles-like object merge | 15.36 ms | 12.09 ms to 24.16 ms | 15.36 µs |
 | Uniwind `className` string join | 29.44 ms | 24.86 ms to 42.81 ms | 29.44 µs |
 
-The first process was the slow end of the merge (24.16 ms) and of the string join (42.81 ms). The later four processes sat near the low end of each range.
+Run 1 is the high end for the object merge (24.16 ms) and the string join (42.81 ms). StyleSheet peaks on run 2 (12.73 ms). These five processes started within a second of each other on a freshly booted VM, so the mean includes that first-process cost. The medians are 11.63 ms, 13.44 ms, and 26.60 ms.
 
 ```bash
 bun scripts/microbench-styles.ts
@@ -69,7 +69,7 @@ One screen uses this deep link shape.
 acme://user-states-benchmark?auto=1&maxUpdates=100
 ```
 
-The same query works for `form-validation-benchmark`, `list-item-states-benchmark`, and `skeleton-transition-benchmark`. Paste the JSONL into the comparison table under [Run a fair comparison](#run-a-fair-comparison).
+The same query works for `form-validation-benchmark`, `list-item-states-benchmark`, and `skeleton-transition-benchmark`. Paste frames per second and frame drops from the `stress-complete` lines into the comparison table under [Run a fair comparison](#run-a-fair-comparison). Do not treat `lastMs` on an auto run as a stress render. Auto mode does not call `markStart`.
 
 ## Benchmarks
 
@@ -80,10 +80,10 @@ Each screen renders StyleSheet, Unistyles, and Uniwind. The radio group switches
 | Static list | 96 rows of static styles | None. Switching engines re-renders the list. |
 | Realtime data | 40 rows of prices | Mock feed every 280 ms. Row 1 can show a Binance BTC price. |
 | Realtime flash | The same 40-row feed, plus a green or red flash when a price moves | Mock feed every 280 ms. |
-| User states | 100 profiles with premium, verified, muted, notification, and new flags | 20% of rows every 200 ms. Stops after 1000 updates. |
-| Form validation | 50 fields with error, warning, success, disabled, focused, and filled | Every field every 150 ms. Stops after 1000 updates. |
-| List item states | 200 items with selected, disabled, unread, highlighted, loading, and new | 10% of rows every 100 ms. Stops after 1000 updates. |
-| Skeleton transition | 100 rows. Skeleton height is 60 px. Content height is 40 px through 99 px. | 25% of rows every 300 ms. Stops after 1000 updates. |
+| User states | 100 profiles with premium, verified, muted, notification, and new flags | 20% of rows every 200 ms. Stops after 100 updates. |
+| Form validation | 50 fields with error, warning, success, disabled, focused, and filled | Every field every 150 ms. Stops after 100 updates. |
+| List item states | 200 items with selected, disabled, unread, highlighted, loading, and new | 10% of rows every 100 ms. Stops after 100 updates. |
+| Skeleton transition | 100 rows. Skeleton height is 60 px. Content height is 40 px through 99 px. | 25% of rows every 300 ms. Stops after 100 updates. |
 
 ## Quick start
 
@@ -111,7 +111,7 @@ cd android && ./gradlew assembleRelease
 
 ## Stress mode
 
-Four screens have a **Start Stress** toggle. Those screens are user states, form validation, list item states, and skeleton transition. The toggle uses a seeded random sequence, so each engine sees the same updates. The timer stops after 1000 updates.
+Four screens have a **Start Stress** toggle. Those screens are user states, form validation, list item states, and skeleton transition. The toggle uses a seeded random sequence, so each engine sees the same updates. `useAutoBench` sets `maxUpdates` to 100 unless the deep link passes another value. The button shows the count out of that limit. The toggle hooks default to 1000 only when a caller omits `maxUpdates`. These screens always pass it.
 
 The static screen has no toggle. Realtime and realtime flash keep the 280 ms timer running while the screen is open.
 
@@ -122,7 +122,7 @@ The static screen has no toggle. Realtime and realtime flash keep the 280 ms tim
 | Render time | `useRenderMeasurement` stores `performance.now()` from `markStart`, or from first mount, until the next `useLayoutEffect`. Compare engines in one session. |
 | Frames per second | While stress is on, `useFrameRateMonitor` counts `requestAnimationFrame` callbacks and reports the count for the latest 1 second window. |
 | Frame drops per minute | A gap longer than 66.6 ms counts as one drop. The hook scales the drops in that 1 second window to a per-minute rate. |
-| Update count | Stress progress, shown as the current count out of 1000. |
+| Update count | Stress progress, shown as the current count out of `maxUpdates` (100 unless the link overrides it). |
 
 Realtime and realtime flash show render time. They do not run `useFrameRateMonitor`.
 
@@ -131,23 +131,25 @@ Realtime and realtime flash show render time. They do not run `useFrameRateMonit
 1. Install a release build. Debug builds add noise.
 2. Compare engines on one device.
 3. Let the auto cycle finish, or kill the app before you switch engines by hand.
-4. Let stress reach 1000 updates.
+4. Let stress reach `maxUpdates` (100 by default).
 
-Copy this table and fill it from the on-screen HUD or from `benchmark-reports.jsonl`. The 2026-09-24 run left every cell empty.
+The HUD shows the latest render time, frames per second, and frame drops per minute. It does not show an average stress render. `markStart` runs when you press **Start Stress**. Auto mode turns stress on without that call, so `lastMs` in an auto `BENCHMARK_REPORT` stays the mount time.
+
+Copy this table and fill the cells from the HUD at the end of stress, or from the `stress-complete` log line for frames per second and frame drops. The 2026-09-24 run left every cell empty.
 
 | Benchmark | Metric | StyleSheet | Unistyles | Uniwind |
 | --- | --- | --- | --- | --- |
-| User states | Initial render (ms) |  |  |  |
-| User states | Average stress render (ms) |  |  |  |
+| User states | Last render (ms) |  |  |  |
+| User states | Frames per second |  |  |  |
 | User states | Frame drops per minute |  |  |  |
-| Form validation | Initial render (ms) |  |  |  |
-| Form validation | Average stress render (ms) |  |  |  |
+| Form validation | Last render (ms) |  |  |  |
+| Form validation | Frames per second |  |  |  |
 | Form validation | Frame drops per minute |  |  |  |
-| List item states | Initial render (ms) |  |  |  |
-| List item states | Average stress render (ms) |  |  |  |
+| List item states | Last render (ms) |  |  |  |
+| List item states | Frames per second |  |  |  |
 | List item states | Frame drops per minute |  |  |  |
-| Skeleton transition | Initial render (ms) |  |  |  |
-| Skeleton transition | Average stress render (ms) |  |  |  |
+| Skeleton transition | Last render (ms) |  |  |  |
+| Skeleton transition | Frames per second |  |  |  |
 | Skeleton transition | Frame drops per minute |  |  |  |
 
 ## Live data
@@ -173,6 +175,12 @@ Versions below are the entries in `bun.lock`.
 The package manager is Bun 1.2.5 (`package.json` field `packageManager`, and `eas.json` field `build.base.bun`). EAS builds use Node 24.14.1.
 
 `babel.config.js` enables `react-native-unistyles/plugin` with `root` set to `src`. `metro.config.js` wraps the Expo config with `withUniwindConfig` and sets `cssEntryFile` to `./src/global.css`.
+
+## Earlier report (2026-08-25)
+
+The previous README recorded native build checks from the Expo SDK 56 upgrade. This update did not repeat them. It recorded a passing Android and iOS `expo export`, a passing `expo prebuild` on both platforms, a passing Android `assembleRelease`, and no iOS native build on that Linux VM. It also recorded one pre-existing lint warning.
+
+That page said `expo-doctor` warns about a Hermes V1 memory regression when `react-native-reanimated` and `react-native-worklets` are installed, with an upstream fix in Expo SDK 57 (`expo` 57.0.9 or newer). This app stays on SDK 56. This update did not re-run `expo-doctor`.
 
 ## Contributing
 
